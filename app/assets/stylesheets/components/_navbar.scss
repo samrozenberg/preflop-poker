@@ -1,6 +1,8 @@
 .navbar-lewagon {
   justify-content: space-between;
   background: white;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 .navbar-lewagon .navbar-collapse {
@@ -9,4 +11,17 @@
 
 .navbar-lewagon .navbar-brand img {
   width: 40px;
+}
+
+#navbarDropdown{
+ border-radius: 50%;
+ height: 60px;
+ width: 60px;
+ object-fit: cover;
+}
+
+.align-navbar-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

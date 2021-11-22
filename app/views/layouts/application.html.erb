@@ -12,10 +12,11 @@
   </head>
 
   <body>
-    <div class="container mt-3">
-    <%= yield %>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    </div>
+    <%= render "shared/navbar" %>
+      <div class="container mt-3">
+      <%= yield %>
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
+      </div>
   </body>
 </html>
