@@ -1,5 +1,23 @@
 <h1 class = "text-center"><%= @game.name %></h1>
 <h5>Game ID: <%= @game.id %></h5>
-
-
 <button class="btn btn-success" id="join_game_button">Join this Game</button>
+
+<br>
+<br>
+
+<%= simple_form_for [@game, @bet], remote: true do |f| %>
+  <%= f.input :amount, label: false, placeholder: "Bet here" %>
+  <%= f.submit %>
+<% end %>
+
+<div class="bets">
+  <% @game.bets.each do |bet| %>
+    <div id="bet-<%= bet.id %>">
+      <small>
+        <strong><%= bet.user.pseudo %></strong>
+        <i><%= bet.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+      </small>
+      <p><%= bet.amount %>$</p>
+    </div>
+  <% end %>
+</div>
