@@ -13,10 +13,15 @@
 
   <body>
     <%= render "shared/navbar" %>
-      <div class="container mt-3">
-      <%= yield %>
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
-      </div>
+      <% if action_name == "home" %>
+        <%= render "shared/banner" %>
+      <% else %>
+        <div class="content-wrapper container mt-3">
+        <%= yield %>
+        <p class="notice"><%= notice %></p>
+        <p class="alert"><%= alert %></p>
+        </div>
+      <% end %>
+    <%= render "shared/footer" %>
   </body>
 </html>
