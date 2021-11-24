@@ -1,5 +1,18 @@
 <h1 class = "text-center"><%= @game.name %></h1>
 <h5>Game ID: <%= @game.id %></h5>
+
+
+<%= simple_form_for [@game, @reservation] do |f|%>
+  <div><%= f.submit class: "btn-reservation"%></div>
+<% end %>
+
+<% @game.reservations.each do |reservation| %>
+<%= reservation.user.pseudo %>
+<% end %>
+
+<%= raise %>
+
+<br>
 <button class="btn btn-success" id="join_game_button">Join this Game</button>
 
 <br>
@@ -21,5 +34,3 @@
     </div>
   <% end %>
 </div>
-
-<%= raise %>
