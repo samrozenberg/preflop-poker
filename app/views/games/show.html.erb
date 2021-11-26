@@ -1,20 +1,22 @@
 <h1 class = "text-center"><%= @game.name %></h1>
 <h5>Game ID: <%= @game.id %></h5>
 
+<% if !@game.users.include?(current_user) %>
+  <%= simple_form_for [@game, @reservation] do |f|%>
+    <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
+  <% end %>
+<% end %>
 
-<%= simple_form_for [@game, @reservation] do |f|%>
-  <div><%= f.submit class: "btn-reservation"%></div>
+<% if @game.users.include?(current_user) %>
+  <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
+  <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete %>
 <% end %>
 
 <% @game.reservations.each do |reservation| %>
 <%= reservation.user.pseudo %>
 <% end %>
 
-<%= raise %>
-
 <br>
-<button class="btn btn-success" id="join_game_button">Join this Game</button>
-
 <br>
 <br>
 

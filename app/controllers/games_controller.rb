@@ -6,7 +6,10 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @bet = Bet.new
+    @hand = Hand.new
+    @user = current_user
     @reservation = Reservation.new
+    @reservations = Reservation.all
   end
 
   def new
