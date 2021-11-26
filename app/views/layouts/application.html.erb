@@ -14,7 +14,9 @@
   <body>
     <%= render "shared/navbar" %>
       <% if action_name == "home" %>
-        <%= render "shared/banner" %>
+        <div class="content-wrapper">
+          <%= render "shared/banner" %>
+        </div>
       <% else %>
         <div class="content-wrapper container mt-3">
         <%= yield %>

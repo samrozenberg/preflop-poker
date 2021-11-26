@@ -13,6 +13,15 @@ class ReservationsController < ApplicationController
     end
   end
 
+  def destroy
+    @reservation = Reservation.find(params[:id])
+    @reservation.destroy
+    @game = Game.find(params[:game_id])
+    redirect_to game_path(@game)
+  end
+
+
+
   # private
 
   # def reservation_params
