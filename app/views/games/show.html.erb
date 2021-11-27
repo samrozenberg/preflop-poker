@@ -5,16 +5,21 @@
   <%= simple_form_for [@game, @reservation] do |f|%>
     <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
   <% end %>
-<% end %>
-
-<% if @game.users.include?(current_user) %>
+<% else %>
   <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
-  <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete %>
+  <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
 <% end %>
 
 <% @game.reservations.each do |reservation| %>
-<%= reservation.user.pseudo %>
+  <div class="player-card m-3">
+    <h3><%= reservation.user.pseudo %></h3>
+    <p><%= "Cards:"  %></p>
+  </div>
 <% end %>
+
+
+
+
 
 <br>
 <br>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_25_231957) do
+ActiveRecord::Schema.define(version: 2021_11_27_122318) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,14 @@ ActiveRecord::Schema.define(version: 2021_11_25_231957) do
     t.index ["hand_id"], name: "index_bets_on_hand_id"
   end
 
+  create_table "cards", force: :cascade do |t|
+    t.string "name"
+    t.bigint "hand_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["hand_id"], name: "index_cards_on_hand_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -33,7 +41,10 @@ ActiveRecord::Schema.define(version: 2021_11_25_231957) do
     t.bigint "game_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.boolean "active"
     t.index ["game_id"], name: "index_hands_on_game_id"
+    t.index ["user_id"], name: "index_hands_on_user_id"
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -41,6 +52,7 @@ ActiveRecord::Schema.define(version: 2021_11_25_231957) do
     t.bigint "game_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "state"
     t.index ["game_id"], name: "index_reservations_on_game_id"
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
@@ -60,7 +72,9 @@ ActiveRecord::Schema.define(version: 2021_11_25_231957) do
   end
 
   add_foreign_key "bets", "hands"
+  add_foreign_key "cards", "hands"
   add_foreign_key "hands", "games"
+  add_foreign_key "hands", "users"
   add_foreign_key "reservations", "games"
   add_foreign_key "reservations", "users"
 end
