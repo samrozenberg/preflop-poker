@@ -7,7 +7,10 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @bet = Bet.new
     @hand = Hand.new
+    @cards = Card.all.sample(11)
     @user = current_user
+    @user.hands = @game.hands
+    # @user.cards = Card.all.sample(11)
     @reservation = Reservation.new
     @reservations = Reservation.all
   end

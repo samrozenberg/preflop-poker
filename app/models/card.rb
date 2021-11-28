@@ -1,3 +1,5 @@
 class Card < ApplicationRecord
-  belongs_to :hand
+  has_many :card_hands
+  has_many :hands, through: :card_hands
+  validates :name, presence: true, uniqueness: true
 end

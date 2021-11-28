@@ -10,34 +10,27 @@
   <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
 <% end %>
 
+
+<br>
+<br>
+
+<%= simple_form_for [@game, @hand] do |f| %>
+      <%= f.submit "Deal cards", class: "btn btn-primary" %>
+<% end %>
+
 <% @game.reservations.each do |reservation| %>
   <div class="player-card m-3">
     <h3><%= reservation.user.pseudo %></h3>
-    <p><%= "Cards:"  %></p>
+    <%# <% reservation.user.hand.last.cards %>
+    <p>
+      Cards:
+      <% @cards.sample(2).each do |card| %>
+      <%= card.name  %>
+      <% end %>
+    </p>
   </div>
 <% end %>
 
-
-
-
-
 <br>
 <br>
 <br>
-
-<%= simple_form_for [@game, @bet], remote: true do |f| %>
-  <%= f.input :amount, label: false, placeholder: "Bet here" %>
-  <%= f.submit %>
-<% end %>
-
-<div class="bets">
-  <% @game.bets.each do |bet| %>
-    <div id="bet-<%= bet.id %>">
-      <small>
-        <strong><%= bet.user.pseudo %></strong>
-        <i><%= bet.created_at.strftime("%a %b %e at %l:%M %p") %></i>
-      </small>
-      <p><%= bet.amount %>$</p>
-    </div>
-  <% end %>
-</div>
