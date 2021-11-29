@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_28_025853) do
+ActiveRecord::Schema.define(version: 2021_11_28_214722) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,15 @@ ActiveRecord::Schema.define(version: 2021_11_28_025853) do
     t.index ["user_id"], name: "index_reservations_on_user_id"
   end
 
+  create_table "user_cards", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "card_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["card_id"], name: "index_user_cards_on_card_id"
+    t.index ["user_id"], name: "index_user_cards_on_user_id"
+  end
+
   create_table "user_hands", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "hand_id", null: false
@@ -91,6 +100,8 @@ ActiveRecord::Schema.define(version: 2021_11_28_025853) do
   add_foreign_key "hands", "games"
   add_foreign_key "reservations", "games"
   add_foreign_key "reservations", "users"
+  add_foreign_key "user_cards", "cards"
+  add_foreign_key "user_cards", "users"
   add_foreign_key "user_hands", "hands"
   add_foreign_key "user_hands", "users"
 end

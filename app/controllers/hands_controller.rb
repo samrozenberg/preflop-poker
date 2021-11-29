@@ -2,9 +2,9 @@ class HandsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
     @hand = Hand.new(game: @game)
-    @cards = Card.all.sample(11)
-    # (hand_params)
     @hand.save!
+    @hand.cards = Card.all.sample((@game.users.count * 2) + 5)
+    # (hand_params)
     redirect_to game_path(@game)
   end
 
