@@ -18,30 +18,45 @@
       <%= f.submit "Deal cards", class: "btn btn-primary" %>
 <% end %>
 
-<% @game.reservations.each do |reservation| %>
-  <div class="player-card m-3">
-    <h3 class="text-center"><%= reservation.user.pseudo %></h3>
-    <%# <% reservation.user.hand.last.cards %>
-    <p class="text-center">
-      <% @index1 = 0 %>
-      <% @index2 = 1 %>
-      <% @game.users.each do |user| %>
-        <% user.cards = [] %>
-        <% user.cards << @game.hands.last.cards[@index1] %>
-        <% user.cards << @game.hands.last.cards[@index2] %>
-        <% user.cards.each do |card| %>
-          <% if user == current_user && reservation.user == current_user %>
-            <%= card.name %>
-          <% else %>
-            <%= "" %>
+<div class="d-flex">
+  <div>
+    <% @game.reservations.each do |reservation| %>
+      <div class="player-card m-3">
+        <h3 class="text-center"><%= reservation.user.pseudo %></h3>
+        <%# <% reservation.user.hand.last.cards %>
+        <p class="text-center">
+          <% @index1 = 0 %>
+          <% @index2 = 1 %>
+          <% @game.users.each do |user| %>
+            <% user.cards = [] %>
+            <% user.cards << @game.hands.last.cards[@index1] %>
+            <% user.cards << @game.hands.last.cards[@index2] %>
+            <% user.cards.each do |card| %>
+              <% if user == current_user && reservation.user == current_user %>
+                <%= card.name %>
+              <% else %>
+                <%= "" %>
+              <% end %>
+            <% end %>
+            <% @index1 += 2 %>
+            <% @index2 += 2 %>
           <% end %>
-        <% end %>
-        <% @index1 += 2 %>
-        <% @index2 += 2 %>
-      <% end %>
-    </p>
+        </p>
+      </div>
+    <% end %>
   </div>
-<% end %>
+
+  <div class="board-cards" style="display:flex;justify-content:center;align-items:center">
+    <% @game.hands.last.cards.last(5).each do |card| %>
+      <div class="board-card">
+        <%= card.name %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+
+
 
 <br>
 <br>
