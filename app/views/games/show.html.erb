@@ -18,6 +18,11 @@
       <%= f.submit "Deal cards", class: "btn btn-primary" %>
 <% end %>
 
+<br>
+
+
+
+
 <div class="d-flex">
   <div>
     <% @game.reservations.each do |reservation| %>
@@ -46,12 +51,13 @@
     <% end %>
   </div>
 
-  <div class="board-cards" style="display:flex;justify-content:center;align-items:center">
-    <% @game.hands.last.cards.last(5).each do |card| %>
-      <div class="board-card">
+  <div class="board-cards" data-controller="board">
+    <% [@game.hands.last.cards[@game.users.count * 2], @game.hands.last.cards[@game.users.count * 2 + 1], @game.hands.last.cards[@game.users.count * 2 + 2]].each do |card| %>
+      <div class="flop board-card d-none" data-board-target="flop">
         <%= card.name %>
       </div>
     <% end %>
+    <button id="flop-button" data-action="click->board#flop"> Flop </button>
   </div>
 </div>
 
