@@ -9,6 +9,7 @@ class HandsController < ApplicationController
     @game.users.each do |user|
       UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
       UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
+      UserHand.create(hand: @hand, user: user)
       index1 += 2
       index2 += 2
     end

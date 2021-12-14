@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   resources :games do
     resources :hands do
+      resources :flop_cards, only: :create
       resources :bets, only: :create
     end
     resources :reservations, only: [:create, :destroy]
