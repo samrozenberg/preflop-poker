@@ -14,25 +14,29 @@
 <br>
 <br>
 
-<%= simple_form_for [@game, @hand] do |f| %>
-      <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
+<% if @game.users.include?(@user) %>
+  <%= simple_form_for [@game, @hand] do |f| %>
+        <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
+  <% end %>
 <% end %>
 
-<% if @game.hands.last.flop_cards.count == 0 %>
-  <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
-        <%= f.submit "Deal flop", class: "btn btn-primary" %>
+<% if @game.hands.last %>
+  <% if @game.hands.last.flop_cards.count == 0 %>
+    <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
+          <%= f.submit "Deal flop", class: "btn btn-primary" %>
+    <% end %>
   <% end %>
 <% end %>
 
 
-<div class="current-user-card">
-  <div class="player-card m-3">
+<div class="current-user-card player-card m-3 <%= 'not-joined' if !@game.users.include?(@user) %>">
   <h3 class="text-center"><%= @user.pseudo %></h3>
-  <p class="text-center">
-    <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
-    <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
-  </p>
-  </div>
+  <% if @game.hands.last %>
+    <p class="text-center">
+      <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
+      <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
+    </p>
+  <% end %>
 </div>
 
 
