@@ -8,12 +8,7 @@ class GamesController < ApplicationController
     @bet = Bet.new
     @hand = Hand.new
     @user = current_user
-    # @user.card1 = @cards.sample(1)
-    # @cards.delete(@user.card1)
-    # @user.card2 = @cards.sample(1)
-    # @cards.delete(@user.card2)
-    @user.hands = @game.hands
-    # @user.cards = Card.all.sample(11)
+    @cards = Card.all
     @reservation = Reservation.new
     @reservations = Reservation.all
   end

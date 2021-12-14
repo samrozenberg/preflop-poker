@@ -52,10 +52,12 @@
   </div>
 
   <div class="board-cards" data-controller="board">
-    <% [@game.hands.last.cards[@game.users.count * 2], @game.hands.last.cards[@game.users.count * 2 + 1], @game.hands.last.cards[@game.users.count * 2 + 2]].each do |card| %>
-      <div class="flop board-card d-none" data-board-target="flop">
-        <%= card.name %>
-      </div>
+    <% if @game.hands.last %>
+      <% [@game.hands.last.cards[@game.users.count * 2], @game.hands.last.cards[@game.users.count * 2 + 1], @game.hands.last.cards[@game.users.count * 2 + 2]].each do |card| %>
+        <div class="flop board-card d-none" data-board-target="flop">
+          <%= card.name %>
+        </div>
+      <% end %>
     <% end %>
     <button id="flop-button" data-action="click->board#flop"> Flop </button>
   </div>
