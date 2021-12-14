@@ -3,7 +3,15 @@ class HandsController < ApplicationController
     @game = Game.find(params[:game_id])
     @hand = Hand.new(game: @game)
     @hand.save!
-    @hand.cards = Card.all.sample((@game.users.count * 2) + 5)
+    @user_cards = DeckCard.all.sample(@game.users.count * 2)
+    index1 = 0
+    index2 = 1
+    @game.users.each do |user|
+      UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
+      UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
+      index1 += 2
+      index2 += 2
+    end
     # (hand_params)
     redirect_to game_path(@game)
   end

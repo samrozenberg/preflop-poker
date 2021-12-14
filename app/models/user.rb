@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :user_hands
   has_many :bets
   has_many :user_cards
-  has_many :cards, through: :user_cards
+  has_many :deck_cards, through: :user_cards
   has_many :hands, through: :user_hands
   has_many :games, through: :reservations
   validates :name, presence: true

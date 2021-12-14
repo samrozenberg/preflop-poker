@@ -15,50 +15,12 @@
 <br>
 
 <%= simple_form_for [@game, @hand] do |f| %>
-      <%= f.submit "Deal cards", class: "btn btn-primary" %>
+      <%= f.submit "Deal card", class: "btn btn-primary" %>
 <% end %>
 
-<br>
 
-
-
-
-<div class="d-flex">
-  <div>
-    <% @game.reservations.each do |reservation| %>
-      <div class="player-card m-3">
-        <h3 class="text-center"><%= reservation.user.pseudo %></h3>
-        <%# <% reservation.user.hand.last.cards %>
-        <p class="text-center">
-          <% @index1 = 0 %>
-          <% @index2 = 1 %>
-          <% @game.users.each do |user| %>
-            <% user.cards = [] %>
-            <% user.cards << @game.hands.last.cards[@index1] %>
-            <% user.cards << @game.hands.last.cards[@index2] %>
-            <% user.cards.each do |card| %>
-              <% if user == current_user && reservation.user == current_user %>
-                <%= card.name %>
-              <% else %>
-                <%= "" %>
-              <% end %>
-            <% end %>
-            <% @index1 += 2 %>
-            <% @index2 += 2 %>
-          <% end %>
-        </p>
-      </div>
-    <% end %>
-  </div>
-
-  <div class="board-cards" data-controller="board">
-    <% if @game.hands.last %>
-      <% [@game.hands.last.cards[@game.users.count * 2], @game.hands.last.cards[@game.users.count * 2 + 1], @game.hands.last.cards[@game.users.count * 2 + 2]].each do |card| %>
-        <div class="flop board-card d-none" data-board-target="flop">
-          <%= card.name %>
-        </div>
-      <% end %>
-    <% end %>
-    <button id="flop-button" data-action="click->board#flop"> Flop </button>
-  </div>
+<div class="current-user-card">
+  <%= @user.pseudo %>
+  <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
+  <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
 </div>

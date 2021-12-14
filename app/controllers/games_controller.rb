@@ -8,7 +8,7 @@ class GamesController < ApplicationController
     @bet = Bet.new
     @hand = Hand.new
     @user = current_user
-    @cards = Card.all
+    @cards = DeckCard.all
     @reservation = Reservation.new
     @reservations = Reservation.all
   end
