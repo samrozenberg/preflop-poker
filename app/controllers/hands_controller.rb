@@ -14,3 +14,8 @@ class HandsController < ApplicationController
   #   params.require(:hand).permit(:active)
   # end
 end
+
+
+
+# determiner au moment de l'initialisation d'une main la turn et la river aussi mais en mettant un "", puis l'updater en appuyant sur la bouton
+# peut-être pas nécessaire pcq turn_card et river card == nil ?
