@@ -20,6 +20,8 @@
   <% end %>
 <% end %>
 
+<br>
+
 <% if @game.hands.last && @game.users.include?(@user) %>
   <% if @game.hands.last.flop_cards.count == 0 %>
     <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
