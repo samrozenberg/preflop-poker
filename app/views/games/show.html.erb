@@ -14,7 +14,7 @@
 <br>
 <br>
 
-<% if @game.users.include?(@user) %>
+<% if @game.users[0] == current_user %>
   <%= simple_form_for [@game, @hand] do |f| %>
         <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
   <% end %>
@@ -22,10 +22,18 @@
 
 <br>
 
-<% if @game.hands.last && @game.users.include?(@user) %>
+<% if @game.hands.last && @game.users[0] == current_user %>
   <% if @game.hands.last.flop_cards.count == 0 %>
     <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
-          <%= f.submit "Deal flop", class: "btn btn-primary" %>
+      <%= f.submit "Deal flop", class: "btn btn-primary" %>
+    <% end %>
+  <% elsif @game.hands.last.flop_cards.count == 3 && @game.hands.last.turn_cards.count == 0  %>
+    <%= simple_form_for [@game, @game.hands.last, @turn_card] do |f| %>
+      <%= f.submit "Deal turn", class: "btn btn-primary" %>
+    <% end %>
+  <% elsif @game.hands.last.turn_cards.count == 1 %>
+    <%= simple_form_for [@game, @game.hands.last, @river_card] do |f| %>
+      <%= f.submit "Deal river", class: "btn btn-primary" %>
     <% end %>
   <% end %>
 <% end %>
@@ -33,7 +41,7 @@
 <% if @game.users.include?(@user) %>
   <div class="current-user-card player-card m-3 <%= 'not-joined' if !@game.users.include?(@user) %>">
     <h3 class="text-center"><%= @user.pseudo %></h3>
-    <% if @game.hands.last %>
+    <% if @game.hands.last && @game.hands.last.user_cards.where(user: @user)[0] %>
       <p class="text-center">
         <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
         <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
@@ -60,7 +68,13 @@
             <%= card.deck_card.name %>
           </div>
         <% end %>
+        <% @game.hands.last.turn_cards.each do |card| %>
+          <div class="turn board-card">
+            <%= card.deck_card.name %>
+          </div>
+        <% end %>
       <% end %>
+
     </div>
   </div>
 <% end %>
