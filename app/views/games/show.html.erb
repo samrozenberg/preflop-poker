@@ -40,7 +40,12 @@
 
 <% if @game.users.include?(@user) %>
   <div class="current-user-card player-card m-3 <%= 'not-joined' if !@game.users.include?(@user) %>">
-    <h3 class="text-center"><%= @user.pseudo %></h3>
+    <div class="d-flex" >
+      <h3 class="text-center"><%= @user.pseudo %></h3>
+      <% if @game.hands.last.button == @user %>
+        <p> B </p>
+      <% end %>
+    </div>
     <% if @game.hands.last && @game.hands.last.user_cards.where(user: @user)[0] %>
       <p class="text-center">
         <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
@@ -53,28 +58,30 @@
 
 <div class="other-player-card">
   <% @game.users.where.not(pseudo: current_user.pseudo).each do |user| %>
-    <div class="player-card m-3">
+    <div class="player-card m-3 d-flex justify-content-between">
       <h3 class="text-center"><%= user.pseudo %></h3>
       <%# <% reservation.user.hand.last.cards %>
+      <% if @game.hands.last.button == user %>
+        <p> B </p>
+      <% end %>
     </div>
   <% end %>
 </div>
 
 <% if @game.users.count > 0 %>
   <div class="board-cards">
-      <% if @game.hands.last %>
-        <% @game.hands.last.flop_cards.each do |card| %>
-          <div class="flop board-card">
-            <%= card.deck_card.name %>
-          </div>
-        <% end %>
-        <% @game.hands.last.turn_cards.each do |card| %>
-          <div class="turn board-card">
-            <%= card.deck_card.name %>
-          </div>
-        <% end %>
+    <% if @game.hands.last %>
+      <% @game.hands.last.flop_cards.each do |card| %>
+        <div class="flop board-card">
+          <%= card.deck_card.name %>
+        </div>
       <% end %>
-
+      <% @game.hands.last.turn_cards.each do |card| %>
+        <div class="turn board-card">
+          <%= card.deck_card.name %>
+        </div>
+      <% end %>
+    <% end %>
     </div>
   </div>
 <% end %>

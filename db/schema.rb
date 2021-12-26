@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_14_024536) do
+ActiveRecord::Schema.define(version: 2021_12_26_000939) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 2021_12_14_024536) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active"
+    t.bigint "button_id"
+    t.index ["button_id"], name: "index_hands_on_button_id"
     t.index ["game_id"], name: "index_hands_on_game_id"
   end
 
@@ -121,6 +123,7 @@ ActiveRecord::Schema.define(version: 2021_12_14_024536) do
   add_foreign_key "flop_cards", "deck_cards"
   add_foreign_key "flop_cards", "hands"
   add_foreign_key "hands", "games"
+  add_foreign_key "hands", "users", column: "button_id"
   add_foreign_key "reservations", "games"
   add_foreign_key "reservations", "users"
   add_foreign_key "river_cards", "deck_cards"

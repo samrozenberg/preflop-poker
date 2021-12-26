@@ -1,5 +1,6 @@
 class Hand < ApplicationRecord
   belongs_to :game
+  belongs_to :button, class_name: "User"
   has_many :bets
   has_many :user_hands
   has_many :user_cards
