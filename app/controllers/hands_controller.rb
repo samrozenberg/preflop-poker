@@ -1,7 +1,13 @@
 class HandsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
-    @hand = Hand.new(game: @game)
+    last_button_index = @game.hands.last.users.find_index(@game.hands.last.button)
+    if last_button_index && @game.hands.last.users.count - 1 > last_button_index
+      button_index = last_button_index + 1
+    else
+      button_index = 0
+    end
+    @hand = Hand.new(game: @game, button: @game.users[button_index])
     @hand.save!
     @user_cards = DeckCard.all.sample(@game.users.count * 2)
     index1 = 0
