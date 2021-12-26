@@ -6,6 +6,7 @@ class ReservationsController < ApplicationController
     @reservation.user = @user
     @game = Game.find(params[:game_id])
     @reservation.game = @game
+    @reservation.score = 0
     if @reservation.save!
       redirect_to game_path(@game)
     else

@@ -52,21 +52,24 @@
         <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
       </p>
     <% end %>
+    <p><%= @game.reservations.where(user: @user)[0].score %></p>
   </div>
 <% end %>
 
 
-<div class="other-player-card">
-  <% @game.users.where.not(pseudo: current_user.pseudo).each do |user| %>
-    <div class="player-card m-3 d-flex justify-content-between">
+<% @game.users.where.not(pseudo: current_user.pseudo).each do |user| %>
+  <div class="other-player-card player-card m-3">
+    <div class= "d-flex justify-content-between">
       <h3 class="text-center"><%= user.pseudo %></h3>
       <%# <% reservation.user.hand.last.cards %>
       <% if @game.hands.last.button == user %>
         <p> B </p>
       <% end %>
     </div>
-  <% end %>
-</div>
+    <p><%= @game.reservations.where(user: user)[0].score  %></p>
+  </div>
+<% end %>
+
 
 <% if @game.users.count > 0 %>
   <div class="board-cards">
