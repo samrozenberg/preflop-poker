@@ -8,7 +8,7 @@
 <% else %>
   <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
   <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
-  <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), :method => :put, class: "btn btn-danger" %>
+  <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-danger" %>
 <% end %>
 
 
