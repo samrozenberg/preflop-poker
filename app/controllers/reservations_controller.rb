@@ -6,6 +6,8 @@ class ReservationsController < ApplicationController
     @reservation.user = @user
     @game = Game.find(params[:game_id])
     @reservation.game = @game
+    @reservation.score = 0
+    @reservation.active = true
     if @reservation.save!
       redirect_to game_path(@game)
     else
@@ -20,6 +22,16 @@ class ReservationsController < ApplicationController
     redirect_to game_path(@game)
   end
 
+  def update
+    @reservation = Reservation.find(params[:id])
+    if @reservation.active
+      @reservation.update_attribute(:active, false)
+    else
+      @reservation.update_attribute(:active, true)
+    end
+    @game = Game.find(params[:game_id])
+    redirect_to game_path(@game)
+  end
 
 
   # private

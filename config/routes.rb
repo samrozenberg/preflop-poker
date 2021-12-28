@@ -7,7 +7,7 @@ Rails.application.routes.draw do
       resources :turn_cards, only: :create
       resources :bets, only: :create
     end
-    resources :reservations, only: [:create, :destroy]
+    resources :reservations, only: [:create, :destroy, :update]
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get "/dashboard", to: "pages#dashboard"

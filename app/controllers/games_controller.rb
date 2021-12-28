@@ -14,6 +14,10 @@ class GamesController < ApplicationController
     @cards = DeckCard.all
     @reservation = Reservation.new
     @reservations = Reservation.all
+    @active_players = []
+    @game.reservations.where(active: true).each do |reservation|
+      @active_players << reservation.user
+    end
   end
 
   def new
