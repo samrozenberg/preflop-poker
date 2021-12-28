@@ -64,6 +64,10 @@
     <% if @game.hands.last && @game.hands.last.big_blind == @user %>
       <p> BB </p>
     <% end %>
+    <%= simple_form_for [@game, @game.hands.last, @bet], remote: true do |f| %>
+      <%= f.input :amount, label: false, as: :range, placeholder: "Bet here", collection: 1..30 %>
+      <%= f.submit %>
+    <% end %>
   </div>
 <% end %>
 
