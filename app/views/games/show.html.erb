@@ -47,8 +47,8 @@
   <div class="current-user-card player-card m-3 <%= 'not-joined' if !@game.users.include?(@user) %>">
     <div class="d-flex" >
       <h3 class="text-center"><%= @user.pseudo %></h3>
-      <% if @game.hands.last.button == @user %>
-        <p> B </p>
+      <% if @game.hands.last && @game.hands.last.button == @user %>
+        <p> Btn </p>
       <% end %>
     </div>
     <% if @game.hands.last && @game.hands.last.user_cards.where(user: @user)[0] %>
@@ -58,6 +58,12 @@
       </p>
     <% end %>
     <p><%= @game.reservations.where(user: @user)[0].score %></p>
+    <% if @game.hands.last && @game.hands.last.small_blind == @user %>
+      <p> SB </p>
+    <% end %>
+    <% if @game.hands.last && @game.hands.last.big_blind == @user %>
+      <p> BB </p>
+    <% end %>
   </div>
 <% end %>
 
@@ -67,11 +73,17 @@
     <div class= "d-flex justify-content-between">
       <h3 class="text-center"><%= user.pseudo %></h3>
       <%# <% reservation.user.hand.last.cards %>
-      <% if @game.hands.last.button == user %>
-        <p> B </p>
+      <% if @game.hands.last && @game.hands.last.button == user %>
+        <p> Btn </p>
       <% end %>
     </div>
     <p><%= @game.reservations.where(user: user)[0].score  %></p>
+    <% if @game.hands.last && @game.hands.last.small_blind == user %>
+      <p> SB </p>
+    <% end %>
+    <% if @game.hands.last && @game.hands.last.big_blind == user %>
+      <p> BB </p>
+    <% end %>
   </div>
 <% end %>
 
