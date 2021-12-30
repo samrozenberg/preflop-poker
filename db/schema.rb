@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_28_172658) do
+ActiveRecord::Schema.define(version: 2021_12_29_205559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,8 @@ ActiveRecord::Schema.define(version: 2021_12_28_172658) do
     t.bigint "button_id"
     t.bigint "small_blind_id"
     t.bigint "big_blind_id"
+    t.bigint "better_id"
+    t.index ["better_id"], name: "index_hands_on_better_id"
     t.index ["big_blind_id"], name: "index_hands_on_big_blind_id"
     t.index ["button_id"], name: "index_hands_on_button_id"
     t.index ["game_id"], name: "index_hands_on_game_id"
@@ -129,6 +131,7 @@ ActiveRecord::Schema.define(version: 2021_12_28_172658) do
   add_foreign_key "flop_cards", "deck_cards"
   add_foreign_key "flop_cards", "hands"
   add_foreign_key "hands", "games"
+  add_foreign_key "hands", "users", column: "better_id"
   add_foreign_key "hands", "users", column: "big_blind_id"
   add_foreign_key "hands", "users", column: "button_id"
   add_foreign_key "hands", "users", column: "small_blind_id"

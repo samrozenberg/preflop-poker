@@ -21,3 +21,12 @@ require("channels")
 
 import "controllers"
 import "bootstrap"
+
+
+var result = document.getElementById("result");
+var amount = document.getElementById("amount");
+function change() {
+  console.log("Hello");
+  result.innerText = amount.value;
+}
+amount.addEventListener('change', change);

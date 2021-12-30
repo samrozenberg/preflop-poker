@@ -32,7 +32,13 @@ class HandsController < ApplicationController
       big_blind_index = 1
     end
 
-    @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index] )
+    if big_blind_index < @active_players.count - 1
+      better_index = big_blind_index + 1
+    else
+      better_index = 0
+    end
+
+    @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index] )
     @hand.save!
     @user_cards = DeckCard.all.sample(@active_players.count * 2)
     index1 = 0
