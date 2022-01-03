@@ -36,15 +36,19 @@
     <%= simple_form_for [@game, @game.hands.last, @turn_card] do |f| %>
       <%= f.submit "Deal turn", class: "btn btn-primary" %>
     <% end %>
-  <% elsif @game.hands.last.turn_cards.count == 1 %>
+  <% elsif @game.hands.last.turn_cards.count == 1 && @game.hands.last.river_cards.count == 0 %>
     <%= simple_form_for [@game, @game.hands.last, @river_card] do |f| %>
       <%= f.submit "Deal river", class: "btn btn-primary" %>
     <% end %>
   <% end %>
 <% end %>
 
+
+
+
+
 <% if @active_players.include?(@user) %>
-  <div class="current-user-card player-card m-3 <%= 'not-joined' if !@game.users.include?(@user) %> <%= 'current-better' if @game.hands.last.better == @user %>">
+  <div class="current-user-card player-card m-3 <%= 'current-better' if @game.hands.last.better == @user %>">
     <div class="d-flex" >
       <h3 class="text-center"><%= @user.pseudo %></h3>
       <% if @game.hands.last && @game.hands.last.button == @user %>
@@ -104,6 +108,11 @@
       <% end %>
       <% @game.hands.last.turn_cards.each do |card| %>
         <div class="turn board-card">
+          <%= card.deck_card.name %>
+        </div>
+      <% end %>
+      <% @game.hands.last.river_cards.each do |card| %>
+        <div class="river board-card">
           <%= card.deck_card.name %>
         </div>
       <% end %>

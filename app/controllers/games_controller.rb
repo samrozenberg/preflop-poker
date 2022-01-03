@@ -9,7 +9,7 @@ class GamesController < ApplicationController
     @hand = Hand.new
     @flop_card = FlopCard.new
     @turn_card = TurnCard.new
-    @river_card = TurnCard.new
+    @river_card = RiverCard.new
     @user = current_user
     @cards = DeckCard.all
     @reservation = Reservation.new
