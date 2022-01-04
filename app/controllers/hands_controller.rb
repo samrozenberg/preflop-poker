@@ -51,6 +51,7 @@ class HandsController < ApplicationController
       index2 += 2
     end
     # (hand_params)
+
     redirect_to game_path(@game)
   end
 
