@@ -1,5 +1,4 @@
 <h1 class = "text-center"><%= @game.name %></h1>
-<h5>Game ID: <%= @game.id %></h5>
 
 <% if !@game.users.include?(current_user) %>
   <%= simple_form_for [@game, @reservation] do |f|%>
@@ -44,84 +43,84 @@
 <% end %>
 
 <% player_position = 1 %>
-<% @active_players.each do |user| %>
-  <% if @active_players.include?(@user)  %>
-    <% player_position = @active_players.find_index(user) - @active_players.find_index(@user) %>
-    <% if player_position < 0 %>
-      <% player_position = @active_players.count - @active_players.find_index(@user) + @active_players.find_index(user) %>
+<div class="poker-table mb-5">
+  <% @active_players.each do |user| %>
+    <% if @active_players.include?(@user)  %>
+      <% player_position = @active_players.find_index(user) - @active_players.find_index(@user) %>
+      <% if player_position < 0 %>
+        <% player_position = @active_players.count - @active_players.find_index(@user) + @active_players.find_index(user) %>
+      <% end %>
     <% end %>
-  <% end %>
-  <% if @active_players.count == 2 && player_position == 1 %>
-    <% player_position == 3 %>
-  <% elsif @active_players.count == 3 && player_position == 1  %>
-    <% player_position == 2 %>
-  <% elsif @active_players.count == 3 && player_position == 2  %>
-    <% player_position == 4 %>
-  <% elsif @active_players.count == 4 && player_position == 1  %>
-    <% player_position == 2 %>
-  <% elsif @active_players.count == 4 && player_position == 2  %>
-    <% player_position == 3 %>
-  <% elsif @active_players.count == 4 && player_position == 3  %>
-    <% player_position == 4 %>
-  <% end %>
-  <div class="player-card m-3 <%= 'current-better' if @game.hands.last.better == user %> position-<%=player_position%>">
-    <div class= "d-flex justify-content-between">
-      <h3 class="text-center"><%= user.pseudo %></h3>
-      <%# <% reservation.user.hand.last.cards %>
-      <% if @game.hands.last && @game.hands.last.button == user %>
-        <p> Btn </p>
+    <% if @active_players.count == 2 && player_position == 1 %>
+      <% player_position == 3 %>
+    <% elsif @active_players.count == 3 && player_position == 1  %>
+      <% player_position == 2 %>
+    <% elsif @active_players.count == 3 && player_position == 2  %>
+      <% player_position == 4 %>
+    <% elsif @active_players.count == 4 && player_position == 1  %>
+      <% player_position == 2 %>
+    <% elsif @active_players.count == 4 && player_position == 2  %>
+      <% player_position == 3 %>
+    <% elsif @active_players.count == 4 && player_position == 3  %>
+      <% player_position == 4 %>
+    <% end %>
+    <div class="player-card m-3 <%= 'current-better' if @game.hands.last.better == user %> position-<%=player_position%>">
+      <div class= "d-flex justify-content-between">
+        <h3 class="text-center"><%= user.pseudo %></h3>
+        <%# <% reservation.user.hand.last.cards %>
+        <% if @game.hands.last && @game.hands.last.button == user %>
+          <p> Btn </p>
+        <% end %>
+      </div>
+      <% if @game.hands.last && @game.hands.last.user_cards.where(user: user)[0] %>
+        <% if user == @user %>
+          <p class="text-center">
+            <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
+            <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
+          </p>
+        <% else %>
+          <p>
+            <%= "X" %>
+            <%= "X" %>
+          </p>
+        <% end %>
+      <% end %>
+      <p><%= @game.reservations.where(user: user)[0].score  %></p>
+      <% if @game.hands.last && @game.hands.last.small_blind == user %>
+        <p> SB </p>
+      <% end %>
+      <% if @game.hands.last && @game.hands.last.big_blind == user %>
+        <p> BB </p>
+      <% end %>
+      <% if user == @game.hands.last.better && user == @user  %>
+        <%= simple_form_for [@game, @game.hands.last, @bet] do |f| %>
+          <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
+          <%= f.submit %>
+        <% end %>
       <% end %>
     </div>
-    <% if @game.hands.last && @game.hands.last.user_cards.where(user: user)[0] %>
-      <% if user == @user %>
-        <p class="text-center">
-          <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
-          <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
-        </p>
-      <% else %>
-        <p>
-          <%= "X" %>
-          <%= "X" %>
-        </p>
+    <% player_position += 1 %>
+  <% end %>
+  <% if @active_players.count > 0 %>
+    <div class="board-cards">
+      <% if @game.hands.last %>
+        <% @game.hands.last.flop_cards.each do |card| %>
+          <div class="flop board-card">
+            <%= card.deck_card.name %>
+          </div>
+        <% end %>
+        <% @game.hands.last.turn_cards.each do |card| %>
+          <div class="turn board-card">
+            <%= card.deck_card.name %>
+          </div>
+        <% end %>
+        <% @game.hands.last.river_cards.each do |card| %>
+          <div class="river board-card">
+            <%= card.deck_card.name %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
-    <p><%= @game.reservations.where(user: user)[0].score  %></p>
-    <% if @game.hands.last && @game.hands.last.small_blind == user %>
-      <p> SB </p>
-    <% end %>
-    <% if @game.hands.last && @game.hands.last.big_blind == user %>
-      <p> BB </p>
-    <% end %>
-    <% if user == @game.hands.last.better && user == @user  %>
-      <%= simple_form_for [@game, @game.hands.last, @bet] do |f| %>
-        <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
-        <%= f.submit %>
-      <% end %>
-    <% end %>
-  </div>
-  <% player_position += 1 %>
-<% end %>
-
-
-<% if @active_players.count > 0 %>
-  <div class="board-cards">
-    <% if @game.hands.last %>
-      <% @game.hands.last.flop_cards.each do |card| %>
-        <div class="flop board-card">
-          <%= card.deck_card.name %>
-        </div>
-      <% end %>
-      <% @game.hands.last.turn_cards.each do |card| %>
-        <div class="turn board-card">
-          <%= card.deck_card.name %>
-        </div>
-      <% end %>
-      <% @game.hands.last.river_cards.each do |card| %>
-        <div class="river board-card">
-          <%= card.deck_card.name %>
-        </div>
-      <% end %>
-    <% end %>
+      </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>

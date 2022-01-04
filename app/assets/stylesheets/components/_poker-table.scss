@@ -1,0 +1,59 @@
+.poker-table {
+  position: relative;
+  border: 2px dotted #000000;
+  border-radius: 50%;
+  width: 100%;
+  height: 500px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.position-0 {
+  position: absolute;
+	border: 2px dotted #000000;
+	top: 80%;
+  right: 42%;
+}
+
+
+.position-1 {
+  position: absolute;
+	border: 2px dotted #000000;
+	top: 55%;
+  right: 0%;
+}
+
+.position-2{
+  position: absolute;
+	border: 2px dotted #000000;
+  bottom: 62%;
+  right: 0%;
+}
+
+.position-3{
+  position: absolute;
+	border: 2px dotted #000000;
+  bottom: 80%;
+  right: 42%;
+}
+
+.position-4{
+  position: absolute;
+	border: 2px dotted #000000;
+  bottom: 62%;
+  right: 84%;
+}
+
+.position-5{
+  position: absolute;
+	border: 2px dotted #000000;
+  top: 55%;
+  right: 84%;
+}
+.player-card {
+  width: 150px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 12px green;
+}
