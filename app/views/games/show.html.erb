@@ -18,30 +18,6 @@
 <br>
 <br>
 
-<% if @game.users[0] == current_user %>
-  <%= simple_form_for [@game, @hand] do |f| %>
-        <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
-  <% end %>
-<% end %>
-
-<br>
-
-<% if @game.hands.last && @game.users[0] == current_user %>
-  <% if @game.hands.last.flop_cards.count == 0 %>
-    <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
-      <%= f.submit "Deal flop", class: "btn btn-primary" %>
-    <% end %>
-  <% elsif @game.hands.last.flop_cards.count == 3 && @game.hands.last.turn_cards.count == 0  %>
-    <%= simple_form_for [@game, @game.hands.last, @turn_card] do |f| %>
-      <%= f.submit "Deal turn", class: "btn btn-primary" %>
-    <% end %>
-  <% elsif @game.hands.last.turn_cards.count == 1 && @game.hands.last.river_cards.count == 0 %>
-    <%= simple_form_for [@game, @game.hands.last, @river_card] do |f| %>
-      <%= f.submit "Deal river", class: "btn btn-primary" %>
-    <% end %>
-  <% end %>
-<% end %>
-
 <% player_position = 1 %>
 <div class="poker-table mb-5">
   <% @active_players.each do |user| %>
@@ -101,26 +77,49 @@
     </div>
     <% player_position += 1 %>
   <% end %>
-  <% if @active_players.count > 0 %>
-    <div class="board-cards">
-      <% if @game.hands.last %>
-        <% @game.hands.last.flop_cards.each do |card| %>
-          <div class="flop board-card">
-            <%= card.deck_card.name %>
-          </div>
+  <div>
+    <% if @active_players.count > 0 %>
+      <div class="board-cards">
+        <% if @game.hands.last %>
+          <% @game.hands.last.flop_cards.each do |card| %>
+            <div class="flop board-card">
+              <%= card.deck_card.name %>
+            </div>
+          <% end %>
+          <% @game.hands.last.turn_cards.each do |card| %>
+            <div class="turn board-card">
+              <%= card.deck_card.name %>
+            </div>
+          <% end %>
+          <% @game.hands.last.river_cards.each do |card| %>
+            <div class="river board-card">
+              <%= card.deck_card.name %>
+            </div>
+          <% end %>
         <% end %>
-        <% @game.hands.last.turn_cards.each do |card| %>
-          <div class="turn board-card">
-            <%= card.deck_card.name %>
-          </div>
-        <% end %>
-        <% @game.hands.last.river_cards.each do |card| %>
-          <div class="river board-card">
-            <%= card.deck_card.name %>
-          </div>
-        <% end %>
-      <% end %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+    <% if @game.users[0] == current_user %>
+      <div class="buttons">
+        <%= simple_form_for [@game, @hand] do |f| %>
+          <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
+        <% end %>
+        <% if @game.hands.last && @game.users[0] == current_user %>
+          <% if @game.hands.last.flop_cards.count == 0 %>
+            <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
+              <%= f.submit "Deal flop", class: "btn btn-primary" %>
+            <% end %>
+          <% elsif @game.hands.last.flop_cards.count == 3 && @game.hands.last.turn_cards.count == 0  %>
+            <%= simple_form_for [@game, @game.hands.last, @turn_card] do |f| %>
+              <%= f.submit "Deal turn", class: "btn btn-primary" %>
+            <% end %>
+          <% elsif @game.hands.last.turn_cards.count == 1 && @game.hands.last.river_cards.count == 0 %>
+            <%= simple_form_for [@game, @game.hands.last, @river_card] do |f| %>
+              <%= f.submit "Deal river", class: "btn btn-primary" %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
