@@ -47,9 +47,9 @@
       </div>
       <% if @game.hands.last && @game.hands.last.user_cards.where(user: user)[0] %>
         <% if user == @user %>
-          <p class="text-center">
-            <%= @game.hands.last.user_cards.where(user: @user)[0].deck_card.name %>
-            <%= @game.hands.last.user_cards.where(user: @user)[1].deck_card.name %>
+          <p class="text-center d-flex justify-content-between">
+            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards" %>
+            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards" %>
           </p>
         <% else %>
           <p>
@@ -79,19 +79,13 @@
       <div class="board-cards">
         <% if @game.hands.last %>
           <% @game.hands.last.flop_cards.each do |card| %>
-            <div class="flop board-card">
-              <%= card.deck_card.name %>
-            </div>
+              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
           <% end %>
           <% @game.hands.last.turn_cards.each do |card| %>
-            <div class="turn board-card">
-              <%= card.deck_card.name %>
-            </div>
+              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
           <% end %>
           <% @game.hands.last.river_cards.each do |card| %>
-            <div class="river board-card">
-              <%= card.deck_card.name %>
-            </div>
+              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
           <% end %>
         <% end %>
       </div>
