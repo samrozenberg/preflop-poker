@@ -7,6 +7,7 @@
   display:flex;
   justify-content:center;
   align-items:center;
+  background-color: green;
 }
 
 .position-0 {
@@ -17,14 +18,14 @@
 }
 
 
-.position-1 {
+.position-5 {
   position: absolute;
 	border: 2px dotted #000000;
 	top: 55%;
   right: 0%;
 }
 
-.position-2{
+.position-4{
   position: absolute;
 	border: 2px dotted #000000;
   bottom: 62%;
@@ -38,14 +39,14 @@
   right: 42%;
 }
 
-.position-4{
+.position-2{
   position: absolute;
 	border: 2px dotted #000000;
   bottom: 62%;
   right: 84%;
 }
 
-.position-5{
+.position-1{
   position: absolute;
 	border: 2px dotted #000000;
   top: 55%;
@@ -56,4 +57,5 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px 12px green;
+  background-color: white;
 }
