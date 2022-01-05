@@ -1,4 +1,4 @@
-<h1 class = "text-center"><%= @game.name %></h1>
+<h1 class = "text-center mb-5"><%= @game.name %></h1>
 
 <% if !@game.users.include?(current_user) %>
   <%= simple_form_for [@game, @reservation] do |f|%>
