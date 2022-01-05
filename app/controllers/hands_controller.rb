@@ -40,13 +40,15 @@ class HandsController < ApplicationController
 
     @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index] )
     @hand.save!
+    Bet.create(amount: 1, hand: @hand, user: @hand.small_blind)
+    Bet.create(amount: 1, hand: @hand, user: @hand.big_blind)
     @user_cards = DeckCard.all.sample(@active_players.count * 2)
     index1 = 0
     index2 = 1
     @active_players.each do |user|
       UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
       UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
-      UserHand.create(hand: @hand, user: user)
+      UserHand.create(hand: @hand, user: user, active: true)
       index1 += 2
       index2 += 2
     end
