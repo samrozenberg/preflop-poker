@@ -52,7 +52,7 @@
   width: auto;
   height: 60px;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 30px;
   background-color: white;
   margin-top: -56px;
   position: relative;
@@ -137,3 +137,17 @@
   width: 16px;
   height: 16px
 }
+
+.bet-amount {
+  position: absolute;
+	top: -70%;
+  right: 0%;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 93, 25, 0.8);
+  width: 20px;
+    p {
+      margin-bottom: 0px;
+    }
+  }

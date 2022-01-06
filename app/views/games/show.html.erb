@@ -68,6 +68,11 @@
               <%= image_tag "button_spade.png", class: "button-spade" %>
           </div>
         <% end %>
+        <% if @current_hand && !@current_hand.bets.where(user: user).empty? %>
+          <div class="bet-amount d-flex justify-content-center align-items-center">
+             <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
+          </div>
+        <% end %>
       </div>
      <% player_position += 1 %>
     </div>
