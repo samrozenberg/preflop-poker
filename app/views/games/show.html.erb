@@ -92,8 +92,14 @@
             <% @current_hand.turn_cards.each do |card| %>
                 <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
             <% end %>
+            <% if @current_hand.turn_cards.empty? %>
+              <div class="empty-card"></div>
+            <% end %>
             <% @current_hand.river_cards.each do |card| %>
                 <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
+            <% end %>
+             <% if @current_hand.river_cards.empty? %>
+              <div class="empty-card"></div>
             <% end %>
           <% end %>
         </div>
