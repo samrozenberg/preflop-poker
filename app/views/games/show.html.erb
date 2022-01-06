@@ -70,7 +70,8 @@
         <% end %>
         <% if @current_hand && !@current_hand.bets.where(user: user).empty? %>
           <div class="bet-amount d-flex justify-content-center align-items-center">
-             <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
+            <%= image_tag "casino-chip.png", class: "casino-chip" %>
+            <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
           </div>
         <% end %>
       </div>

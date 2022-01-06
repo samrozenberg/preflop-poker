@@ -138,16 +138,109 @@
   height: 16px
 }
 
-.bet-amount {
+.position-0 .bet-amount {
   position: absolute;
 	top: -70%;
-  right: 0%;
+  right: -20%;
   padding: 4px 30px;
   border-radius: 20px;
   color: white;
   background-color: rgba(0, 93, 25, 0.8);
   width: 20px;
+  height: 22px;
     p {
       margin-bottom: 0px;
+      margin-right: 20px;
+      padding: 10px;
     }
   }
+
+.position-1 .bet-amount {
+  position: absolute;
+	top: -26%;
+  right: -38%;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 93, 25, 0.8);
+  width: 20px;
+  height: 22px;
+    p {
+      margin-bottom: 0px;
+      margin-right: 20px;
+      padding: 10px;
+    }
+  }
+
+.position-2 .bet-amount {
+  position: absolute;
+	top: 75%;
+  right: -38%;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 93, 25, 0.8);
+  width: 20px;
+  height: 22px;
+    p {
+      margin-bottom: 0px;
+      margin-right: 20px;
+      padding: 10px;
+    }
+  }
+
+.position-3 .bet-amount {
+position: absolute;
+top: 120%;
+right: 32%;
+padding: 4px 30px;
+border-radius: 20px;
+color: white;
+background-color: rgba(0, 93, 25, 0.8);
+width: 20px;
+height: 22px;
+  p {
+    margin-bottom: 0px;
+    margin-right: 20px;
+    padding: 10px;
+  }
+}
+
+.position-4 .bet-amount {
+  position: absolute;
+	top: 75%;
+  left: -30%;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 93, 25, 0.8);
+  width: 20px;
+  height: 22px;
+    p {
+      margin-bottom: 0px;
+      margin-right: 20px;
+      padding: 10px;
+    }
+  }
+
+.position-5 .bet-amount {
+  position: absolute;
+	top: -26%;
+  left: -30%;
+  padding: 4px 30px;
+  border-radius: 20px;
+  color: white;
+  background-color: rgba(0, 93, 25, 0.8);
+  width: 20px;
+  height: 22px;
+    p {
+      margin-bottom: 0px;
+      margin-right: 20px;
+      padding: 10px;
+    }
+  }
+
+.casino-chip {
+  width: 32px;
+  height: 32px;
+}
