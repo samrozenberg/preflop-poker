@@ -38,19 +38,21 @@
       <% player_position == 4 %>
     <% end %>
     <div class="player-infos position-<%=player_position%>">
-      <div class="player-cards-wrapper">
-        <% if user == @user %>
-          <p class="text-center d-flex justify-content-center">
-            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
-            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
-          </p>
-        <% else %>
-          <p class="text-center d-flex justify-content-center">
-            <%= image_tag "card_back.png", class: "user-cards-1" %>
-            <%= image_tag "card_back.png", class: "user-cards-2" %>
-          </p>
-        <% end %>
-      </div>
+      <% if @in_hand_players.include?(user) %>
+        <div class="player-cards-wrapper">
+          <% if user == @user %>
+            <p class="text-center d-flex justify-content-center">
+              <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
+              <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
+            </p>
+          <% else %>
+            <p class="text-center d-flex justify-content-center">
+              <%= image_tag "card_back.png", class: "user-cards-1" %>
+              <%= image_tag "card_back.png", class: "user-cards-2" %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
       <div class="player-card <%= 'current-better' if @game.hands.last.better == user %> d-flex justify-content-around align-items-center">
         <div class= "d-flex justify-content-around flex-grow-1">
           <h3 class="text-center mb-0"><%= user.pseudo %></h3>
