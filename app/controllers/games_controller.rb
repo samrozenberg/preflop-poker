@@ -19,7 +19,7 @@ class GamesController < ApplicationController
       @active_players << reservation.user
     end
     @in_hand_players = []
-    UserHand.where(hand: @game.hands.last, active: false).each do |userhand|
+    UserHand.where(hand: @game.hands.last, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
   end
