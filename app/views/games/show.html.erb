@@ -106,22 +106,22 @@
       </div>
     <% end %>
     <% if @game.users[0] == current_user %>
-      <div class="buttons">
+      <div class="buttons d-flex justify-content-center">
         <%= simple_form_for [@game, @hand] do |f| %>
-          <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
+          <%= f.submit "Shuffle and deal", class: "dealing-button" %>
         <% end %>
         <% if @current_hand && @game.users[0] == current_user %>
           <% if @current_hand.flop_cards.count == 0 %>
             <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
-              <%= f.submit "Deal flop", class: "btn btn-primary" %>
+              <%= f.submit "Deal flop", class: "dealing-button" %>
             <% end %>
           <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0  %>
             <%= simple_form_for [@game, @current_hand, @turn_card] do |f| %>
-              <%= f.submit "Deal turn", class: "btn btn-primary" %>
+              <%= f.submit "Deal turn", class: "dealing-button" %>
             <% end %>
           <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 %>
             <%= simple_form_for [@game, @current_hand, @river_card] do |f| %>
-              <%= f.submit "Deal river", class: "btn btn-primary" %>
+              <%= f.submit "Deal river", class: "dealing-button" %>
             <% end %>
           <% end %>
         <% end %>
