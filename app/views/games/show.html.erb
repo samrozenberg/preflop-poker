@@ -63,6 +63,11 @@
           <p class="mb-0"><%= @game.reservations.where(user: user)[0].score  %>€</p>
           </div>
         </div>
+        <% if @game.hands.last && @game.hands.last.button == user %>
+          <div class="button d-flex justify-content-center align-items-center">
+              <%= image_tag "button_spade.png", class: "button-spade" %>
+          </div>
+        <% end %>
       </div>
      <% player_position += 1 %>
     </div>
