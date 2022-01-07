@@ -130,9 +130,45 @@
   </div>
 </div>
 
+
+
 <% if @user == @current_hand.better %>
-  <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
-    <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
-    <%= f.submit %>
-  <% end %>
+  <div class="betting-wrapper d-flex">
+    <% if !@user_last_bet || @user_last_bet.amount < @hand_last_bet.amount %>
+      <div>
+        <%= link_to "Fold", game_hand_user_hand_path(@game, @current_hand, @current_player_user_hand), method: :put, class: "btn btn-danger me-3" %>
+      </div>
+    <% end %>
+    <% if @user_last_bet && @user_last_bet.amount == @hand_last_bet.amount %>
+      <div>
+        <%= link_to "Check", game_hand_path(@game, @current_hand), method: :put, class: "btn btn-success me-3" %>
+      </div>
+      <div class="raise">
+        <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
+          <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: @min_raise, max:30, step: 1, value: @min_raise } %>
+          <%= f.submit "Raise to", class:"raise-button me-3" %>
+          <div class="raise-amount"><span id="result"><%= @min_raise %></span><span>€</span></div>
+        <% end %>
+      </div>
+    <% end %>
+    <% if @hand_last_bet.amount > @current_hand.bets.first.amount || @current_hand.bets.count == 2 %>
+      <div class="call">
+        <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
+          <%= f.input_field :amount, label: false, value: @hand_last_bet.amount, :as => :hidden %>
+          <% if @user_last_bet %>
+            <%= f.submit "Call #{@hand_last_bet.amount - @user_last_bet.amount}€", class:"call-button me-3" %>
+          <% else %>
+            <%= f.submit "Call #{@hand_last_bet.amount}€", class:"call-button me-3" %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="raise">
+        <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
+          <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: @min_raise, max:30, step: 1, value: @min_raise } %>
+          <%= f.submit "Raise to", class:"raise-button me-3" %>
+          <div class="raise-amount"><span id="result"><%= @min_raise %></span><span>€</span></div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

@@ -2,11 +2,12 @@ Rails.application.routes.draw do
   devise_for :users
   root to: 'pages#home'
   resources :games do
-    resources :hands do
+    resources :hands, only: [:create, :update] do
       resources :flop_cards, only: :create
       resources :turn_cards, only: :create
       resources :river_cards, only: :create
       resources :bets, only: :create
+      resources :user_hands, only: :update
     end
     resources :reservations, only: [:create, :destroy, :update]
   end
