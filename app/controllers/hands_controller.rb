@@ -57,6 +57,23 @@ class HandsController < ApplicationController
     redirect_to game_path(@game)
   end
 
+  def update
+    @game = Game.find(params[:game_id])
+    @hand = @game.hands.last
+    @in_hand_players = []
+    UserHand.where(hand: @game.hands.last, active: true).each do |userhand|
+      @in_hand_players << userhand.user
+    end
+    @last_better = @hand.better
+    if @in_hand_players.find_index(@last_better) < @in_hand_players.count - 1
+      next_better_index = @in_hand_players.find_index(@last_better) + 1
+    else
+      next_better_index = 0
+    end
+    @hand.update_attribute(:better, @in_hand_players[next_better_index])
+    redirect_to game_path(@game)
+  end
+
   # private
 
   # def hand_params

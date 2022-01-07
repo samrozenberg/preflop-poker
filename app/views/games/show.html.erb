@@ -133,21 +133,21 @@
 
 
 <% if @user == @current_hand.better %>
-  <div class="betting-wrapper">
+  <div class="betting-wrapper d-flex">
     <% if !@user_last_bet || @user_last_bet.amount < @hand_last_bet.amount %>
       <div>
-        <%= link_to "Fold", game_hand_user_hand_path(@game, @current_hand, @current_player_user_hand), method: :put, class: "btn btn-danger" %>
+        <%= link_to "Fold", game_hand_user_hand_path(@game, @current_hand, @current_player_user_hand), method: :put, class: "btn btn-danger me-3" %>
       </div>
     <% end %>
-    <% if @user_last_bet.amount == @hand_last_bet.amount %>
-      <div>
-        <p>Check</p>
+    <% if @user_last_bet && @user_last_bet.amount == @hand_last_bet.amount %>
+      <div class="me-5">
+        <%= link_to "Check", game_hand_path(@game, @current_hand), method: :put, class: "btn btn-danger" %>
       </div>
       <div>
-        <p>Bet</p>
+        <p>Raise</p>
       </div>
     <% end %>
-    <% if @user_last_bet.amount < @hand_last_bet.amount %>
+    <% if @hand_last_bet.amount > @current_hand.bets.first.amount %>
       <div>
         <p>Call</p>
       </div>
@@ -157,8 +157,8 @@
     <% end %>
     <div class="betting">
       <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
-        <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
         <%= f.submit %>
+        <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
       <% end %>
     </div>
   </div>
