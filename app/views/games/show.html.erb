@@ -39,62 +39,89 @@
     <% end %>
     <div class="player-infos position-<%=player_position%>">
       <div class="player-cards-wrapper">
-        <% if user == @user %>
-          <p class="text-center d-flex justify-content-center">
-            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
-            <%= image_tag "#{@game.hands.last.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
-          </p>
-        <% else %>
-          <p class="text-center d-flex justify-content-center">
+        <% if user == @user && @in_hand_players.include?(user) %>
+          <div class="text-center d-flex justify-content-center">
+            <%= image_tag "#{@current_hand.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
+            <%= image_tag "#{@current_hand.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
+          </div>
+        <% elsif @in_hand_players.include?(user) %>
+          <div class="text-center d-flex justify-content-center">
             <%= image_tag "card_back.png", class: "user-cards-1" %>
             <%= image_tag "card_back.png", class: "user-cards-2" %>
-          </p>
+          </div>
+        <% else %>
+          <div class="text-center d-flex justify-content-center">
+            <div class="transparent"></div>
+            <div class="transparent"></div>
+          </div>
         <% end %>
       </div>
-      <div class="player-card <%= 'current-better' if @game.hands.last.better == user %> d-flex justify-content-around align-items-center">
+      <div class="player-card <%= 'current-better' if @current_hand.better == user %> d-flex justify-content-around align-items-center">
         <div class= "d-flex justify-content-around flex-grow-1">
           <h3 class="text-center mb-0"><%= user.pseudo %></h3>
           <div class="d-flex justify-content-center align-items-center" >
           <p class="mb-0"><%= @game.reservations.where(user: user)[0].score  %>€</p>
           </div>
         </div>
+        <% if @current_hand && @current_hand.button == user %>
+          <div class="button d-flex justify-content-center align-items-center">
+              <%= image_tag "button_spade.png", class: "button-spade" %>
+          </div>
+        <% end %>
+        <% if @current_hand && !@current_hand.bets.where(user: user).empty? %>
+          <div class="bet-amount d-flex justify-content-center align-items-center">
+            <%= image_tag "casino-chip.png", class: "casino-chip" %>
+            <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
+          </div>
+        <% end %>
       </div>
      <% player_position += 1 %>
     </div>
   <% end %>
   <div>
     <% if @active_players.count > 0 %>
-      <div class="board-cards">
-        <% if @game.hands.last %>
-          <% @game.hands.last.flop_cards.each do |card| %>
-              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
+      <div class="inner-table">
+        <div>
+          <p class="pot">Pot: <%= @pot %>€</p>
+        </div>
+        <div class="board-cards">
+          <% if @current_hand %>
+            <% @current_hand.flop_cards.each do |card| %>
+                <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
+            <% end %>
+            <% @current_hand.turn_cards.each do |card| %>
+                <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
+            <% end %>
+            <% if @current_hand.turn_cards.empty? %>
+              <div class="empty-card"></div>
+            <% end %>
+            <% @current_hand.river_cards.each do |card| %>
+                <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
+            <% end %>
+             <% if @current_hand.river_cards.empty? %>
+              <div class="empty-card"></div>
+            <% end %>
           <% end %>
-          <% @game.hands.last.turn_cards.each do |card| %>
-              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
-          <% end %>
-          <% @game.hands.last.river_cards.each do |card| %>
-              <%= image_tag "#{card.deck_card.url}", class: "board-card" %>
-          <% end %>
-        <% end %>
+        </div>
       </div>
     <% end %>
     <% if @game.users[0] == current_user %>
-      <div class="buttons">
+      <div class="buttons d-flex justify-content-center">
         <%= simple_form_for [@game, @hand] do |f| %>
-          <%= f.submit "Shuffle and deal", class: "btn btn-primary" %>
+          <%= f.submit "Shuffle and deal", class: "dealing-button" %>
         <% end %>
-        <% if @game.hands.last && @game.users[0] == current_user %>
-          <% if @game.hands.last.flop_cards.count == 0 %>
-            <%= simple_form_for [@game, @game.hands.last, @flop_card] do |f| %>
-              <%= f.submit "Deal flop", class: "btn btn-primary" %>
+        <% if @current_hand && @game.users[0] == current_user %>
+          <% if @current_hand.flop_cards.count == 0 %>
+            <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
+              <%= f.submit "Deal flop", class: "dealing-button" %>
             <% end %>
-          <% elsif @game.hands.last.flop_cards.count == 3 && @game.hands.last.turn_cards.count == 0  %>
-            <%= simple_form_for [@game, @game.hands.last, @turn_card] do |f| %>
-              <%= f.submit "Deal turn", class: "btn btn-primary" %>
+          <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0  %>
+            <%= simple_form_for [@game, @current_hand, @turn_card] do |f| %>
+              <%= f.submit "Deal turn", class: "dealing-button" %>
             <% end %>
-          <% elsif @game.hands.last.turn_cards.count == 1 && @game.hands.last.river_cards.count == 0 %>
-            <%= simple_form_for [@game, @game.hands.last, @river_card] do |f| %>
-              <%= f.submit "Deal river", class: "btn btn-primary" %>
+          <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 %>
+            <%= simple_form_for [@game, @current_hand, @river_card] do |f| %>
+              <%= f.submit "Deal river", class: "dealing-button" %>
             <% end %>
           <% end %>
         <% end %>
@@ -103,8 +130,8 @@
   </div>
 </div>
 
-<% if @user == @game.hands.last.better %>
-  <%= simple_form_for [@game, @game.hands.last, @bet] do |f| %>
+<% if @user == @current_hand.better %>
+  <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
     <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
     <%= f.submit %>
   <% end %>

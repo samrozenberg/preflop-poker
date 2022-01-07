@@ -18,6 +18,15 @@ class GamesController < ApplicationController
     @game.reservations.where(active: true).each do |reservation|
       @active_players << reservation.user
     end
+    @current_hand = @game.hands.last
+    @in_hand_players = []
+    UserHand.where(hand: @current_hand, active: true).each do |userhand|
+      @in_hand_players << userhand.user
+    end
+    @pot = 0
+    @current_hand.bets.each do |bet|
+      @pot += bet.amount
+    end
   end
 
   def new
