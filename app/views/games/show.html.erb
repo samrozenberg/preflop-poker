@@ -136,7 +136,7 @@
   <div class="betting-wrapper">
     <% if !@user_last_bet || @user_last_bet.amount < @hand_last_bet.amount %>
     <div>
-      <p>Fold</p>
+      <%= link_to "Fold", game_hand_user_hand_path(@game, @current_hand, @current_player_user_hand), method: :put, class: "btn btn-danger" %>
     </div>
     <% end %>
 

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       resources :turn_cards, only: :create
       resources :river_cards, only: :create
       resources :bets, only: :create
+      resources :user_hands, only: :update
     end
     resources :reservations, only: [:create, :destroy, :update]
   end

@@ -29,6 +29,7 @@ class GamesController < ApplicationController
     end
     @hand_last_bet = @current_hand.bets.last
     @user_last_bet = @user.bets.where(hand: @current_hand).last
+    @current_player_user_hand = UserHand.where(hand: @current_hand, user: @user)
   end
 
   def new
