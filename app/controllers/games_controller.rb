@@ -27,6 +27,8 @@ class GamesController < ApplicationController
     @current_hand.bets.each do |bet|
       @pot += bet.amount
     end
+    @hand_last_bet = @current_hand.bets.last
+    @user_last_bet = @user.bets.where(hand: @current_hand).last
   end
 
   def new

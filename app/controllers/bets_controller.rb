@@ -5,17 +5,21 @@ class BetsController < ApplicationController
     @bet.hand = @game.hands.last
     @bet.user = current_user
     @bet.save
+    @in_hand_players = []
+    UserHand.where(hand: @game.hands.last, active: true).each do |userhand|
+      @in_hand_players << userhand.user
+    end
     @active_players = []
     @game.reservations.where(active: true).each do |reservation|
       @active_players << reservation.user
     end
     @last_better = @game.hands.last.better
-    if @active_players.find_index(@last_better) < @active_players.count - 1
-      next_better_index = @active_players.find_index(@last_better) + 1
+    if @in_hand_players.find_index(@last_better) < @in_hand_players.count - 1
+      next_better_index = @in_hand_players.find_index(@last_better) + 1
     else
       next_better_index = 0
     end
-    @game.hands.last.update_attribute(:better, @active_players[next_better_index])
+    @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
     redirect_to game_path(@game)
   end
 

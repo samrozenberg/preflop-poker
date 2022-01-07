@@ -130,9 +130,21 @@
   </div>
 </div>
 
+
+
 <% if @user == @current_hand.better %>
-  <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
-    <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
-    <%= f.submit %>
-  <% end %>
+  <div class="betting-wrapper">
+    <% if !@user_last_bet || @user_last_bet.amount < @hand_last_bet.amount %>
+    <div>
+      <p>Fold</p>
+    </div>
+    <% end %>
+
+    <div class="betting">
+      <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
+        <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: 1, max:30, step: 1, value: 5 } %> <span id="result"></span>
+        <%= f.submit %>
+      <% end %>
+    </div>
+  </div>
 <% end %>
