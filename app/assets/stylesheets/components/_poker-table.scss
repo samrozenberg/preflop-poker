@@ -64,7 +64,8 @@
 }
 
 .games-show {
-  background-color: rgba($color: #000000, $alpha: 0.2);
+  background-image: url("https://i.pinimg.com/736x/c8/d8/33/c8d8337b5bd910618bf97a569889d787.jpg");
+  background-size: cover;
 }
 
 .position-0 .button {
@@ -243,4 +244,9 @@ height: 22px;
 .casino-chip {
   width: 32px;
   height: 32px;
+}
+
+
+.games-show .container {
+  height: 80%;
 }

@@ -59,8 +59,10 @@
 }
 
 .betting-wrapper {
-  border: 1px solid black;
-  width: fit-content;
+  width: auto;
+  justify-content: end;
+  margin-top: -54px;
+  margin-right: -70px;
 }
 
 .betting-range {
