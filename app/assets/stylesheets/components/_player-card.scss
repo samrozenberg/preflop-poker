@@ -3,5 +3,12 @@
 }
 
 .current-better {
-  background-color: rgb(196, 255, 196)!important;
+  animation: blinker 2s linear infinite;
+  border: 8px solid transparent;
+}
+
+@keyframes blinker {
+  50% {
+    border-color: rgb(255, 175, 175);
+  }
 }

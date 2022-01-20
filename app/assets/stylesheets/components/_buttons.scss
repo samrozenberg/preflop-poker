@@ -16,18 +16,62 @@
 .raise-button {
   margin-bottom: -30px;
   padding-bottom: 24px;
-  width: 100px;
+  width: 140px;
+  border: none;
+  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .raise-amount {
-  width: 100px;
   text-align: center;
+  margin-right: 14px;
 }
 
-.call-button {
+.action-button {
   border: none;
   background-color: blue;
   color: white;
   padding: 10px 20px;
-  margin: 0
+  margin: 0;
+  text-decoration: none;
+  width: 140px;
+  height: 49px;
+  margin: 0 10px;
+  text-align: center;
+  &:hover {
+    color: white;
+  }
+}
+
+.call {
+  display: flex;
+  align-items: flex-end
+}
+
+.fold {
+  display: flex;
+  align-items: flex-end
+}
+
+.check {
+  display: flex;
+  align-items: flex-end
+}
+
+.betting-wrapper {
+  width: auto;
+  justify-content: end;
+  margin-top: -54px;
+  margin-right: -70px;
+}
+
+.betting-range {
+  margin-right: -20px;
+}
+
+.bet_amount {
+  margin-right: 26px;
+  margin-left: 10px;
+  width: 140px;
+  margin-bottom: 0!important;
 }
