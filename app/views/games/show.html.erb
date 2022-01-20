@@ -73,7 +73,6 @@
             <%= image_tag "casino-chip.png", class: "casino-chip" %>
             <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
           </div>
-          <%= raise %>
         <% end %>
       </div>
      <% player_position += 1 %>
