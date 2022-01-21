@@ -39,16 +39,23 @@
     <% end %>
     <div class="player-infos position-<%=player_position%>">
       <div class="player-cards-wrapper">
-        <% if user == @user && @in_hand_players.include?(user) %>
+        <% if (user == @user && @in_hand_players.include?(user)) || () %>
           <div class="text-center d-flex justify-content-center">
             <%= image_tag "#{@current_hand.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
             <%= image_tag "#{@current_hand.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
           </div>
         <% elsif @in_hand_players.include?(user) %>
-          <div class="text-center d-flex justify-content-center">
-            <%= image_tag "card_back.png", class: "user-cards-1" %>
-            <%= image_tag "card_back.png", class: "user-cards-2" %>
-          </div>
+          <% if @current_hand.better == nil  %>
+            <div class="text-center d-flex justify-content-center">
+              <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1" %>
+              <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2" %>
+            </div>
+          <% else %>
+            <div class="text-center d-flex justify-content-center">
+              <%= image_tag "card_back.png", class: "user-cards-1" %>
+              <%= image_tag "card_back.png", class: "user-cards-2" %>
+            </div>
+          <% end %>
         <% else %>
           <div class="text-center d-flex justify-content-center">
             <div class="transparent"></div>
