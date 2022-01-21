@@ -70,6 +70,9 @@ class HandsController < ApplicationController
     else
       next_better_index = 0
     end
+    if @in_hand_players[next_better_index].bets.where(hand: @hand).last.amount == @hand.bets.last.amount && @in_hand_players[next_better_index] == @hand.button
+      next_better_index = 500_000
+    end
     @hand.update_attribute(:better, @in_hand_players[next_better_index])
     redirect_to game_path(@game)
   end
