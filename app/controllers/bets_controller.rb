@@ -19,6 +19,9 @@ class BetsController < ApplicationController
     else
       next_better_index = 0
     end
+    if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last && @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == 30
+      next_better_index = 500_000
+    end
     @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
     redirect_to game_path(@game)
   end
