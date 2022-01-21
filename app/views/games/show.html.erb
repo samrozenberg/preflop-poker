@@ -56,7 +56,7 @@
           </div>
         <% end %>
       </div>
-      <div class="player-card <%= 'current-better' if @current_hand && @current_hand.better == user %> d-flex justify-content-around align-items-center">
+      <div class="player-card <%= 'current-better' if @current_hand && @current_hand.better == user && @current_hand.flop_cards.count == 0 %> d-flex justify-content-around align-items-center">
         <div class= "d-flex justify-content-around flex-grow-1">
           <h3 class="text-center mb-0"><%= user.pseudo %></h3>
           <div class="d-flex justify-content-center align-items-center" >
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<% if @current_hand && @user == @current_hand.better %>
+<% if @current_hand && @user == @current_hand.better && @current_hand.flop_cards.count == 0 %>
   <div class="betting-wrapper d-flex">
     <% if !@user_last_bet || @user_last_bet.amount < @hand_last_bet.amount %>
       <div class="fold">
