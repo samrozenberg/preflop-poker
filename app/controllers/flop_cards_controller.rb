@@ -3,7 +3,7 @@ class FlopCardsController < ApplicationController
     @game = Game.find(params[:game_id])
     @hand = @game.hands.last
     @used_cards = []
-    @game.hands.last.user_cards.each do |user_card|
+    @hand.user_cards.each do |user_card|
       @used_cards << user_card.deck_card
     end
     @available_cards = DeckCard.all - @used_cards
