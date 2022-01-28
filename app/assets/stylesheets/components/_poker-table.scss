@@ -253,10 +253,21 @@ height: 22px;
 
 .hand-strength {
   width: 60%;
+  height: 26px;
   color: white;
   border: 1px solid grey;
   border-radius: 0px 0px 10px 10px;
   background-color: rgba(255, 255, 255, 0.6);
+  padding: 2px 5px;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  margin-top: -2px;
+}
+
+.empty-hand-strength {
+  width: 60%;
+  height: 26px;
   padding: 2px 5px;
   font-size: 14px;
   display: flex;
