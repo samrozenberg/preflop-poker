@@ -41,16 +41,16 @@ class RiverCardsController < ApplicationController
 
       if pokerhand > winning_poker_hand
         winning_poker_hand = pokerhand
-        current_winner = user_hand.user
+        winners.clear
+        winners << user_hand.user
       elsif pokerhand == winning_poker_hand
-        winner2 = user_hand.user
-        @hand.update_attribute(:winner2, winner2)
+        winners << user_hand.user
       end
     end
 
-
-    HandWinner.create(hand: @hand, winner: )
-    # @hand.update_attribute(:winner)
+    winners.each do |winner|
+      HandWinner.create(hand: @hand, winner: winner)
+    end
 
     redirect_to game_path(@game)
   end

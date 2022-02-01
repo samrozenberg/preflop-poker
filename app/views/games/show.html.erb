@@ -190,3 +190,11 @@
     <% end %>
   </div>
 <% end %>
+
+<% if HandWinner.where(hand: @current_hand) %>
+  <div class="hand-winner">
+    <% HandWinner.where(hand: @current_hand).each do |hand_winner| %>
+      <p><%= hand_winner.winner.pseudo %> wins the pot !</p>
+    <% end %>
+  </div>
+<% end %>
