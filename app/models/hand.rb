@@ -10,5 +10,6 @@ class Hand < ApplicationRecord
   has_many :flop_cards
   has_many :turn_cards
   has_many :river_cards
+  has_many :hand_winners
   has_many :users, through: :user_hands
 end

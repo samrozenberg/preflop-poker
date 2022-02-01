@@ -19,6 +19,8 @@ class RiverCardsController < ApplicationController
     @available_cards = DeckCard.all - @used_cards
     RiverCard.create(hand: @hand, deck_card: @available_cards.sample)
 
+    winning_poker_hand = PokerHand.new("")
+
     UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
       card_combination = []
       UserCard.where(user: user_hand.user, hand: @hand).each do |card|
@@ -35,7 +37,19 @@ class RiverCardsController < ApplicationController
       end
       pokerhand = PokerHand.new(card_combination)
       user_hand.update_attribute(:rank, pokerhand.rank)
+
+      if pokerhand > winning_poker_hand
+        winning_poker_hand = pokerhand
+        current_winner = user_hand.user
+      elsif pokerhand == winning_poker_hand
+        winner2 = user_hand.user
+        @hand.update_attribute(:winner2, winner2)
+      end
     end
+
+
+    HandWinner.create(hand: @hand, winner: )
+    # @hand.update_attribute(:winner)
 
     redirect_to game_path(@game)
   end
