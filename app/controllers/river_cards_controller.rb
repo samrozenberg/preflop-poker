@@ -20,6 +20,7 @@ class RiverCardsController < ApplicationController
     RiverCard.create(hand: @hand, deck_card: @available_cards.sample)
 
     winning_poker_hand = PokerHand.new("")
+    winners = []
 
     UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
       card_combination = []
