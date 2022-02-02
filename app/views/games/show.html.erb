@@ -191,10 +191,20 @@
   </div>
 <% end %>
 
-<% if HandWinner.where(hand: @current_hand) %>
+<% if !@current_hand_winners.empty? %>
   <div class="hand-winner">
-    <% HandWinner.where(hand: @current_hand).each do |hand_winner| %>
-      <p><%= hand_winner.winner.pseudo %> wins the pot !</p>
+    <% if @current_hand_winners.count == 1  %>
+        <p><%= @current_hand_winners[0] %> wins the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 2 %>
+      <p><%= @current_hand_winners[0] %> and <%= @current_hand_winners[1] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 3 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %> and <%= @current_hand_winners[2] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 4 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %> and <%= @current_hand_winners[3] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 5 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %>, <%= @current_hand_winners[3] %> and <%= @current_hand_winners[4] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 6 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %>, <%= @current_hand_winners[3] %>, <%= @current_hand_winners[4] %> and <%= @current_hand_winners[5] %> split the pot ! (<%= @pot %>€)</p>
     <% end %>
   </div>
 <% end %>
