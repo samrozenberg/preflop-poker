@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_04_194039) do
+ActiveRecord::Schema.define(version: 2022_02_01_022504) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 2022_01_04_194039) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "url"
+    t.string "code"
   end
 
   create_table "flop_cards", force: :cascade do |t|
@@ -45,6 +46,15 @@ ActiveRecord::Schema.define(version: 2022_01_04_194039) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "hand_winners", force: :cascade do |t|
+    t.bigint "hand_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "winner_id"
+    t.index ["hand_id"], name: "index_hand_winners_on_hand_id"
+    t.index ["winner_id"], name: "index_hand_winners_on_winner_id"
   end
 
   create_table "hands", force: :cascade do |t|
@@ -109,6 +119,7 @@ ActiveRecord::Schema.define(version: 2022_01_04_194039) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "active"
+    t.string "rank"
     t.index ["hand_id"], name: "index_user_hands_on_hand_id"
     t.index ["user_id"], name: "index_user_hands_on_user_id"
   end
@@ -131,6 +142,8 @@ ActiveRecord::Schema.define(version: 2022_01_04_194039) do
   add_foreign_key "bets", "users"
   add_foreign_key "flop_cards", "deck_cards"
   add_foreign_key "flop_cards", "hands"
+  add_foreign_key "hand_winners", "hands"
+  add_foreign_key "hand_winners", "users", column: "winner_id"
   add_foreign_key "hands", "games"
   add_foreign_key "hands", "users", column: "better_id"
   add_foreign_key "hands", "users", column: "big_blind_id"

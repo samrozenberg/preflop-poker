@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_many :deck_cards, through: :user_cards
   has_many :hands, through: :user_hands
   has_many :games, through: :reservations
+  has_many :hand_winners
   validates :name, presence: true
   validates :pseudo, presence: true, uniqueness: true
 end

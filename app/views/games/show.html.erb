@@ -82,7 +82,17 @@
           </div>
         <% end %>
       </div>
-     <% player_position += 1 %>
+      <% player_position += 1 %>
+      <% if @in_hand_players.include?(user) && @current_hand.flop_cards.count == 3 %>
+        <div class="d-flex justify-content-center">
+          <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
+        </div>
+      <% else %>
+        <div class="d-flex justify-content-center">
+        <p class="empty-hand-strength">
+        </p>
+        </div>
+      <% end %>
     </div>
   <% end %>
   <div>
@@ -177,6 +187,24 @@
           <% end %>
         </div>
       <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<% if !@current_hand_winners.empty? %>
+  <div class="hand-winner">
+    <% if @current_hand_winners.count == 1  %>
+        <p><%= @current_hand_winners[0] %> wins the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 2 %>
+      <p><%= @current_hand_winners[0] %> and <%= @current_hand_winners[1] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 3 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %> and <%= @current_hand_winners[2] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 4 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %> and <%= @current_hand_winners[3] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 5 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %>, <%= @current_hand_winners[3] %> and <%= @current_hand_winners[4] %> split the pot ! (<%= @pot %>€)</p>
+    <% elsif @current_hand_winners.count == 6 %>
+      <p><%= @current_hand_winners[0] %>, <%= @current_hand_winners[1] %>, <%= @current_hand_winners[2] %>, <%= @current_hand_winners[3] %>, <%= @current_hand_winners[4] %> and <%= @current_hand_winners[5] %> split the pot ! (<%= @pot %>€)</p>
     <% end %>
   </div>
 <% end %>

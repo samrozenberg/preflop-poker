@@ -19,6 +19,10 @@ class GamesController < ApplicationController
       @active_players << reservation.user
     end
     @current_hand = @game.hands.last
+    @current_hand_winners = []
+    HandWinner.where(hand: @current_hand).each do |hand_winner|
+      @current_hand_winners << hand_winner.winner.pseudo
+    end
     @in_hand_players = []
     UserHand.where(hand: @current_hand, active: true).each do |userhand|
       @in_hand_players << userhand.user
