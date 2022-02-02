@@ -45,7 +45,48 @@ class GamesController < ApplicationController
         end
       end
     end
+    @used_cards = []
+    @current_hand.user_cards.each do |user_card|
+      @used_cards << user_card.deck_card
+    end
+    @current_hand.flop_cards.each do |flop_card|
+      @used_cards << flop_card.deck_card
+    end
+    @current_hand.turn_cards.each do |turn_card|
+      @used_cards << turn_card.deck_card
+    end
+    @available_cards = DeckCard.all - @used_cards
 
+    if @current_hand.flop_cards.count == 0
+      @combinations = @available_cards.combination(2).to_a.sample(10000)
+    elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0
+      @combinations = @available_cards.combination(2).to_a
+    elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0
+      @combinations = @available_cards.combination(1).to_a
+    end
+
+    @players_card_combinations = []
+    @in_hand_players.each do |player|
+      instance_variable_set("@#{player.pseudo}_cards", [])
+      UserCard.where(hand: @current_hand, user: player).each do |card|
+        instance_variable_get("@#{player.pseudo}_cards") << card.deck_card.code
+      end
+      @players_card_combinations << instance_variable_get("@#{player.pseudo}_cards")
+    end
+
+    if @current_hand.river_cards.count == 0
+      @combinations.each do |combination|
+        combination.each do |card|
+          @players_card_combinations.each do |player_combination|
+            if player_combination.count == 5
+              player_combination.pop(3)
+              player_combination << card.code
+            end
+          end
+        end
+      end
+    end
+    raise
   end
 
   def new
