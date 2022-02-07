@@ -63,8 +63,8 @@ class FlopCardsController < ApplicationController
       end
       pokerhand = PokerHand.new(card_combination)
       user_hand.update_attribute(:rank, pokerhand.rank)
-      odd = (@winners.count(user_hand.user)) / @combination.count
-      raise
+      odd = "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(0)}%"
+      user_hand.update_attribute(:odds, odd)
     end
 
     redirect_to game_path(@game)

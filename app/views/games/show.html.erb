@@ -85,7 +85,7 @@
       <% player_position += 1 %>
       <% if @in_hand_players.include?(user) && @current_hand.flop_cards.count == 3 %>
         <div class="d-flex justify-content-center">
-          <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
+          <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %> <%= UserHand.where(user: user, hand: @current_hand)[0].odds %></p>
         </div>
       <% else %>
         <div class="d-flex justify-content-center">
