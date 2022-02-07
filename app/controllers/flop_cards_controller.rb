@@ -20,7 +20,7 @@ class FlopCardsController < ApplicationController
       @flop_cards << card.deck_card
     end
     @combination_available_cards = @available_cards - @flop_cards
-    @combinations = @combination_available_cards.combination(2).to_a
+    @combinations = @combination_available_cards.combination(2).to_a.sample(300)
 
     @current_hand = @game.hands.last
 
