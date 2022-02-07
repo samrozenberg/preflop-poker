@@ -45,17 +45,6 @@ class GamesController < ApplicationController
         end
       end
     end
-    @used_cards = []
-    @current_hand.user_cards.each do |user_card|
-      @used_cards << user_card.deck_card
-    end
-    @current_hand.flop_cards.each do |flop_card|
-      @used_cards << flop_card.deck_card
-    end
-    @current_hand.turn_cards.each do |turn_card|
-      @used_cards << turn_card.deck_card
-    end
-    @available_cards = DeckCard.all - @used_cards
 
     # if @current_hand.flop_cards.count == 0
     #   @combinations = @available_cards.combination(5).to_a.sample(1000)
