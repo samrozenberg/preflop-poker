@@ -57,42 +57,42 @@ class GamesController < ApplicationController
     end
     @available_cards = DeckCard.all - @used_cards
 
-    # if @current_hand.flop_cards.count == 0
-    #   @combinations = @available_cards.combination(5).to_a.sample(100)
-    # elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0
-    #   @combinations = @available_cards.combination(2).to_a.sample(200)
-    # elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0
-    #   @combinations = @available_cards.combination(1).to_a
-    # end
+    if @current_hand.flop_cards.count == 0
+      @combinations = @available_cards.combination(5).to_a.sample(1000)
+    elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0
+      @combinations = @available_cards.combination(2).to_a.sample(200)
+    elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0
+      @combinations = @available_cards.combination(1).to_a
+    end
 
-    # @players_card_combinations = []
-    # @in_hand_players.each do |player|
-    #   instance_variable_set("@#{player.pseudo}_cards", [])
-    #   UserCard.where(hand: @current_hand, user: player).each do |card|
-    #     instance_variable_get("@#{player.pseudo}_cards") << card.deck_card.code
-    #   end
-    #   @players_card_combinations << instance_variable_get("@#{player.pseudo}_cards")
-    # end
+    @players_card_combinations = []
+    @in_hand_players.each do |player|
+      instance_variable_set("@#{player.pseudo}_cards", [])
+      UserCard.where(hand: @current_hand, user: player).each do |card|
+        instance_variable_get("@#{player.pseudo}_cards") << card.deck_card.code
+      end
+      @players_card_combinations << instance_variable_get("@#{player.pseudo}_cards")
+    end
 
-    # winning_simulation = PokerHand.new("")
+    @winners = []
 
-    # if @current_hand.river_cards.count == 0
-    #   @combinations.each do |combination|
-    #     combination.each do |card|
-    #       @players_card_combinations.each do |player_combination|
-    #         player_combination << card.code
-    #       end
-    #     end
-    #     @in_hand_players.each do |player|
-    #       instance_variable_set("@#{player.pseudo}_pokerhand", PokerHand.new(instance_variable_get("@#{player.pseudo}_cards")))
-    #       if instance_variable_get("@#{player.pseudo}_pokerhand") > winning_simulation
-    #       winning_simulation = instance_variable_get("@#{player.pseudo}_pokerhand")
-    #       winners.clear
-    #       winners << user_hand.user
-    #       end
-    #     end
-    #   end
-    # end
+    if @current_hand.river_cards.count == 0 && @current_hand
+      @combinations.each do |combination|
+        winning_simulation = PokerHand.new("")
+        winning_player = @in_hand_players[0]
+        @in_hand_players.each do |player|
+          instance_variable_set("@#{player.pseudo}_pokerhand", PokerHand.new(instance_variable_get("@#{player.pseudo}_cards")))
+          combination.each do |card|
+            instance_variable_get("@#{player.pseudo}_pokerhand") << card.code
+          end
+          if instance_variable_get("@#{player.pseudo}_pokerhand") > winning_simulation
+            winning_simulation = instance_variable_get("@#{player.pseudo}_pokerhand")
+            winning_player = player
+          end
+        end
+        @winners << winning_player
+      end
+    end
   end
 
   def new
