@@ -30,29 +30,3 @@ function change() {
   result.innerText = amount.value;
 }
 amount.addEventListener('change', change);
-
-// import { TexasHoldem, SixPlusHoldem, Omaha } from './index';
-
-// const Table = new TexasHoldem();
-// Table
-//   .addPlayer(["Qs", "Ks"])
-//   .addPlayer(["Qd", "Kd"])
-
-//   .setBoard(["Js", "Ts", "5h", "Td"])
-//   // or
-//   .boardAction(board => {
-//     board
-//       .setFlop(["Js", "Ts", "5h"])
-//       .setTurn("Td")
-//   })
-//   ;
-
-// const Result = Table.calculate();
-
-// Result.getPlayers().forEach(player => {
-//   console.log(`${player.getName()} - ${player.getHand()} - Wins: ${player.getWinsPercentageString()} - Ties: ${player.getTiesPercentageString()}`);
-// });
-
-// console.log(`Board: ${Result.getBoard()}`);
-// console.log(`Iterations: ${Result.getIterations()}`);
-// console.log(`Time takes: ${Result.getTime()}ms`);
