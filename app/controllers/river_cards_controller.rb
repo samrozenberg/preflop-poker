@@ -52,6 +52,13 @@ class RiverCardsController < ApplicationController
       HandWinner.create(hand: @hand, winner: winner)
     end
 
+    @in_hand_players.each do |player|
+      if winners.include?(player)
+        UserHand.where(hand: @hand, user: player)[0].update_attribute(:odds, "100%")
+      else
+        UserHand.where(hand: @hand, user: player)[0].update_attribute(:odds, "0%")
+      end
+    end
     redirect_to game_path(@game)
   end
 end

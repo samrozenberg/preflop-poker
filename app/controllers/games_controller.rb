@@ -46,6 +46,15 @@ class GamesController < ApplicationController
       end
     end
 
+    # if @current_hand.flop_cards.count == 0
+    #   @combinations = @available_cards.combination(5).to_a.sample(1000)
+    # elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0
+    #   @combinations = @available_cards.combination(2).to_a.sample(200)
+    # elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0
+    #   @combinations = @available_cards.combination(1).to_a
+    # end
+
+
   end
 
   def new
