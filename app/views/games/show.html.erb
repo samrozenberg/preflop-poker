@@ -1,18 +1,20 @@
-<h1 class = "text-center mb-5"><%= @game.name %></h1>
+<div class="game-infos">
+  <h1><%= @game.name %></h1>
 
-<% if !@game.users.include?(current_user) %>
-  <%= simple_form_for [@game, @reservation] do |f|%>
-    <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
-  <% end %>
-<% else %>
-  <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
-  <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
-  <% if @game.reservations.where(user_id: current_user.id)[0].active %>
-    <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-danger" %>
+  <% if !@game.users.include?(current_user) %>
+    <%= simple_form_for [@game, @reservation] do |f|%>
+      <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
+    <% end %>
   <% else %>
-   <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-success" %>
+    <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
+    <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
+    <% if @game.reservations.where(user_id: current_user.id)[0].active %>
+      <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+    <% else %>
+      <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-success" %>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
 
 <% player_position = 1 %>
