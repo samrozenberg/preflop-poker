@@ -1,6 +1,5 @@
 .navbar-lewagon {
   justify-content: space-between;
-  background: white;
   padding-left: 20px;
   padding-right: 10px;
 }
@@ -24,4 +23,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.navbar-margin {
+  margin-right: 28px;
+}
+
+.navbar-expand-sm .navbar-nav .nav-link {
+  border-bottom: 3px solid transparent;
+  padding: 0;
+}
+
+.pages-home #nav-link-home {
+    border-bottom: 3px solid red ;
+}
+
+.games-index #nav-link-games {
+    border-bottom: 3px solid red ;
+}
+
+.pages-dashboard #nav-link-dashboard {
+    border-bottom: 3px solid red ;
+}
+
+.align-pseudo {
+  border-bottom: 3px solid transparent;
 }
