@@ -46,15 +46,19 @@ class GamesController < ApplicationController
       end
     end
 
-    # if @current_hand.flop_cards.count == 0
-    #   @combinations = @available_cards.combination(5).to_a.sample(1000)
-    # elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0
-    #   @combinations = @available_cards.combination(2).to_a.sample(200)
-    # elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0
-    #   @combinations = @available_cards.combination(1).to_a
-    # end
-
-
+    if @current_hand.flop_cards.count == 3
+      @current_winners = []
+      @biggest_odd = 0
+      @in_hand_players.each do |player|
+        if UserHand.where(user: player, hand: @current_hand)[0].odds.to_f > @biggest_odd
+          @biggest_odd = UserHand.where(user: player, hand: @current_hand)[0].odds.to_f
+          @current_winners.clear
+          @current_winners << player
+        elsif UserHand.where(user: player, hand: @current_hand)[0].odds.to_f == @biggest_odd
+          @current_winners << player
+        end
+      end
+    end
   end
 
   def new
