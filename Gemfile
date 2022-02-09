@@ -35,7 +35,6 @@ gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'devise'
 gem 'ruby-poker'
-gem 'simple_form_extension'
 
 group :development, :test do
   gem 'pry-byebug'
