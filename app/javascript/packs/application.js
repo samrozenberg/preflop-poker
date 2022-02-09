@@ -8,6 +8,9 @@ require("turbolinks").start()
 require("@rails/activestorage").start()
 require("channels")
 
+require("simple_form_extension")
+
+
 
 // import { joinGame } from "../game_features/join_game"
 // joinGame()
