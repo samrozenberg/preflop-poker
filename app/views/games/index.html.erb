@@ -1,10 +1,11 @@
-<h1 class="text-center">All Games</h1>
+<%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost" %>
 
-<ul>
+<div class="cards">
   <% @games.each do |game| %>
-    <li><%= link_to game.name, game_path(game), target: :_blank %></li>
+    <%= link_to game_path(game), target: :_blank do %>
+      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= @poker_url.sample %>)">
+        <%= game.name %>
+      </div>
+    <% end  %>
   <% end %>
-</ul>
-
-
-<%= link_to "Create a new Game", new_game_path, class: "btn btn-success"  %>
+</div>

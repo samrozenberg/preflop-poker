@@ -10,13 +10,16 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active align-navbar-item">
-        <a class="nav-link" href="/games">Games</a>
+        <a class="nav-link navbar-margin" id="nav-link-home" href="/">Home</a>
+      </li>
+      <li class="nav-item active align-navbar-item">
+        <a class="nav-link navbar-margin" id="nav-link-games" href="/games">Games</a>
       </li>
       <li class="nav-item align-navbar-item">
-        <a class="nav-link" href="/dashboard">Dashboard</a>
+        <a class="nav-link navbar-margin" id="nav-link-dashboard" href="/dashboard">Dashboard</a>
       </li>
       <% if user_signed_in? %>
-          <li class="nav-item align-navbar-item me-2 ms-4" >🟢<%= current_user.pseudo%></li>
+          <li class="nav-item align-navbar-item me-2 ms-4 align-pseudo" >🟢<%= current_user.pseudo%></li>
       <% end %>
 
 

@@ -1,18 +1,21 @@
-<h1 class = "text-center mb-5"><%= @game.name %></h1>
-
-<% if !@game.users.include?(current_user) %>
-  <%= simple_form_for [@game, @reservation] do |f|%>
-    <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
-  <% end %>
-<% else %>
-  <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
-  <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
-  <% if @game.reservations.where(user_id: current_user.id)[0].active %>
-    <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-danger" %>
-  <% else %>
-   <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-success" %>
-  <% end %>
-<% end %>
+<div class="game-infos">
+  <h1><%= @game.name %></h1>
+  <div class="d-flex justify-content-end align-items-end">
+    <% if !@game.users.include?(current_user) %>
+      <%= simple_form_for [@game, @reservation] do |f|%>
+        <div><%= f.submit 'Join this Game !', class: "btn btn-flat"%></div>
+      <% end %>
+    <% else %>
+      <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
+      <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
+      <% if @game.reservations.where(user_id: current_user.id)[0].active %>
+        <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+      <% else %>
+        <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-flat" %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
 
 
 <% player_position = 1 %>
@@ -39,7 +42,7 @@
     <% end %>
     <div class="player-infos position-<%=player_position%>">
       <div class="player-cards-wrapper">
-        <% if (user == @user && @in_hand_players.include?(user)) || () %>
+        <% if (user == @user && @in_hand_players.include?(user)) %>
           <div class="text-center d-flex justify-content-center">
             <%= image_tag "#{@current_hand.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1" %>
             <%= image_tag "#{@current_hand.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2" %>
@@ -52,8 +55,8 @@
             </div>
           <% else %>
             <div class="text-center d-flex justify-content-center">
-              <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1" %>
-              <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2" %>
+              <%= image_tag "card_back.png", class: "user-cards-1" %>
+              <%= image_tag "card_back.png", class: "user-cards-2" %>
             </div>
           <% end %>
         <% else %>
@@ -63,6 +66,11 @@
           </div>
         <% end %>
       </div>
+      <% if  UserHand.where(user: user, hand: @current_hand)[0] %>
+        <div class="percentage" id="<%= 'current-winner' if @current_winners && @current_winners.include?(user) %>">
+          <%= UserHand.where(user: user, hand: @current_hand)[0].odds %>
+        </div>
+      <% end %>
       <div class="player-card <%= 'current-better' if @current_hand && @current_hand.better == user && @current_hand.flop_cards.count == 0 %> d-flex justify-content-around align-items-center">
         <div class= "d-flex justify-content-around flex-grow-1">
           <h3 class="text-center mb-0"><%= user.pseudo %></h3>
@@ -85,7 +93,7 @@
       <% player_position += 1 %>
       <% if @in_hand_players.include?(user) && @current_hand.flop_cards.count == 3 %>
         <div class="d-flex justify-content-center">
-          <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %> <%= UserHand.where(user: user, hand: @current_hand)[0].odds %></p>
+          <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
         </div>
       <% else %>
         <div class="d-flex justify-content-center">

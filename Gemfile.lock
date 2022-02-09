@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/glyph-fr/redactor-rails.git
+  revision: 6f6655fd71199700f2e5d7bc1f7f3c19f37dde50
+  specs:
+    redactor-rails (0.6.0)
+      mime-types
+      orm_adapter
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -111,6 +119,9 @@ GEM
     marcel (1.0.2)
     matrix (0.4.2)
     method_source (1.0.0)
+    mime-types (3.4.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2022.0105)
     mini_mime (1.1.2)
     minitest (5.14.4)
     msgpack (1.4.2)
@@ -250,6 +261,7 @@ DEPENDENCIES
   pry-rails
   puma (~> 4.1)
   rails (~> 6.0.4, >= 6.0.4.1)
+  redactor-rails!
   ruby-poker
   sass-rails (>= 6)
   selenium-webdriver

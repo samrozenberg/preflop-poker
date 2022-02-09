@@ -1,0 +1,37 @@
+.game-infos {
+  margin-bottom: 40px;
+  color: white;
+  border: 1px solid black;
+  width: fit-content;
+  margin-left: -6%;
+  background-color: rgba($color: black, $alpha: 0.4);
+  padding: 10px;
+}
+
+.btn-leave {
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: rgba($color: red, $alpha: 0.8);
+  transition: background 0.3s ease;
+  font-size: smaller;
+}
+
+.btn-leave:hover {
+  background: rgb(158, 0, 0);
+  color: white;
+}
+
+.btn-flat {
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: #00ad5f;
+  transition: background 0.3s ease;
+  font-size: smaller;
+}
+
+.btn-flat:hover {
+  background: #008001;
+  color: white;
+}
