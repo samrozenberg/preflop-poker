@@ -189,7 +189,7 @@
       <% unless @hand_last_bet.amount == 30 %>
         <div class="raise">
           <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
-            <%= f.input :amount, as: :range, min: 0, max: 10 %>
+            <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: @min_raise, max:30, step: 1, value: @min_raise }, class: "betting-range" %>
             <%= f.submit "Raise to", class:"raise-button me-3" %>
             <div class="raise-amount"><span id="result"><%= @min_raise %></span><span>€</span></div>
           <% end %>
