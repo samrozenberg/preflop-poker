@@ -20,27 +20,37 @@
   border: none;
   margin-right: 10px;
   margin-left: 10px;
+  color: white;
+  background: linear-gradient(0deg, rgba($color: rgb(100, 0, 0), $alpha: 0.3), red);
+  border-radius: 5px;
+}
+
+.raise-button:hover {
+  color: white;
+  background: linear-gradient(0deg, rgba($color: rgb(100, 0, 0), $alpha: 0.3), rgb(200, 0, 0));
 }
 
 .raise-amount {
   text-align: center;
   margin-right: 14px;
+  color: white;
 }
 
 .action-button {
   border: none;
-  background-color: blue;
+  background: linear-gradient(0deg, rgba($color: rgb(100, 0, 0), $alpha: 0.3), red);
   color: white;
+  border-radius: 5px;
   padding: 10px 20px;
-  margin: 0;
-  text-decoration: none;
   width: 140px;
   height: 49px;
   margin: 0 10px;
   text-align: center;
-  &:hover {
-    color: white;
-  }
+}
+
+.action-button:hover {
+  color: white;
+  background: linear-gradient(0deg, rgba($color: rgb(100, 0, 0), $alpha: 0.3), rgb(200, 0, 0));
 }
 
 .call {
@@ -74,4 +84,9 @@
   margin-left: 10px;
   width: 140px;
   margin-bottom: 0!important;
+}
+
+
+input[name="bet[amount]"] {
+  color: white !important;
 }

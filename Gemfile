@@ -35,6 +35,7 @@ gem 'font-awesome-sass'
 gem 'simple_form'
 gem 'devise'
 gem 'ruby-poker'
+gem 'simple_form_extension'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -64,3 +65,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'redactor-rails', github: 'glyph-fr/redactor-rails'

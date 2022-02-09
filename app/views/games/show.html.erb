@@ -1,19 +1,20 @@
 <div class="game-infos">
   <h1><%= @game.name %></h1>
-
-  <% if !@game.users.include?(current_user) %>
-    <%= simple_form_for [@game, @reservation] do |f|%>
-      <div><%= f.submit 'Join this Game !', class: "btn btn-success"%></div>
-    <% end %>
-  <% else %>
-    <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
-    <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
-    <% if @game.reservations.where(user_id: current_user.id)[0].active %>
-      <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+  <div class="d-flex justify-content-end align-items-end">
+    <% if !@game.users.include?(current_user) %>
+      <%= simple_form_for [@game, @reservation] do |f|%>
+        <div><%= f.submit 'Join this Game !', class: "btn btn-flat"%></div>
+      <% end %>
     <% else %>
-      <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-success" %>
+      <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
+      <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
+      <% if @game.reservations.where(user_id: current_user.id)[0].active %>
+        <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+      <% else %>
+        <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-flat" %>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 </div>
 
 
@@ -188,7 +189,7 @@
       <% unless @hand_last_bet.amount == 30 %>
         <div class="raise">
           <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
-            <%= f.input :amount, label: false, as: :range, input_html: { id: 'amount', min: @min_raise, max:30, step: 1, value: @min_raise }, class: "betting-range" %>
+            <%= f.input :amount, name:"input-slider", label: false, as: :range, input_html: { id: 'amount', min: @min_raise, max:30, step: 1, value: @min_raise }, class: "betting-range" %>
             <%= f.submit "Raise to", class:"raise-button me-3" %>
             <div class="raise-amount"><span id="result"><%= @min_raise %></span><span>€</span></div>
           <% end %>
