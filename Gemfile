@@ -36,6 +36,8 @@ gem 'simple_form'
 gem 'devise'
 gem 'ruby-poker'
 gem 'simple_form_extension'
+gem "bootstrap", "~> 5.0"
+gem "bootstrap_form", "~> 5.0"
 
 group :development, :test do
   gem 'pry-byebug'

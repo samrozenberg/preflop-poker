@@ -32,7 +32,6 @@
 
 .raise-amount {
   text-align: center;
-  margin-right: 14px;
   color: white;
 }
 
@@ -84,4 +83,23 @@
   margin-left: 10px;
   width: 140px;
   margin-bottom: 0!important;
+}
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: rgb(234, 234, 234);
+  margin-left: 10px;
+  margin-bottom:  10px;
+  width: 140px;
+  height: 12px;
+  border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: rgb(249, 54, 54);
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
 }
