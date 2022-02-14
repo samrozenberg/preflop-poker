@@ -49,3 +49,17 @@
 .align-pseudo {
   border-bottom: 3px solid transparent;
 }
+
+.home-navbar {
+  background-color: rgba($color: black, $alpha: 0.8);
+  color: white;
+  #nav-link-home {
+    color: white;
+  }
+  #nav-link-games {
+    color: white;
+  }
+  #nav-link-dashboard {
+    color: white;
+  }
+}
