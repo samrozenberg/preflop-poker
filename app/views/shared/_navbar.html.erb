@@ -1,7 +1,14 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon">
-  <a class="navbar-brand" href="/">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" />
-  </a>
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon <%="home-navbar" if params[:action]=="home"%>">
+  <% if params[:action]=="home" %>
+    <a class="navbar-brand" href="/">
+     <p class="poker-symbols">♣️♦️</p>
+     <p class="poker-symbols">❤️♠️</p>
+    </a>
+  <% else %>
+    <a class="navbar-brand" href="/">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" />
+    </a>
+  <% end %>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -19,7 +26,7 @@
         <a class="nav-link navbar-margin" id="nav-link-dashboard" href="/dashboard">Dashboard</a>
       </li>
       <% if user_signed_in? %>
-          <li class="nav-item align-navbar-item me-2 ms-4 align-pseudo" >🟢<%= current_user.pseudo%></li>
+          <li class="nav-item align-navbar-item me-2 ms-4 align-pseudo" >🟢 <%= current_user.pseudo%></li>
       <% end %>
 
 

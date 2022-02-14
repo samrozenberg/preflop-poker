@@ -1,6 +1,16 @@
 // Specific CSS for your home-page
 .content-wrapper {
   min-height: calc(100vh - 90px - 80px);
-  padding-right: 3%;
+}
+
+.show-content-wrapper {
   padding-left: 3%;
+  padding-right: 3%;
+}
+
+.poker-symbols {
+  color: transparent;
+  text-shadow: 0 0 0 white;
+  margin: 0;
+  font-size: 18px;
 }
