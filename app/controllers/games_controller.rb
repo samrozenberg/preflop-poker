@@ -19,7 +19,6 @@ class GamesController < ApplicationController
     @game.reservations.where(active: true).each do |reservation|
       @active_players << reservation.user
     end
-    raise
     @current_hand = @game.hands.last
     @current_hand_winners = []
     HandWinner.where(hand: @current_hand).each do |hand_winner|
