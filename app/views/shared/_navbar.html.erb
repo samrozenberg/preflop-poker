@@ -16,32 +16,35 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active align-navbar-item">
-        <a class="nav-link navbar-margin" id="nav-link-home" href="/">Home</a>
-      </li>
-      <li class="nav-item active align-navbar-item">
-        <a class="nav-link navbar-margin" id="nav-link-games" href="/games">Games</a>
-      </li>
-      <li class="nav-item align-navbar-item">
-        <a class="nav-link navbar-margin" id="nav-link-dashboard" href="/dashboard">Dashboard</a>
-      </li>
       <% if user_signed_in? %>
-          <li class="nav-item align-navbar-item me-2 ms-4 align-pseudo" >🟢 <%= current_user.pseudo%></li>
-      <% end %>
+        <li class="nav-item active align-navbar-item">
+          <a class="nav-link navbar-margin" id="nav-link-home" href="/">Home</a>
+        </li>
+        <li class="nav-item active align-navbar-item">
+          <a class="nav-link navbar-margin" id="nav-link-games" href="/games">Games</a>
+        </li>
+        <li class="nav-item align-navbar-item">
+          <a class="nav-link navbar-margin" id="nav-link-dashboard" href="/dashboard">Dashboard</a>
+        </li>
+        <% if user_signed_in? %>
+            <li class="nav-item align-navbar-item me-2 ms-4 align-pseudo" >🟢 <%= current_user.pseudo%></li>
+        <% end %>
 
 
-      <li class="nav-item dropdown">
-        <%= image_tag "sam_photo.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
-        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-          <% if user_signed_in? %>
+        <li class="nav-item dropdown">
+          <%= image_tag "sam_photo.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
-          <% else %>
-            <%= link_to "Log In", new_user_session_path, class: "dropdown-item" %>
-            <%= link_to "Sign In", new_user_registration_path, class: "dropdown-item" %>
-
-          <% end %>
-        </div>
-      </li>
+          </div>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "Log In", new_user_session_path, class: "nav-link-logout" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "Sign Up", new_user_registration_path, class: "nav-link-logout", id: "sign-up-button" %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
