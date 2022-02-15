@@ -108,7 +108,14 @@
       <% if @active_players.count > 0 %>
         <div class="inner-table">
           <div>
-            <p class="pot">Pot: <%= @pot %>€</p>
+            <p class="pot">
+              Pot: <%= @pot %>€
+              <span class="remainder">
+              <% if @last_hand_remainder %>
+                (<%= @last_hand_remainder %>€ bonus)
+              <% end %>
+              </span>
+            </p>
           </div>
           <div class="board-cards">
             <% if @current_hand %>
