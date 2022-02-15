@@ -67,9 +67,6 @@ class RiverCardsController < ApplicationController
 
     winners.each do |winner|
       HandWinner.create(hand: @hand, winner: winner)
-      # reservation = @game.reservations.where(user: winner)[0]
-      # reservation.score += win_amount
-      # reservation.save
     end
 
     @game.reservations.where(active: true).each do |reservation|

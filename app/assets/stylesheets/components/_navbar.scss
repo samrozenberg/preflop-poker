@@ -63,3 +63,17 @@
     color: white;
   }
 }
+
+
+.nav-link-logout {
+  color: white;
+  margin-right: 20px;
+  &:hover {
+    border-bottom: 3px solid red ;
+    color: white;
+  }
+}
+
+#sign-up-button {
+  margin-right: 40px;
+}
