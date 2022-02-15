@@ -48,8 +48,28 @@ class RiverCardsController < ApplicationController
       end
     end
 
+    total_pot = 0
+    @game.hands.last.users.each do |user|
+      if user.bets.where(hand: @game.hands.last).last
+        total_pot += user.bets.where(hand: @game.hands.last).last.amount
+      end
+    end
+
+    if @game.hands[@game.hands.count - 2].remainder
+      total_pot += @game.hands[@game.hands.count - 2].remainder
+    end
+
+    win_amount = total_pot/(winners.count)
+
+    if total_pot.remainder(winners.count) != 0
+      @game.hands.last.update_attribute(:remainder, total_pot.remainder(winners.count))
+    end
+
     winners.each do |winner|
       HandWinner.create(hand: @hand, winner: winner)
+      reservation = @game.reservations.where(user: winner)[0]
+      reservation.score += win_amount
+      reservation.save
     end
 
     @in_hand_players.each do |player|

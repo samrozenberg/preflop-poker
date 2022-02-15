@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_02_153644) do
+ActiveRecord::Schema.define(version: 2022_02_15_002915) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2022_02_02_153644) do
     t.bigint "small_blind_id"
     t.bigint "big_blind_id"
     t.bigint "better_id"
+    t.integer "remainder"
     t.index ["better_id"], name: "index_hands_on_better_id"
     t.index ["big_blind_id"], name: "index_hands_on_big_blind_id"
     t.index ["button_id"], name: "index_hands_on_button_id"

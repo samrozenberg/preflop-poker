@@ -2,6 +2,10 @@ class BetsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
     @bet = Bet.new(bet_params)
+    @current_hand = @game.hands.last
+    if current_user.bets.where(hand: @current_hand).last
+      @better_last_bet = current_user.bets.where(hand: @current_hand).last.amount
+    end
     @bet.hand = @game.hands.last
     @bet.user = current_user
     @bet.save
@@ -25,6 +29,13 @@ class BetsController < ApplicationController
       end
     end
     @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
+    @user_reservation = @game.reservations.where(user: @bet.user)[0]
+    if current_user.bets.where(hand: @current_hand).count > 1
+      @user_reservation.score -= (@bet.amount - @better_last_bet)
+    else
+      @user_reservation.score -= @bet.amount
+    end
+    @user_reservation.save
     redirect_to game_path(@game)
   end
 
