@@ -72,7 +72,7 @@
 .position-0 .button {
   position: absolute;
 	top: -6%;
-  right: 104%;
+  right: 108%;
   border-radius: 50%;
   box-shadow: 0px 1px 5px black;
   height: 30px;
@@ -279,4 +279,23 @@ height: 22px;
 .remainder {
   font-size: smaller;
   color: lightgray;
+}
+
+
+.in-game-picture {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid lightgrey;
+}
+
+.position-0 .in-game-picture {
+  position: absolute;
+	top: -10%;
+  left: -4%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
 }
