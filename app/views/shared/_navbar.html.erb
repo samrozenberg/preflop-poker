@@ -32,7 +32,11 @@
 
 
         <li class="nav-item dropdown">
-          <%= image_tag "sam_photo.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <% if current_user.photo.attached? %>
+            <%= cl_image_tag current_user.photo.key, crop: :thumb, class: "user-pic dropdown-toggle", data: {bs_toggle: "dropdown"}, 'aria-haspopup': true, 'aria-expanded': false %>
+          <% else %>
+            <%= image_tag "sam_photo.png", class: "avatar dropdown-toggle", id: "navbarDropdown", data: { bs_toggle: "dropdown" }, 'aria-haspopup': true, 'aria-expanded': false %>
+          <% end %>
           <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <%= link_to "Log out", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
           </div>
