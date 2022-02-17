@@ -58,6 +58,7 @@
   position: relative;
   z-index: 2;
   box-shadow: 0px 1px 5px black;
+  border: 8px solid transparent;
 }
 
 .player-infos {
@@ -159,8 +160,8 @@
 
 .position-1 .bet-amount {
   position: absolute;
-	top: -26%;
-  right: -38%;
+	top: -36%;
+  right: -40%;
   padding: 4px 30px;
   border-radius: 20px;
   color: white;
@@ -176,8 +177,8 @@
 
 .position-2 .bet-amount {
   position: absolute;
-	top: 75%;
-  right: -38%;
+	top: 90%;
+  right: -40%;
   padding: 4px 30px;
   border-radius: 20px;
   color: white;
@@ -292,8 +293,58 @@ height: 22px;
 
 .position-0 .in-game-picture {
   position: absolute;
-	top: -10%;
-  left: -4%;
+	top: -24%;
+  left: -8%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.position-1 .in-game-picture {
+  position: absolute;
+	top: -24%;
+  left: 74%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.position-2 .in-game-picture {
+  position: absolute;
+	top: -24%;
+  left: 74%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.position-3 .in-game-picture {
+  position: absolute;
+	top: -24%;
+  left: 74%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.position-4 .in-game-picture {
+  position: absolute;
+	top: -24%;
+  left: -8%;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.position-5 .in-game-picture {
+  position: absolute;
+	top: -24%;
+  left: -8%;
   width: 70px;
   height: 70px;
   border-radius: 50%;
