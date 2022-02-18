@@ -73,8 +73,8 @@
           </div>
         <% end %>
         <div class="player-card <%= 'current-better' if @current_hand && @current_hand.better == user && @current_hand.flop_cards.count == 0 %> d-flex justify-content-around align-items-center">
-          <div class= "d-flex flex-column flex-grow-1">
-            <h3 class="text-center mb-0"><%= user.pseudo %></h3>
+          <div class= "user-infos d-flex flex-column flex-grow-1">
+            <div class="user-pseudo text-center mb-0"><%= user.pseudo %></div>
             <div class="d-flex justify-content-center align-items-center" >
               <p class="mb-0"><%= @game.reservations.where(user: user)[0].score  %>€</p>
             </div>
