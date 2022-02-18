@@ -68,6 +68,7 @@
 .nav-link-logout {
   color: white;
   margin-right: 20px;
+  border-bottom: 3px solid transparent;
   &:hover {
     border-bottom: 3px solid red ;
     color: white;
