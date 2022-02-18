@@ -24,3 +24,40 @@
   border-radius: 50%;
   cursor: pointer;
 }
+
+.modal-image {
+  width: 30px;
+  height: 40px;
+}
+
+input:focus {
+	outline: none;
+  border: 1px solid red;
+}
+
+
+.form-control:focus{
+  outline:none;
+  border-color:transparent;
+  box-shadow:0 0 6px red;
+}
+
+.btn-close:focus{
+  outline:none;
+  border-color:transparent;
+  box-shadow:0 0 6px transparent;
+}
+
+abbr {
+  display: none;
+}
+
+.form-label {
+  color: rgb(66, 66, 66);
+  font-weight: 550;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.modal-header .btn-close {
+  margin: 0;
+}
