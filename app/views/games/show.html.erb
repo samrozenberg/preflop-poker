@@ -73,10 +73,10 @@
           </div>
         <% end %>
         <div class="player-card <%= 'current-better' if @current_hand && @current_hand.better == user && @current_hand.flop_cards.count == 0 %> d-flex justify-content-around align-items-center">
-          <div class= "d-flex justify-content-around flex-grow-1">
-            <h3 class="text-center mb-0"><%= user.pseudo %></h3>
+          <div class= "user-infos d-flex flex-column flex-grow-1">
+            <div class="user-pseudo text-center mb-0"><%= user.pseudo %></div>
             <div class="d-flex justify-content-center align-items-center" >
-            <p class="mb-0"><%= @game.reservations.where(user: user)[0].score  %>€</p>
+              <p class="mb-0"><%= @game.reservations.where(user: user)[0].score  %>€</p>
             </div>
           </div>
           <% if @current_hand && @current_hand.button == user %>
@@ -90,6 +90,13 @@
               <p><%= @current_hand.bets.where(user: user).last.amount %>€</p>
             </div>
           <% end %>
+          <div class="picture-wrapper">
+            <% if user.photo.attached? %>
+              <%= cl_image_tag user.photo.key, crop: :thumb, class: "in-game-picture" %>
+            <% else %>
+              <%= image_tag "sam_photo.png", class: "in-game-picture" %>
+            <% end %>
+          </div>
         </div>
         <% player_position += 1 %>
         <% if @in_hand_players.include?(user) && @current_hand.flop_cards.count == 3 %>

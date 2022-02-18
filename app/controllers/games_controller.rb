@@ -28,9 +28,11 @@ class GamesController < ApplicationController
     UserHand.where(hand: @current_hand, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
-    @last_hand_remainder = @game.hands[@game.hands.count - 2].remainder
+    if @game.hands[@game.hands.count - 2]
+      @last_hand_remainder = @game.hands[@game.hands.count - 2].remainder
+    end
     @pot = 0
-    if @game.hands[@game.hands.count - 2].remainder
+    if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
       @pot += @game.hands[@game.hands.count - 2].remainder
     end
     if @current_hand
