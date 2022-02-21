@@ -96,10 +96,9 @@
                               required: true,
                               input_html: { autocomplete: "new-password" },
                               placeholder: "••••••••••" %>
-                  <%= f.input :photo, as: :file,
-                              required: true,
-                              label: "Upload a picture of you...",
-                              autofocus: true %>
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" id="upfile1" style="cursor:pointer" />
+                  <%= f.input :photo, as: :file, id: "file1", name: "file1", style:"display:none",
+                              label: "Upload a picture of you..." %>
                 </div>
 
                 <div class="form-actions">

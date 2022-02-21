@@ -11,10 +11,6 @@
     margin-bottom: 30px;
     text-align: center;
   }
-  .btn {
-    width: 100%;
-    margin-bottom: 20px
-  }
 }
 
 .user-pic {
@@ -30,16 +26,16 @@
   height: 40px;
 }
 
-input:focus {
-	outline: none;
-  border: 1px solid red;
-}
+// input:focus {
+// 	outline: none;
+//   border: 1px solid red;
+// }
 
 
 .form-control:focus{
   outline:none;
-  border-color:transparent;
-  box-shadow:0 0 6px red;
+  border: 2px solid rgb(255, 82, 82);
+  box-shadow:0 0 6px transparent;
 }
 
 .btn-close:focus{
@@ -55,9 +51,34 @@ abbr {
 .form-label {
   color: rgb(66, 66, 66);
   font-weight: 550;
-  font-family: 'Courier New', Courier, monospace;
 }
 
 .modal-header .btn-close {
   margin: 0;
+}
+
+.uneditable-input {
+  display: none!important;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.file-upload {
+  border: 1px solid grey;
+  fill:black;
+}
+
+input[type=file]::file-selector-button {
+  border: 2px solid #6c5ce7;
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: #a29bfe;
+  transition: 1s;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: #81ecec;
+  border: 2px solid #00cec9;
 }

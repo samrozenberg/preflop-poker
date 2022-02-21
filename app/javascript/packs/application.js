@@ -30,3 +30,17 @@ function change() {
   result.innerText = amount.value;
 }
 amount.addEventListener('change', change);
+
+// const picture = document.getElementById("upfile1");
+// console.log("Helloooooo");
+// console.log(picture);
+// const fileinput = document.getElementById("user-photo");
+// console.log(fileinput);
+
+
+// function fileupload() {
+//   console.log("Hello");
+//   fileinput.trigger('click');
+// }
+
+// picture.addEventListener('click', fileupload);
