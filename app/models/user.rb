@@ -13,6 +13,5 @@ class User < ApplicationRecord
   has_many :hand_winners
   has_one_attached :photo
   validates :name, presence: true
-  validates :photo, presence: true
   validates :pseudo, presence: true, uniqueness: true
 end
