@@ -43,7 +43,10 @@
         </li>
       <% else %>
         <li class="nav-item">
-          <%= link_to "Log In", new_user_session_path, class: "nav-link-logout" %>
+          <span type="button" class="nav-link-logout" id="log-in-button" data-bs-toggle="modal" data-bs-target="#logInModal">
+            Log in
+          </span>
+          <%# <%= link_to "Log In", new_user_session_path, class: "nav-link-logout" %>
         </li>
         <li class="nav-item" data-bs-toggle="modal" data-bs-target="#exampleModal">
           <span type="button" class="nav-link-logout" id="sign-up-button" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -102,6 +105,45 @@
 
                 <div class="form-actions">
                   <%= f.button :submit, "Sign up", class: "signup-button" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="logInModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-betwee">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" class="modal-image" />
+        <div class="d-flex align-items-center ms-2">
+          <h5 class="modal-title" id="exampleModalLabel">Preflop</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="signup-form">
+              <h2>Log in</h2>
+              <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                <div class="form-inputs">
+                  <%= f.input :email,
+                              required: false,
+                              autofocus: true,
+                              input_html: { autocomplete: "email" } %>
+                  <%= f.input :password,
+                              required: false,
+                              input_html: { autocomplete: "current-password" } %>
+                  <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+                </div>
+
+                <div class="form-actions">
+                  <%= f.button :submit, "Log in", class: "signup-button" %>
                 </div>
               <% end %>
             </div>
