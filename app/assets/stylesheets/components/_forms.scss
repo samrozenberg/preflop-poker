@@ -5,18 +5,11 @@
 .signup-form {
   background: white;
   padding: 10px 20px;
-  margin-top: 50px;
-  border-radius: 3px;
-  box-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   h2 {
     font-size: 25px;
     font-weight: bold;
     margin-bottom: 30px;
     text-align: center;
-  }
-  .btn {
-    width: 100%;
-    margin-bottom: 20px
   }
 }
 
@@ -26,4 +19,80 @@
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.modal-image {
+  width: 30px;
+  height: 40px;
+}
+
+// input:focus {
+// 	outline: none;
+//   border: 1px solid red;
+// }
+
+
+.form-control:focus{
+  outline:none;
+  border: 2px solid rgb(255, 82, 82);
+  box-shadow:0 0 6px transparent;
+}
+
+.btn-close:focus{
+  outline:none;
+  border-color:transparent;
+  box-shadow:0 0 6px transparent;
+}
+
+abbr {
+  display: none;
+}
+
+.form-label {
+  color: rgb(66, 66, 66);
+  font-weight: 550;
+}
+
+.modal-header .btn-close {
+  margin: 0;
+}
+
+.uneditable-input {
+  display: none!important;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.file-upload {
+  fill:black;
+}
+
+input[type=file]::file-selector-button {
+  border: 2px solid rgb(82, 163, 255);
+  padding: .2em .4em;
+  border-radius: .2em;
+  background-color: rgb(82, 163, 255);
+  transition: 1s;
+  margin-right: 30px;
+}
+
+input[type=file]::file-selector-button:hover {
+  background-color: rgb(35, 133, 244);
+  border: 2px solid rgb(35, 133, 244);
+}
+
+.signup-button {
+  border-radius: 5px;
+  width: 100%;
+  background-color: rgb(255, 72, 72);
+  transition: 0.4s;
+  &:hover {
+    background-color: rgb(248, 32, 32);
+  }
+}
+
+.user_remember_me .check_boxes {
+  margin-left: 10px;
 }
