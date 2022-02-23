@@ -21,8 +21,6 @@ require("channels")
 
 import "controllers"
 import "bootstrap"
-// import JQuery from 'jquery';
-// window.$ = window.JQuery = JQuery;
 
 
 var result = document.getElementById("result");
