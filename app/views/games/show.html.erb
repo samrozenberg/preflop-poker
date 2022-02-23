@@ -145,12 +145,12 @@
           </div>
         </div>
       <% end %>
-      <% if @game.users[0] == current_user %>
+      <% if @game.users.include?(current_user) %>
         <div class="buttons d-flex justify-content-center">
           <%= simple_form_for [@game, @hand] do |f| %>
             <%= f.submit "Shuffle and deal", class: "dealing-button" %>
           <% end %>
-          <% if @current_hand && @game.users[0] == current_user %>
+          <% if @current_hand && @game.users.include?(current_user) %>
             <% if @current_hand.flop_cards.count == 0 %>
               <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
                 <%= f.submit "Deal flop", class: "dealing-button" %>
