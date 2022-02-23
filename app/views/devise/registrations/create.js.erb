@@ -1,0 +1,6 @@
+<%- if resource.errors.any? %>
+  const errorMessage = document.querySelector('.sign_up_errors')
+  errorMessage.innerHTML = "⛔️ Please fill in all the required information... ⛔️"
+<%- else %>
+  window.location.reload();
+<%- end %>

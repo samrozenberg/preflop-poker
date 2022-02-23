@@ -19,9 +19,13 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+
 import "controllers"
 import "bootstrap"
 
+
+// import JQuery from 'jquery';
+// window.$ = window.JQuery = JQuery;
 
 var result = document.getElementById("result");
 var amount = document.getElementById("amount");
@@ -30,6 +34,18 @@ function change() {
   result.innerText = amount.value;
 }
 amount.addEventListener('change', change);
+
+
+// const errorMessage = document.querySelector('.errors')
+// console.log(errorMessage);
+// errorMessage.innerHTML = "Incorrect Email/Password. \<br>Please review the errors below:"
+
+
+// const modal = document.querySelector('.modal')
+// $(document).ready(function () {
+//   $('.modal').modal('hide');
+// })
+
 
 // const picture = document.getElementById("upfile1");
 // console.log("Helloooooo");

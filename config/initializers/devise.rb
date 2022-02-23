@@ -26,6 +26,9 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'sam@preflop.com'
 
+  config.http_authenticatable_on_xhr = false
+  config.navigational_formats = [:"*/*", "*/*", :html, :js]
+
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
 
