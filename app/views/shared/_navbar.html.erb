@@ -73,36 +73,42 @@
           <div class="row justify-content-center">
             <div class="signup-form">
               <h2>Sign up</h2>
-              <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+              <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), remote: true) do |f| %>
                 <%= f.error_notification %>
 
                 <div class="form-inputs">
                   <%= f.input :email,
-                              required: true,
+                              label: "Email*",
+                              required: false,
                               autofocus: true,
                               input_html: { autocomplete: "email"},
                               placeholder: "sam@preflop.com" %>
                   <%= f.input :name,
-                              required: true,
+                              label: "Name*",
+                              required: false,
                               autofocus: true,
                               input_html: { autocomplete: "name" }%>
                   <%= f.input :pseudo,
-                              required: true,
+                              label: "Pseudo*",
+                              required: false,
                               autofocus: true,
                               input_html: { autocomplete: "pseudo" }%>
                   <%= f.input :password,
-                              required: true,
+                              label: "Password*",
+                              required: false,
                               hint: ("6 characters minimum"),
                               input_html: { autocomplete: "new-password" },
                               placeholder: "••••••••••" %>
                   <%= f.input :password_confirmation,
-                              required: true,
+                              label: "Password confirmation*",
+                              required: false,
                               input_html: { autocomplete: "new-password" },
                               placeholder: "••••••••••" %>
                   <%= f.input :photo, as: :file, id: "file1", name: "file1", style:"display:none",
                               label: "Upload a picture of you..." %>
                 </div>
 
+                <div class="sign_up_errors"></div>
                 <div class="form-actions">
                   <%= f.button :submit, "Sign up", class: "signup-button" %>
                 </div>
