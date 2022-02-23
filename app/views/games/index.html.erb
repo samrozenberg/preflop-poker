@@ -1,5 +1,37 @@
 <%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost" %>
 
+
+<table>
+  <tr>
+    <th>Start Date</th>
+    <th>Name</th>
+    <th>Blinds</th>
+    <th>Max. Bet</th>
+    <th>Amount Played</th>
+    <th>Average Pot</th>
+    <th>Players</th>
+    <th>State</th>
+  </tr>
+
+  <% @games.each do |game| %>
+    <tr>
+      <td><%= game.created_at.strftime("%e %^b %Y")  %></td>
+      <td><%= game.name %></td>
+      <td>1€/1€</td>
+      <td>30€</td>
+      <td>/</td>
+      <td>/</td>
+
+      <td><%= Reservation.where(game: game, active: true).count %></td>
+      <td>Active</td>
+    </tr>
+  <% end %>
+
+</table>
+
+
+
+
 <div class="cards">
   <% @games.each do |game| %>
     <%= link_to game_path(game), target: :_blank do %>
