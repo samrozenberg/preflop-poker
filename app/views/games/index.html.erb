@@ -9,7 +9,7 @@
     <th>Max. Bet</th>
     <th>Amount Played</th>
     <th>Average Pot</th>
-    <th>Players</th>
+    <th>Active Players</th>
     <th>State</th>
   </tr>
 
@@ -19,8 +19,21 @@
       <td><%= game.name %></td>
       <td>1€/1€</td>
       <td>30€</td>
-      <td>/</td>
-      <td>/</td>
+      <% total_amount_played = 0 %>
+      <% pot_count = 0 %>
+      <% game.hands.each do |hand| %>
+        <% if hand.pot != nil %>
+          <% total_amount_played += hand.pot %>
+          <% pot_count += 1 %>
+        <% end %>
+      <% end %>
+      <% if pot_count != 0 %>
+        <% average_pot = ((total_amount_played / pot_count.to_f).round(1) % 1 == 0 ? ((total_amount_played / pot_count.to_f).round(1).to_i) : ((total_amount_played / pot_count.to_f).round(1)))  %>
+      <% else %>
+        <% average_pot = 0 %>
+      <% end %>
+      <td><%= total_amount_played %>€</td>
+      <td><%= average_pot %>€</td>
 
       <td><%= Reservation.where(game: game, active: true).count %></td>
       <td>Active</td>
@@ -30,6 +43,22 @@
 </table>
 
 
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 
 <div class="cards">
