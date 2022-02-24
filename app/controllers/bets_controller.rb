@@ -32,9 +32,12 @@ class BetsController < ApplicationController
     @user_reservation = @game.reservations.where(user: @bet.user)[0]
     if current_user.bets.where(hand: @current_hand).count > 1
       @user_reservation.score -= (@bet.amount - @better_last_bet)
+      @current_hand.pot += (@bet.amount - @better_last_bet)
     else
       @user_reservation.score -= @bet.amount
+      @current_hand.pot += @bet.amount
     end
+    @current_hand.save
     @user_reservation.save
     redirect_to game_path(@game)
   end
