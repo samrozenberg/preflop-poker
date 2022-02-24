@@ -1,7 +1,7 @@
 <%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost" %>
 
 
-<table>
+<table class="table table-hover">
   <tr>
     <th>Start Date</th>
     <th>Name</th>
@@ -11,6 +11,7 @@
     <th>Average Pot</th>
     <th>Active Players</th>
     <th>State</th>
+    <th></th>
   </tr>
 
   <% @games.each do |game| %>
@@ -37,6 +38,11 @@
 
       <td><%= Reservation.where(game: game, active: true).count %></td>
       <td>Active</td>
+      <td>
+        <%= link_to game_path(game), target: :_blank do %>
+          <p>➡|</p>
+        <% end %>
+      </td>
     </tr>
   <% end %>
 

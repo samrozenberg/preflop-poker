@@ -79,3 +79,16 @@ a {
 .games-index {
   background: linear-gradient(50deg, lightgrey, transparent)
 }
+
+
+.fa-arrow-right-to-bracket:before {
+    content: "\f105";
+}
+
+td {
+  text-align: center;
+}
+
+th {
+  text-align: center;
+}
