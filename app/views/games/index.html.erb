@@ -1,7 +1,7 @@
 <%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost" %>
 
 
-<table class="table table-hover">
+<table class="table index-table table-striped ">
   <tr>
     <th>Start Date</th>
     <th>Name</th>
@@ -15,7 +15,7 @@
   </tr>
 
   <% @games.each do |game| %>
-    <tr>
+    <tr class="game-row">
       <td><%= game.created_at.strftime("%e %^b %Y")  %></td>
       <td><%= game.name %></td>
       <td>1€/1€</td>
@@ -40,7 +40,7 @@
       <td>Active</td>
       <td>
         <%= link_to game_path(game), target: :_blank do %>
-          <p>➡|</p>
+          <i class="fas fa-arrow-alt-circle-right"></i>
         <% end %>
       </td>
     </tr>
@@ -48,31 +48,12 @@
 
 </table>
 
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-
-<div class="cards">
+<%# <div class="cards">
   <% @games.each do |game| %>
-    <%= link_to game_path(game), target: :_blank do %>
-      <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= @poker_url.sample %>)">
-        <%= game.name %>
-      </div>
+    <%# <%= link_to game_path(game), target: :_blank do %>
+      <%# <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= @poker_url.sample %>
+        <%# <%= game.name %>
+      <%# </div>
     <% end  %>
-  <% end %>
-</div>
+  <%# <% end %>
+<%# </div> %>

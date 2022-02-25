@@ -76,9 +76,9 @@ a {
   text-decoration: none;
 }
 
-.games-index {
-  background: linear-gradient(50deg, lightgrey, transparent)
-}
+// .games-index {
+//   background: linear-gradient(50deg, lightgrey, transparent)
+// }
 
 
 .fa-arrow-right-to-bracket:before {
@@ -91,4 +91,21 @@ td {
 
 th {
   text-align: center;
+}
+
+.game-row {
+  &:hover {
+    background-color: blue;
+  }
+}
+
+.games-index {
+  // background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://www.ilgiocatoreonline.it/wp-content/uploads/2020/04/Origine-dei-nomi-nel-Poker.jpg);
+  background-image: linear-gradient(180deg, black, rgb(1, 76, 1));
+}
+
+.index-table {
+  background-color: white;
+  box-shadow: 1px 1px 16px rgb(202, 202, 202);
+  border-radius: 5px;
 }
