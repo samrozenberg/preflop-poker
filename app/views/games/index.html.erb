@@ -1,4 +1,4 @@
-<%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost" %>
+<%= link_to "Create a new Game", new_game_path, class: "btn btn-ghost", data: {bs_toggle: "modal", bs_target: "#newGameModal" } %>
 
 
 <table class="table index-table table-striped ">
@@ -48,12 +48,36 @@
 
 </table>
 
-<%# <div class="cards">
-  <% @games.each do |game| %>
-    <%# <%= link_to game_path(game), target: :_blank do %>
-      <%# <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= @poker_url.sample %>
-        <%# <%= game.name %>
-      <%# </div>
-    <% end  %>
-  <%# <% end %>
-<%# </div> %>
+
+<div class="modal fade" id="newGameModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-flex justify-content-betwee">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" class="modal-image" />
+        <div class="d-flex align-items-center ms-2">
+          <h5 class="modal-title" id="exampleModalLabel">Preflop</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="signup-form">
+              <h2 class="mb-4">Game</h2>
+              <%= simple_form_for(@game) do |f| %>
+                <div class="form-inputs">
+                  <%= f.input :name,
+                              required: false,
+                              autofocus: true %>
+                </div>
+                <div class="form-actions">
+                  <%= f.button :submit, "Create", class: "signup-button" %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
