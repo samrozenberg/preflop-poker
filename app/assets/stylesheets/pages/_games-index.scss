@@ -58,12 +58,13 @@
 }
 
 .btn-ghost {
+  background-color: white;
   color: #4A4A4A;
   border: 1px solid #4A4A4A;
   padding: 8px 24px;
   border-radius: 50px;
   font-weight: lighter;
-  opacity: 0.6;
+  opacity: 0.8;
   transition: opacity 0.3s ease;
   margin-bottom: 20px;
 }
@@ -95,7 +96,7 @@ th {
 
 .game-row {
   &:hover {
-    background-color: blue;
+    // background-color: rgb(195, 195, 195);
   }
 }
 
@@ -105,7 +106,21 @@ th {
 }
 
 .index-table {
-  background-color: white;
-  box-shadow: 1px 1px 16px rgb(202, 202, 202);
+  background-color: rgba($color: white, $alpha: 0.9);
+  box-shadow: 1px 1px 8px white;
   border-radius: 5px;
+}
+
+.fa-arrow-alt-circle-right:before {
+    margin: 0px 10px;
+    font-size: 24px;
+}
+
+.fa-arrow-alt-circle-right:hover {
+  color: rgb(38, 161, 38);
+}
+
+
+.arrow-td a {
+  color: limegreen
 }
