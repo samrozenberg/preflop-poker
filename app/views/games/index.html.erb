@@ -18,8 +18,17 @@
     <tr class="game-row">
       <td><%= game.created_at.strftime("%e %^b %Y")  %></td>
       <td><%= game.name %></td>
-      <td>1€/1€</td>
-      <td>30€</td>
+      <% if game.max_bet_amount != nil %>
+        <td>
+          <%= game.sb_amount %>€/<%= game.bb_amount %>€
+        </td>
+        <td>
+          <%= game.max_bet_amount %>€
+        </td>
+      <% else %>
+        <td>1€/1€</td>
+        <td>30€</td>
+      <% end %>
       <% total_amount_played = 0 %>
       <% pot_count = 0 %>
       <% game.hands.each do |hand| %>
@@ -67,6 +76,15 @@
               <%= simple_form_for(@game) do |f| %>
                 <div class="form-inputs">
                   <%= f.input :name,
+                              required: false,
+                              autofocus: true %>
+                  <%= f.input :sb_amount,
+                              required: false,
+                              autofocus: true %>
+                  <%= f.input :bb_amount,
+                              required: false,
+                              autofocus: true %>
+                  <%= f.input :max_bet_amount,
                               required: false,
                               autofocus: true %>
                 </div>

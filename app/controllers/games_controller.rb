@@ -46,10 +46,10 @@ class GamesController < ApplicationController
       @user_last_bet = @user.bets.where(hand: @current_hand).last
       @current_player_user_hand = UserHand.where(hand: @current_hand, user: @user)
       if @hand_last_bet
-        if @hand_last_bet.amount * 2 <= 30
+        if @hand_last_bet.amount * 2 <= @game.max_bet_amount
           @min_raise = @hand_last_bet.amount * 2
         else
-          @min_raise = 30
+          @min_raise = @game.max_bet_amount
         end
       end
     end
@@ -98,6 +98,6 @@ class GamesController < ApplicationController
   private
 
   def game_params
-    params.require(:game).permit(:name)
+    params.require(:game).permit(:name, :sb_amount, :bb_amount, :max_bet_amount)
   end
 end

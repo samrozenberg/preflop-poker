@@ -24,7 +24,7 @@ class BetsController < ApplicationController
       next_better_index = 0
     end
     if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last
-      if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == 30 || @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @bet.hand.bets.last.amount
+      if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @game.max_bet_amount || @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @bet.hand.bets.last.amount
         next_better_index = 500_000
       end
     end

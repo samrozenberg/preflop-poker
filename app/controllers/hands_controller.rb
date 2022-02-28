@@ -40,16 +40,16 @@ class HandsController < ApplicationController
 
     @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index], pot: 0 )
     @hand.save!
-    @sb_bet = Bet.create(amount: 1, hand: @hand, user: @hand.small_blind)
+    @sb_bet = Bet.create(amount: @game.sb_amount, hand: @hand, user: @hand.small_blind)
     @hand.pot += @sb_bet.amount
     @hand.save
     @sb_reservation = @game.reservations.where(user: @hand.small_blind)[0]
-    @sb_reservation.score -= 1
+    @sb_reservation.score -= @game.sb_amount
     @sb_reservation.save
     @bb_reservation = @game.reservations.where(user: @hand.big_blind)[0]
-    @bb_reservation.score -= 1
+    @bb_reservation.score -= @game.bb_amount
     @bb_reservation.save
-    @bb_bet = Bet.create(amount: 1, hand: @hand, user: @hand.big_blind)
+    @bb_bet = Bet.create(amount: @game.bb_amount, hand: @hand, user: @hand.big_blind)
     @hand.pot += @bb_bet.amount
     @hand.save
     @user_cards = DeckCard.all.sample(@active_players.count * 2)
