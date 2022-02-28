@@ -1,5 +1,5 @@
-<div class="navbar navbar-expand-sm navbar-light navbar-lewagon <%="home-navbar" if params[:action]=="home"%>">
-  <% if params[:action]=="home" %>
+<div class="navbar navbar-expand-sm navbar-light navbar-lewagon <%="home-navbar" if (params[:action]=="home" || params[:action]=="index") %>">
+  <% if params[:action]=="home" || params[:action]=="index" %>
     <a class="navbar-brand" href="/">
      <p class="poker-symbols">♣️♦️</p>
      <p class="poker-symbols">❤️♠️</p>
