@@ -78,18 +78,15 @@
                   <%= f.input :name,
                               required: false,
                               autofocus: true %>
-                  <%= f.input :sb_amount,
-                              required: false,
-                              autofocus: true %>
-                  <%= f.input :bb_amount,
-                              required: false,
-                              autofocus: true %>
-                  <%= f.input :max_bet_amount,
-                              required: false,
-                              autofocus: true %>
+                  <%= f.label "Small Blind", class: "game-infos-buttons" %> <br>
+                  <%= f.collection_radio_buttons :sb_amount, [[1, '1€'], [2, '2€'], [3, '3€']], :first, :last %> <br>
+                  <%= f.label "Big Blind", class: "game-infos-buttons" %> <br>
+                  <%= f.collection_radio_buttons :bb_amount, [[1, '1€'], [2, '2€'], [3, '3€'], [4, '4€'], [5, '5€'], [6, '6€']], :first, :last %> <br>
+                  <%= f.label "Max Bet", class: "game-infos-buttons" %> <br>
+                  <%= f.collection_radio_buttons :max_bet_amount, [[30, '30€'], [50, '50€'], [80, '80€'], [100, '100€']], :first, :last %> <br>
                 </div>
                 <div class="form-actions">
-                  <%= f.button :submit, "Create", class: "signup-button" %>
+                  <%= f.button :submit, "Create", class: "signup-button create-game-button" %>
                 </div>
               <% end %>
             </div>
