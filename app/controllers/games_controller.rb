@@ -71,6 +71,12 @@ class GamesController < ApplicationController
         end
       end
     end
+    if @current_hand.flop_cards.count == 3 && @current_hand.name == "Pineapple"
+      @current_user_card_1 = UserCard.where(hand: @current_hand, user: @user)[0]
+      @current_user_card_2 = UserCard.where(hand: @current_hand, user: @user)[1]
+      @current_user_card_3 = UserCard.where(hand: @current_hand, user: @user)[2]
+    end
+
   end
 
   def new

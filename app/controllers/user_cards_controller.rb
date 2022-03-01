@@ -1,30 +1,33 @@
-class FlopCardsController < ApplicationController
-  def create
-    @game = Game.find(params[:game_id])
+class UserCardsController < ApplicationController
+  def destroy
+    @game = Game.find(params[:id])
+    @user_card = UserCard.find(params[:hand_id])
+    @user_card.destroy
+
     @hand = @game.hands.last
+    @current_hand = @game.hands.last
     @in_hand_players = []
     UserHand.where(hand: @hand, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
-    @used_cards = []
-    @hand.user_cards.each do |user_card|
-      @used_cards << user_card.deck_card
-    end
-    @available_cards = DeckCard.all - @used_cards
-    @available_cards.sample(3).each do |card|
-      FlopCard.create(hand: @hand, deck_card: card)
+
+    @in_hand_players_card_count = 0
+    @in_hand_players.each do |player|
+      @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
     end
 
-    @flop_cards = []
-    @hand.flop_cards.each do |card|
-      @flop_cards << card.deck_card
-    end
-    @combination_available_cards = @available_cards - @flop_cards
-    @combinations = @combination_available_cards.combination(2).to_a.sample(300)
-
-    @current_hand = @game.hands.last
-
-    if @hand.name == "Texas"
+    if @in_hand_players_card_count == @in_hand_players.count * 2
+      @used_cards = []
+      @hand.user_cards.each do |user_card|
+        @used_cards << user_card.deck_card
+      end
+      @flop_cards = []
+      @hand.flop_cards.each do |card|
+        @flop_cards << card.deck_card
+      end
+      @available_cards = DeckCard.all - @used_cards
+      @combination_available_cards = @available_cards - @flop_cards
+      @combinations = @combination_available_cards.combination(2).to_a.sample(300)
       @in_hand_players.each do |player|
         instance_variable_set("@#{player.pseudo}_cards", [])
         UserCard.where(hand: @current_hand, user: player).each do |card|
@@ -57,7 +60,6 @@ class FlopCardsController < ApplicationController
           @winners << player
         end
       end
-
 
       UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
         card_combination = []

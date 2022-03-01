@@ -54,17 +54,17 @@
           <% elsif @in_hand_players.include?(user) %>
             <% if @current_hand.better == nil && (@in_hand_players_card_count == @in_hand_players.count * 2 || @in_hand_players_card_count == @in_hand_players.count * 4 ) %>
               <div class="text-center d-flex justify-content-center">
-                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: @user).count == 3}" %>
+                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2" %>
-                <% if @current_hand.user_cards.where(user: @user).count == 3 %>
+                <% if @current_hand.user_cards.where(user: user).count == 3 %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3" %>
                 <% end %>
               </div>
             <% else %>
               <div class="text-center d-flex justify-content-center">
-                <%= image_tag "card_back.png", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: @user).count == 3}" %>
+                <%= image_tag "card_back.png", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3}" %>
                 <%= image_tag "card_back.png", class: "user-cards-2" %>
-                <% if @current_hand.user_cards.where(user: @user).count == 3 %>
+                <% if @current_hand.user_cards.where(user: user).count == 3 %>
                   <%= image_tag "card_back.png", class: "user-cards-3" %>
                 <% end %>
               </div>
@@ -183,6 +183,20 @@
       <% end %>
     </div>
   </div>
+
+  <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
+    <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
+            game_hand_user_card_path(@current_hand, @current_user_card_1),
+            method: :delete %>
+     <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
+            game_hand_user_card_path(@current_hand, @current_user_card_2),
+            method: :delete %>
+     <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
+            game_hand_user_card_path(@current_hand, @current_user_card_3),
+            method: :delete %>
+  <% end %>
+
+
 
   <% if @current_hand && @user == @current_hand.better && @current_hand.flop_cards.count == 0 %>
     <div class="betting-wrapper d-flex">
