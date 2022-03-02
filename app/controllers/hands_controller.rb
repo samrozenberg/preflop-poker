@@ -37,8 +37,15 @@ class HandsController < ApplicationController
     else
       better_index = 0
     end
-
-    @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index], pot: 0 )
+    @hand = Hand.new(hand_params)
+    @hand.game = @game
+    @hand.button = @active_players[button_index]
+    @hand.small_blind = @active_players[small_blind_index]
+    @hand.big_blind = @active_players[big_blind_index]
+    @hand.better = @active_players[better_index]
+    @hand.pot = 0
+    # @hand = Hand.new(hand_params, game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index], pot: 0 )
+    # @hand = Hand.new(game: @game, button: @active_players[button_index], small_blind: @active_players[small_blind_index], big_blind: @active_players[big_blind_index], better: @active_players[better_index], pot: 0 )
     @hand.save!
     @sb_bet = Bet.create(amount: @game.sb_amount, hand: @hand, user: @hand.small_blind)
     @hand.pot += @sb_bet.amount
@@ -52,18 +59,35 @@ class HandsController < ApplicationController
     @bb_bet = Bet.create(amount: @game.bb_amount, hand: @hand, user: @hand.big_blind)
     @hand.pot += @bb_bet.amount
     @hand.save
-    @user_cards = DeckCard.all.sample(@active_players.count * 2)
-    index1 = 0
-    index2 = 1
-    @active_players.each do |user|
-      UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
-      UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
-      UserHand.create(hand: @hand, user: user, active: true)
-      index1 += 2
-      index2 += 2
+    if @hand.name == "Texas"
+      @user_cards = DeckCard.all.sample(@active_players.count * 2)
+      index1 = 0
+      index2 = 1
+      @active_players.each do |user|
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
+        UserHand.create(hand: @hand, user: user, active: true)
+        index1 += 2
+        index2 += 2
+      end
+    elsif @hand.name == "Pineapple"
+      @user_cards = DeckCard.all.sample(@active_players.count * 3)
+      index1 = 0
+      index2 = 1
+      index3 = 2
+      @active_players.each do |user|
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index3])
+        UserHand.create(hand: @hand, user: user, active: true)
+        index1 += 3
+        index2 += 3
+        index3 += 3
+      end
     end
-    # (hand_params)
 
+
+    # (hand_params)
     redirect_to game_path(@game)
   end
 
@@ -87,6 +111,11 @@ class HandsController < ApplicationController
     redirect_to game_path(@game)
   end
 
+  private
+
+  def hand_params
+    params.require(:hand).permit(:name)
+  end
   # private
 
   # def hand_params

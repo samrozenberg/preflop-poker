@@ -29,6 +29,10 @@ class GamesController < ApplicationController
     UserHand.where(hand: @current_hand, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
+    @in_hand_players_card_count = 0
+    @in_hand_players.each do |player|
+      @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
+    end
     if @game.hands[@game.hands.count - 2]
       @last_hand_remainder = @game.hands[@game.hands.count - 2].remainder
     end
@@ -67,6 +71,12 @@ class GamesController < ApplicationController
         end
       end
     end
+    if @current_hand.flop_cards.count == 3 && @current_hand.name == "Pineapple"
+      @current_user_card_1 = UserCard.where(hand: @current_hand, user: @user)[0]
+      @current_user_card_2 = UserCard.where(hand: @current_hand, user: @user)[1]
+      @current_user_card_3 = UserCard.where(hand: @current_hand, user: @user)[2]
+    end
+
   end
 
   def new
