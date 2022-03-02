@@ -109,13 +109,32 @@ class TurnCardsController < ApplicationController
         @in_hand_players.each do |player|
           player_best_pokerhand = PokerHand.new("")
           instance_variable_get("@#{player.pseudo}_cards").combination(2).to_a.each do |two_card_combination|
-            instance_variable_set("@#{player.pseudo}_pokerhand", PokerHand.new(two_card_combination))
-            instance_variable_get("@#{player.pseudo}_pokerhand") << combination[0].code
-            instance_variable_get("@#{player.pseudo}_pokerhand") << @flop_cards_codes
-            instance_variable_get("@#{player.pseudo}_pokerhand") << @turn_card_code
-            if instance_variable_get("@#{player.pseudo}_pokerhand") > player_best_pokerhand
-              player_best_pokerhand = instance_variable_get("@#{player.pseudo}_pokerhand")
+            board_cards = []
+            board_cards << combination[0].code
+            board_cards += @flop_cards_codes
+            board_cards += @turn_card_code
+
+            best_combination = PokerHand.new("")
+
+            board_cards.combination(3).to_a.each do |combi|
+              pokerhand_five = PokerHand.new(two_card_combination)
+              pokerhand_five << combi
+              if pokerhand_five > best_combination
+                best_combination = pokerhand_five
+              end
             end
+
+            if best_combination > player_best_pokerhand
+              player_best_pokerhand = best_combination
+            end
+
+            # instance_variable_set("@#{player.pseudo}_pokerhand", PokerHand.new(two_card_combination))
+            # instance_variable_get("@#{player.pseudo}_pokerhand") << combination[0].code
+            # instance_variable_get("@#{player.pseudo}_pokerhand") << @flop_cards_codes
+            # instance_variable_get("@#{player.pseudo}_pokerhand") << @turn_card_code
+            # if instance_variable_get("@#{player.pseudo}_pokerhand") > player_best_pokerhand
+            #   player_best_pokerhand = instance_variable_get("@#{player.pseudo}_pokerhand")
+            # end
           end
           if player_best_pokerhand > winning_simulation
             winning_simulation = player_best_pokerhand
@@ -130,23 +149,31 @@ class TurnCardsController < ApplicationController
         end
       end
 
-
       UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
         best_pokerhand = PokerHand.new("")
         user_four_cards = []
         UserCard.where(user: user_hand.user, hand: @hand).each do |user_card|
           user_four_cards << user_card.deck_card.code
         end
+        flop_and_turn_cards = []
+        FlopCard.where(hand: @hand).each do |card|
+          flop_and_turn_cards << card.deck_card.code
+        end
+        TurnCard.where(hand: @hand).each do |card|
+          flop_and_turn_cards << card.deck_card.code
+        end
         user_four_cards.combination(2).to_a.each do |two_card_combination|
-          pokerhand = PokerHand.new(two_card_combination)
-          FlopCard.where(hand: @hand).each do |card|
-            pokerhand << card.deck_card.code
+          best_player_combination = PokerHand.new("")
+          flop_and_turn_cards.combination(3).to_a.each do |combi|
+            pokerhand_five = PokerHand.new(two_card_combination)
+            pokerhand_five << combi
+            if pokerhand_five > best_player_combination
+              best_player_combination = pokerhand_five
+            end
           end
-          TurnCard.where(hand: @hand).each do |card|
-            pokerhand << card.deck_card.code
-          end
-          if pokerhand > best_pokerhand
-            best_pokerhand = pokerhand
+
+          if best_player_combination > best_pokerhand
+            best_pokerhand = best_player_combination
           end
         end
         user_hand.update_attribute(:rank, best_pokerhand.rank)
