@@ -103,3 +103,24 @@ input[type="range"]::-webkit-slider-thumb {
   height: 18px;
   border-radius: 50%;
 }
+
+
+.delete-cards-wrapper {
+  width: auto;
+  justify-content: end;
+  margin-top: -20px;
+  margin-right: -70px;
+}
+
+.btn-delete {
+  border: 1px solid grey;
+  padding: 10px 12px;
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  margin-right: 10px;
+  &:hover {
+    color: black;
+    background-color: rgb(214, 214, 214);
+  }
+}

@@ -185,15 +185,17 @@
   </div>
 
   <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
-    <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
-            game_hand_user_card_path(@current_hand, @current_user_card_1),
-            method: :delete %>
-     <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
-            game_hand_user_card_path(@current_hand, @current_user_card_2),
-            method: :delete %>
-     <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
-            game_hand_user_card_path(@current_hand, @current_user_card_3),
-            method: :delete %>
+    <div class="delete-cards-wrapper d-flex">
+      <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
+              game_hand_user_card_path(@current_hand, @current_user_card_1),
+              method: :delete, class: "btn-delete" %>
+      <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
+              game_hand_user_card_path(@current_hand, @current_user_card_2),
+              method: :delete, class: "btn-delete" %>
+      <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
+              game_hand_user_card_path(@current_hand, @current_user_card_3),
+              method: :delete, class: "btn-delete" %>
+    </div>
   <% end %>
 
 
