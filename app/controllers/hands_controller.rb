@@ -84,6 +84,23 @@ class HandsController < ApplicationController
         index2 += 3
         index3 += 3
       end
+    elsif @hand.name == "Omaha 4"
+      @user_cards = DeckCard.all.sample(@active_players.count * 4)
+      index1 = 0
+      index2 = 1
+      index3 = 2
+      index4 = 3
+      @active_players.each do |user|
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index1])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index2])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index3])
+        UserCard.create(hand: @hand, user: user, deck_card: @user_cards[index4])
+        UserHand.create(hand: @hand, user: user, active: true)
+        index1 += 4
+        index2 += 4
+        index3 += 4
+        index4 += 4
+      end
     end
 
 
