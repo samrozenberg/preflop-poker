@@ -23,7 +23,7 @@
 
     <div class="game-infos-right">
       <div>
-        <h6 class="mb-3"><%= @game.sb_amount %>€/<%= @game.sb_amount %>€/<%= @game.max_bet_amount %>€</h6>
+        <h6 class="mb-3"><%= @game.sb_amount %>€/<%= @game.bb_amount %>€/<%= @game.max_bet_amount %>€</h6>
         <% if @game.hands.count == 0 || @game.hands.count == 1 %>
           <p><%= @game.hands.count %> hand played</p>
         <% else %>
@@ -163,7 +163,8 @@
         <% end %>
       </div>
     <% end %>
-    <div>
+    <div class="inner-table-wrapper">
+      <div class="game-name-display"><%= @current_hand.name.upcase %></div>
       <% if @active_players.count > 0 %>
         <div class="inner-table">
           <div>
@@ -233,6 +234,8 @@
             <% end %>
           <% end %>
         </div>
+      <% else %>
+        <div class="mb-5"></div>
       <% end %>
     </div>
   </div>
