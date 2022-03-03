@@ -70,7 +70,7 @@ class HandsController < ApplicationController
         index1 += 2
         index2 += 2
       end
-    elsif @hand.name == "Pineapple"
+    elsif @hand.name == "Pineapple" || @hand.name == "Sutra"
       @user_cards = DeckCard.all.sample(@active_players.count * 3)
       index1 = 0
       index2 = 1

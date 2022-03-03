@@ -210,6 +210,10 @@
               <%= f.submit "Pineapple", class: "dealing-button" %>
             <% end %>
             <%= simple_form_for [@game, @hand] do |f| %>
+              <%= f.hidden_field :name, :value => "Sutra" %>
+              <%= f.submit "Sutra", class: "dealing-button" %>
+            <% end %>
+            <%= simple_form_for [@game, @hand] do |f| %>
               <%= f.hidden_field :name, :value => "Omaha 4" %>
               <%= f.submit "Omaha 4", class: "dealing-button" %>
             <% end %>
