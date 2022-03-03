@@ -57,7 +57,6 @@ class GamesController < ApplicationController
         end
       end
     end
-
     if @current_hand && @current_hand.flop_cards.count == 3
       @current_winners = []
       @biggest_odd = 0
@@ -71,7 +70,7 @@ class GamesController < ApplicationController
         end
       end
     end
-    if @current_hand.flop_cards.count == 3 && @current_hand.name == "Pineapple"
+    if @current_hand && @current_hand.flop_cards.count == 3 && @current_hand.name == "Pineapple"
       @current_user_card_1 = UserCard.where(hand: @current_hand, user: @user)[0]
       @current_user_card_2 = UserCard.where(hand: @current_hand, user: @user)[1]
       @current_user_card_3 = UserCard.where(hand: @current_hand, user: @user)[2]
@@ -85,6 +84,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
+    @game.hand_limit = 100000
     @game.save
     redirect_to games_path
   end
@@ -95,7 +95,8 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    @game.update(game_params)
+    max_hand_number = @game.hands.count + 10
+    @game.update_attribute(:hand_limit, max_hand_number)
     redirect_to game_path(@game)
   end
 
