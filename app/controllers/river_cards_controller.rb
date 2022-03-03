@@ -90,6 +90,48 @@ class RiverCardsController < ApplicationController
         end
         user_hand.update_attribute(:rank, best_pokerhand.rank)
       end
+    elsif @hand.name == "Omaha 5"
+      winning_poker_hand = PokerHand.new("")
+      winners = []
+
+      UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
+        best_pokerhand = PokerHand.new("")
+        user_five_cards = []
+        UserCard.where(user: user_hand.user, hand: @hand).each do |user_card|
+          user_five_cards << user_card.deck_card.code
+        end
+        all_board_cards = []
+        FlopCard.where(hand: @hand).each do |card|
+          all_board_cards << card.deck_card.code
+        end
+        TurnCard.where(hand: @hand).each do |card|
+          all_board_cards << card.deck_card.code
+        end
+        RiverCard.where(hand: @hand).each do |card|
+          all_board_cards << card.deck_card.code
+        end
+        user_five_cards.combination(2).to_a.each do |two_card_combination|
+          best_player_combination = PokerHand.new("")
+          all_board_cards.combination(3).to_a.each do |combi|
+            pokerhand_five = PokerHand.new(two_card_combination)
+            pokerhand_five << combi
+            if pokerhand_five > best_player_combination
+              best_player_combination = pokerhand_five
+            end
+          end
+          if best_player_combination > best_pokerhand
+            best_pokerhand = best_player_combination
+          end
+        end
+        if best_pokerhand > winning_poker_hand
+          winning_poker_hand = best_pokerhand
+          winners.clear
+          winners << user_hand.user
+        elsif best_pokerhand == winning_poker_hand
+          winners << user_hand.user
+        end
+        user_hand.update_attribute(:rank, best_pokerhand.rank)
+      end
     end
 
 

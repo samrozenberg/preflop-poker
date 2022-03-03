@@ -119,8 +119,8 @@
             </div>
           <% end %>
         </div>
-        <% if  UserHand.where(user: user, hand: @current_hand)[0] && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4)) %>
-          <div class="percentage <%= 'odds-deviation' if @current_hand.user_cards.where(user: user).count == 4 %>" id="<%= 'current-winner' if @current_winners && @current_winners.include?(user) %>">
+        <% if  UserHand.where(user: user, hand: @current_hand)[0] && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) %>
+          <div class="percentage <%= 'odds-deviation' if @current_hand.user_cards.where(user: user).count == 4 %> <%= 'odds-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5 %>" id="<%= 'current-winner' if @current_winners && @current_winners.include?(user) %>">
             <%= UserHand.where(user: user, hand: @current_hand)[0].odds %>
           </div>
         <% end %>
@@ -151,7 +151,7 @@
           </div>
         </div>
         <% player_position += 1 %>
-        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4))  %>
+        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5))  %>
           <div class="d-flex justify-content-center">
             <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
           </div>
