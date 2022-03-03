@@ -85,6 +85,7 @@ class GamesController < ApplicationController
 
   def create
     @game = Game.new(game_params)
+    @game.hand_limit = 100000
     @game.save
     redirect_to games_path
   end
@@ -95,7 +96,8 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    @game.update(game_params)
+    max_hand_number = @game.hands.count + 10
+    @game.update_attribute(:hand_limit, max_hand_number)
     redirect_to game_path(@game)
   end
 
