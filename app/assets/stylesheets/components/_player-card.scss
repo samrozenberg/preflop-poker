@@ -33,6 +33,11 @@
   right: 72%;
 }
 
+
+.position-0 .odds-deviation-o5 {
+  right: 78%;
+}
+
 #current-winner {
   background-color: rgba($color: red, $alpha: 0.9);
 }
@@ -52,6 +57,10 @@
   right: 72%;
 }
 
+.position-4 .odds-deviation-o5 {
+  right: 78%;
+}
+
 .position-5 .percentage {
   position: absolute;
   top: 10%;
@@ -65,6 +74,10 @@
 
 .position-5 .odds-deviation {
   right: 72%;
+}
+
+.position-5 .odds-deviation-o5 {
+  right: 78%;
 }
 
 .position-2 .percentage {
@@ -82,6 +95,10 @@
   left: 72%;
 }
 
+.position-2 .odds-deviation-o5 {
+  left: 78%;
+}
+
 .position-3 .percentage {
   position: absolute;
   top: 10%;
@@ -97,6 +114,10 @@
   left: 72%;
 }
 
+.position-3 .odds-deviation-o5 {
+  left: 78%;
+}
+
 .position-1 .percentage {
   position: absolute;
   top: 10%;
@@ -110,4 +131,12 @@
 
 .position-1 .odds-deviation {
   left: 72%;
+}
+
+.position-1 .odds-deviation-o5 {
+  left: 78%;
+}
+
+.position-3 .odds-deviation-o5 {
+  left: 78%;
 }

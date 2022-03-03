@@ -147,6 +147,77 @@ class FlopCardsController < ApplicationController
         odd = (@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1) % 1 == 0 ? "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1).to_i}%" : "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1)}%"
         user_hand.update_attribute(:odds, odd)
       end
+    elsif @hand.name == "Omaha 5"
+      @combinations = @combination_available_cards.combination(2).to_a.sample(50)
+      @in_hand_players.each do |player|
+        instance_variable_set("@#{player.pseudo}_cards", [])
+        UserCard.where(hand: @current_hand, user: player).each do |card|
+          instance_variable_get("@#{player.pseudo}_cards") << card.deck_card.code
+        end
+      end
+      @winners = []
+      @flop_cards_codes = []
+      @flop_cards.each do |card|
+        @flop_cards_codes << card.code
+      end
+      @combinations.each do |combination|
+        winning_simulation = PokerHand.new("")
+        winning_player = []
+        @in_hand_players.each do |player|
+          player_best_pokerhand = PokerHand.new("")
+          instance_variable_get("@#{player.pseudo}_cards").combination(2).to_a.each do |two_card_combination|
+            board_cards = []
+            combination.each do |card|
+              board_cards << card.code
+            end
+            board_cards += @flop_cards_codes
+
+            best_combination = PokerHand.new("")
+
+            board_cards.combination(3).to_a.each do |combi|
+              pokerhand_five = PokerHand.new(two_card_combination)
+              pokerhand_five << combi
+              if pokerhand_five > best_combination
+                best_combination = pokerhand_five
+              end
+            end
+
+            if best_combination > player_best_pokerhand
+              player_best_pokerhand = best_combination
+            end
+          end
+          if player_best_pokerhand > winning_simulation
+            winning_simulation = player_best_pokerhand
+            winning_player.clear
+            winning_player << player
+          elsif player_best_pokerhand == winning_simulation
+            winning_player << player
+          end
+        end
+        winning_player.each do |player|
+          @winners << player
+        end
+      end
+
+      UserHand.where(user: @in_hand_players, hand: @hand).each do |user_hand|
+        best_pokerhand = PokerHand.new("")
+        user_five_cards = []
+        UserCard.where(user: user_hand.user, hand: @hand).each do |user_card|
+          user_five_cards << user_card.deck_card.code
+        end
+        user_five_cards.combination(2).to_a.each do |two_card_combination|
+          pokerhand = PokerHand.new(two_card_combination)
+          FlopCard.where(hand: @hand).each do |card|
+            pokerhand << card.deck_card.code
+          end
+          if pokerhand > best_pokerhand
+            best_pokerhand = pokerhand
+          end
+        end
+        user_hand.update_attribute(:rank, best_pokerhand.rank)
+        odd = (@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1) % 1 == 0 ? "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1).to_i}%" : "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1)}%"
+        user_hand.update_attribute(:odds, odd)
+      end
     end
 
     redirect_to game_path(@game)

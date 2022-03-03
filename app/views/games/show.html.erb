@@ -23,7 +23,7 @@
 
     <div class="game-infos-right">
       <div>
-        <h6 class="mb-3"><%= @game.sb_amount %>€/<%= @game.sb_amount %>€/<%= @game.max_bet_amount %>€</h6>
+        <h6 class="mb-3"><%= @game.sb_amount %>€/<%= @game.bb_amount %>€/<%= @game.max_bet_amount %>€</h6>
         <% if @game.hands.count == 0 || @game.hands.count == 1 %>
           <p><%= @game.hands.count %> hand played</p>
         <% else %>
@@ -70,39 +70,45 @@
         <div class="player-cards-wrapper">
           <% if (user == @user && @in_hand_players.include?(user)) %>
             <div class="text-center d-flex justify-content-center">
-              <%= image_tag "#{@current_hand.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: @user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: @user).count == 4}" %>
+              <%= image_tag "#{@current_hand.user_cards.where(user: @user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: @user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: @user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
               <%= image_tag "#{@current_hand.user_cards.where(user: @user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: @user).count == 4}" %>
-              <% if @current_hand.user_cards.where(user: @user).count == 3 %>
-                <%= image_tag "#{@current_hand.user_cards.where(user: @user)[2].deck_card.url}", class: "user-cards-3" %>
+              <% if @current_hand.user_cards.where(user: @user).count >= 3 %>
+                <%= image_tag "#{@current_hand.user_cards.where(user: @user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: @user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: @user).count == 5}" %>
               <% end %>
-              <% if @current_hand.user_cards.where(user: @user).count == 4 %>
-                <%= image_tag "#{@current_hand.user_cards.where(user: @user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: @user).count == 4}" %>
+              <% if @current_hand.user_cards.where(user: @user).count >= 4 %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: @user)[3].deck_card.url}", class: "user-cards-4" %>
+              <% end %>
+              <% if @current_hand.user_cards.where(user: @user).count >= 5 %>
+                <%= image_tag "#{@current_hand.user_cards.where(user: @user)[4].deck_card.url}", class: "user-cards-5" %>
               <% end %>
             </div>
           <% elsif @in_hand_players.include?(user) %>
             <% if @current_hand.better == nil && (@in_hand_players_card_count == @in_hand_players.count * 2 || @in_hand_players_card_count == @in_hand_players.count * 4 ) %>
               <div class="text-center d-flex justify-content-center">
-                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
+                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
-                <% if @current_hand.user_cards.where(user: user).count == 3 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3" %>
+                <% if @current_hand.user_cards.where(user: user).count >= 3 %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4 } #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: @user).count == 5}" %>
                 <% end %>
-                <% if @current_hand.user_cards.where(user: user).count == 4 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
+                <% if @current_hand.user_cards.where(user: user).count >= 4 %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[3].deck_card.url}", class: "user-cards-4" %>
+                <% end %>
+                <% if @current_hand.user_cards.where(user: user).count >= 5 %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[4].deck_card.url}", class: "user-cards-5" %>
                 <% end %>
               </div>
             <% else %>
               <div class="text-center d-flex justify-content-center">
-                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
+                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
-                <% if @current_hand.user_cards.where(user: user).count == 3 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3" %>
+               <% if @current_hand.user_cards.where(user: user).count >= 3 %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: @user).count == 5}" %>
                 <% end %>
-                <% if @current_hand.user_cards.where(user: user).count == 4 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
+                <% if @current_hand.user_cards.where(user: user).count >= 4 %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[3].deck_card.url}", class: "user-cards-4" %>
+                <% end %>
+                <% if @current_hand.user_cards.where(user: user).count >= 5 %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[4].deck_card.url}", class: "user-cards-5" %>
                 <% end %>
               </div>
             <% end %>
@@ -113,8 +119,8 @@
             </div>
           <% end %>
         </div>
-        <% if  UserHand.where(user: user, hand: @current_hand)[0] && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4)) %>
-          <div class="percentage <%= 'odds-deviation' if @current_hand.user_cards.where(user: user).count == 4 %>" id="<%= 'current-winner' if @current_winners && @current_winners.include?(user) %>">
+        <% if  UserHand.where(user: user, hand: @current_hand)[0] && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) %>
+          <div class="percentage <%= 'odds-deviation' if @current_hand.user_cards.where(user: user).count == 4 %> <%= 'odds-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5 %>" id="<%= 'current-winner' if @current_winners && @current_winners.include?(user) %>">
             <%= UserHand.where(user: user, hand: @current_hand)[0].odds %>
           </div>
         <% end %>
@@ -145,7 +151,7 @@
           </div>
         </div>
         <% player_position += 1 %>
-        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4))  %>
+        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5))  %>
           <div class="d-flex justify-content-center">
             <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
           </div>
@@ -157,7 +163,8 @@
         <% end %>
       </div>
     <% end %>
-    <div>
+    <div class="inner-table-wrapper">
+      <div class="game-name-display"><%= @current_hand.name.upcase %></div>
       <% if @active_players.count > 0 %>
         <div class="inner-table">
           <div>
@@ -206,6 +213,10 @@
               <%= f.hidden_field :name, :value => "Omaha 4" %>
               <%= f.submit "Omaha 4", class: "dealing-button" %>
             <% end %>
+            <%= simple_form_for [@game, @hand] do |f| %>
+              <%= f.hidden_field :name, :value => "Omaha 5" %>
+              <%= f.submit "Omaha 5", class: "dealing-button" %>
+            <% end %>
           <% end %>
           <% if @current_hand && @game.users.include?(current_user) %>
             <% if @current_hand.flop_cards.count == 0 %>
@@ -223,6 +234,8 @@
             <% end %>
           <% end %>
         </div>
+      <% else %>
+        <div class="mb-5"></div>
       <% end %>
     </div>
   </div>
