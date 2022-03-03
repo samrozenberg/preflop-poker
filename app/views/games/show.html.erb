@@ -21,15 +21,23 @@
 
     <div class="game-infos-right">
       <div>
-        <h6><%= @game.sb_amount %>€/<%= @game.sb_amount %>€/<%= @game.max_bet_amount %>€</h6>
+        <h6 class="mb-3"><%= @game.sb_amount %>€/<%= @game.sb_amount %>€/<%= @game.max_bet_amount %>€</h6>
         <% if @game.hands.count == 0 || @game.hands.count == 1 %>
           <p><%= @game.hands.count %> hand played</p>
         <% else %>
           <p><%= @game.hands.count %> hands played</p>
         <% end %>
       </div>
-      <% if @game.hand_limit == 100000 %>
+      <% if @game.hand_limit == 100000 || @game.hand_limit == nil  %>
         <%= link_to "Last 10 hands", game_path(@game), method: :put, class: "btn btn-leave" %>
+      <% else %>
+        <% if @game.hand_limit - @game.hands.count > 1 %>
+          <span>🚨 <%= @game.hand_limit - @game.hands.count %> hands left 🚨</span>
+        <% elsif @game.hand_limit - @game.hands.count == 1  %>
+          <span>🚨 LAST HAND 🚨</span>
+        <% else %>
+          <span>⛔️ Game over ! ⛔️</span>
+        <% end %>
       <% end %>
     </div>
   </div>
@@ -215,21 +223,21 @@
     </div>
   </div>
 
-  <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
-    <div class="delete-cards-wrapper d-flex">
-      <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
-              game_hand_user_card_path(@current_hand, @current_user_card_1),
-              method: :delete, class: "btn-delete" %>
-      <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
-              game_hand_user_card_path(@current_hand, @current_user_card_2),
-              method: :delete, class: "btn-delete" %>
-      <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
-              game_hand_user_card_path(@current_hand, @current_user_card_3),
-              method: :delete, class: "btn-delete" %>
-    </div>
+  <% if @current_hand %>
+    <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
+      <div class="delete-cards-wrapper d-flex">
+        <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_1),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_2),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_3),
+                method: :delete, class: "btn-delete" %>
+      </div>
+    <% end %>
   <% end %>
-
-
 
   <% if @current_hand && @user == @current_hand.better && @current_hand.flop_cards.count == 0 %>
     <div class="betting-wrapper d-flex">
