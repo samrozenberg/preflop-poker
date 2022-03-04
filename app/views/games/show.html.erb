@@ -259,6 +259,18 @@
                 game_hand_user_card_path(@current_hand, @current_user_card_3),
                 method: :delete, class: "btn-delete" %>
       </div>
+    <% elsif @current_hand.user_cards.where(user: @user).count == 3 && @current_hand.name =="Sutra" && @current_hand.turn_cards.count == 1 %>
+      <div class="delete-cards-wrapper d-flex">
+        <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_1),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_2),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_3),
+                method: :delete, class: "btn-delete" %>
+      </div>
     <% end %>
   <% end %>
 

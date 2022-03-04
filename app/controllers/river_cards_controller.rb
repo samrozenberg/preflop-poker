@@ -10,6 +10,9 @@ class RiverCardsController < ApplicationController
     @game.hands.last.user_cards.each do |user_card|
       @used_cards << user_card.deck_card
     end
+    DeletedCard.where(hand: @hand).each do |card|
+      @used_cards << card.deck_card
+    end
     @game.hands.last.flop_cards.each do |flop_card|
       @used_cards << flop_card.deck_card
     end
@@ -19,7 +22,7 @@ class RiverCardsController < ApplicationController
     @available_cards = DeckCard.all - @used_cards
     RiverCard.create(hand: @hand, deck_card: @available_cards.sample)
 
-    if @hand.name == "Texas" || @hand.name == "Pineapple"
+    if @hand.name == "Texas" || @hand.name == "Pineapple" || @hand.name == "Sutra"
       winning_poker_hand = PokerHand.new("")
       winners = []
 
