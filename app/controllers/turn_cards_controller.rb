@@ -10,6 +10,9 @@ class TurnCardsController < ApplicationController
     @game.hands.last.user_cards.each do |user_card|
       @used_cards << user_card.deck_card
     end
+    DeletedCard.where(hand: @hand).each do |card|
+      @used_cards << card.deck_card
+    end
     @game.hands.last.flop_cards.each do |flop_card|
       @used_cards << flop_card.deck_card
     end

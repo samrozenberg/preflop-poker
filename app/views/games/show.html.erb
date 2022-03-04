@@ -151,7 +151,7 @@
           </div>
         </div>
         <% player_position += 1 %>
-        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5))  %>
+        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) && (@in_hand_players[0].user_hands.where(hand: @current_hand)[0].rank != nil)  %>
           <div class="d-flex justify-content-center">
             <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
           </div>
@@ -164,7 +164,9 @@
       </div>
     <% end %>
     <div class="inner-table-wrapper">
-      <div class="game-name-display"><%= @current_hand.name.upcase %></div>
+      <% if @current_hand %>
+        <div class="game-name-display"><%= @current_hand.name.upcase %></div>
+      <% end %>
       <% if @active_players.count > 0 %>
         <div class="inner-table">
           <div>
@@ -210,6 +212,10 @@
               <%= f.submit "Pineapple", class: "dealing-button" %>
             <% end %>
             <%= simple_form_for [@game, @hand] do |f| %>
+              <%= f.hidden_field :name, :value => "Sutra" %>
+              <%= f.submit "Sutra", class: "dealing-button" %>
+            <% end %>
+            <%= simple_form_for [@game, @hand] do |f| %>
               <%= f.hidden_field :name, :value => "Omaha 4" %>
               <%= f.submit "Omaha 4", class: "dealing-button" %>
             <% end %>
@@ -241,7 +247,19 @@
   </div>
 
   <% if @current_hand %>
-    <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
+    <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 && (@current_hand.deleted_cards.count != @in_hand_players.count) %>
+      <div class="delete-cards-wrapper d-flex">
+        <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_1),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_2.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_2),
+                method: :delete, class: "btn-delete" %>
+        <%= link_to "Delete #{@current_user_card_3.deck_card.name}",
+                game_hand_user_card_path(@current_hand, @current_user_card_3),
+                method: :delete, class: "btn-delete" %>
+      </div>
+    <% elsif @current_hand.user_cards.where(user: @user).count == 3 && @current_hand.name =="Sutra" && @current_hand.turn_cards.count == 1 %>
       <div class="delete-cards-wrapper d-flex">
         <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
                 game_hand_user_card_path(@current_hand, @current_user_card_1),
