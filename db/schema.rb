@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_03_040348) do
+ActiveRecord::Schema.define(version: 2022_03_04_034326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,15 @@ ActiveRecord::Schema.define(version: 2022_03_03_040348) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "url"
     t.string "code"
+  end
+
+  create_table "deleted_cards", force: :cascade do |t|
+    t.bigint "hand_id", null: false
+    t.bigint "deck_card_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["deck_card_id"], name: "index_deleted_cards_on_deck_card_id"
+    t.index ["hand_id"], name: "index_deleted_cards_on_hand_id"
   end
 
   create_table "flop_cards", force: :cascade do |t|
@@ -170,6 +179,8 @@ ActiveRecord::Schema.define(version: 2022_03_03_040348) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "bets", "hands"
   add_foreign_key "bets", "users"
+  add_foreign_key "deleted_cards", "deck_cards"
+  add_foreign_key "deleted_cards", "hands"
   add_foreign_key "flop_cards", "deck_cards"
   add_foreign_key "flop_cards", "hands"
   add_foreign_key "hand_winners", "hands"

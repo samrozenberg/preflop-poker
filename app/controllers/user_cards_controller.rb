@@ -3,8 +3,8 @@ class UserCardsController < ApplicationController
     @game = Game.find(params[:id])
     @user_card = UserCard.find(params[:hand_id])
     @user_card.destroy
-
     @hand = @game.hands.last
+    DeletedCard.create(hand: @hand, deck_card: @user_card.deck_card)
     @current_hand = @game.hands.last
     @in_hand_players = []
     UserHand.where(hand: @hand, active: true).each do |userhand|
@@ -16,10 +16,13 @@ class UserCardsController < ApplicationController
       @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
     end
 
-    if @in_hand_players_card_count == @in_hand_players.count * 2
+    if @in_hand_players_card_count == @in_hand_players.count * 2 && @game.name == "Pineapple"
       @used_cards = []
       @hand.user_cards.each do |user_card|
         @used_cards << user_card.deck_card
+      end
+      DeletedCard.where(hand: @hand).each do |card|
+        @used_cards << card.deck_card
       end
       @flop_cards = []
       @hand.flop_cards.each do |card|
@@ -73,6 +76,27 @@ class UserCardsController < ApplicationController
         user_hand.update_attribute(:rank, pokerhand.rank)
         odd = (@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1) % 1 == 0 ? "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1).to_i}%" : "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1)}%"
         user_hand.update_attribute(:odds, odd)
+      end
+    elsif @in_hand_players_card_count == @in_hand_players.count * 2 && @game.name == "Sutra"
+      raise
+      @used_cards = []
+      @hand.user_cards.each do |user_card|
+        @used_cards << user_card.deck_card
+      end
+      DeletedCard.where(hand: @hand).each do |card|
+        @used_cards << card.deck_card
+      end
+      @flop_cards = []
+      @hand.flop_cards.each do |card|
+        @flop_cards << card.deck_card
+      end
+      @available_cards = DeckCard.all - @used_cards - @flop_cards
+      @cards_to_redistribute = @available_cards.sample(@in_hand_players.count)
+
+      index = 0
+      @in_hand_players.each do |player|
+        UserCard.create(hand: @hand, user: player, deck_card: @cards_to_redistribute[index])
+        index += 1
       end
     end
 

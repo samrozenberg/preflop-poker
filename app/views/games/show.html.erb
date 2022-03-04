@@ -151,7 +151,7 @@
           </div>
         </div>
         <% player_position += 1 %>
-        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5))  %>
+        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) && (@game.name != "Sutra" || @current_hand.turn_cards.count > 0)  %>
           <div class="d-flex justify-content-center">
             <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
           </div>
@@ -164,7 +164,9 @@
       </div>
     <% end %>
     <div class="inner-table-wrapper">
-      <div class="game-name-display"><%= @current_hand.name.upcase %></div>
+      <% if @current_hand %>
+        <div class="game-name-display"><%= @current_hand.name.upcase %></div>
+      <% end %>
       <% if @active_players.count > 0 %>
         <div class="inner-table">
           <div>
