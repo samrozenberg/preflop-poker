@@ -151,7 +151,7 @@
           </div>
         </div>
         <% player_position += 1 %>
-        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) && (@game.name != "Sutra" || @current_hand.turn_cards.count > 0)  %>
+        <% if (@in_hand_players.include?(user) && @current_hand.flop_cards.count == 3) && ((@in_hand_players_card_count == @in_hand_players.count * 2) || (@in_hand_players_card_count == @in_hand_players.count * 4) || (@in_hand_players_card_count == @in_hand_players.count * 5)) && (@in_hand_players[0].user_hands.where(hand: @current_hand)[0].rank != nil)  %>
           <div class="d-flex justify-content-center">
             <p class="hand-strength"><%= UserHand.where(user: user, hand: @current_hand)[0].rank %></p>
           </div>
@@ -247,7 +247,7 @@
   </div>
 
   <% if @current_hand %>
-    <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 %>
+    <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 && (@current_hand.deleted_cards.count != @in_hand_players.count) %>
       <div class="delete-cards-wrapper d-flex">
         <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
                 game_hand_user_card_path(@current_hand, @current_user_card_1),

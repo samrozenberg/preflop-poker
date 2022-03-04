@@ -15,8 +15,7 @@ class UserCardsController < ApplicationController
     @in_hand_players.each do |player|
       @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
     end
-
-    if @in_hand_players_card_count == @in_hand_players.count * 2 && @game.name == "Pineapple"
+    if @in_hand_players_card_count == @in_hand_players.count * 2 && @hand.name == "Pineapple"
       @used_cards = []
       @hand.user_cards.each do |user_card|
         @used_cards << user_card.deck_card
@@ -77,8 +76,7 @@ class UserCardsController < ApplicationController
         odd = (@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1) % 1 == 0 ? "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1).to_i}%" : "#{(@winners.count(user_hand.user) / @combinations.count.to_f * 100).round(1)}%"
         user_hand.update_attribute(:odds, odd)
       end
-    elsif @in_hand_players_card_count == @in_hand_players.count * 2 && @game.name == "Sutra"
-      raise
+    elsif @in_hand_players_card_count == @in_hand_players.count * 2 && @hand.name == "Sutra"
       @used_cards = []
       @hand.user_cards.each do |user_card|
         @used_cards << user_card.deck_card
@@ -92,7 +90,6 @@ class UserCardsController < ApplicationController
       end
       @available_cards = DeckCard.all - @used_cards - @flop_cards
       @cards_to_redistribute = @available_cards.sample(@in_hand_players.count)
-
       index = 0
       @in_hand_players.each do |player|
         UserCard.create(hand: @hand, user: player, deck_card: @cards_to_redistribute[index])
