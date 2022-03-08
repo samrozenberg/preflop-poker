@@ -13,10 +13,10 @@ class BetsController < ApplicationController
     UserHand.where(hand: @game.hands.last, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
-    @active_players = []
-    @game.reservations.where(active: true).each do |reservation|
-      @active_players << reservation.user
-    end
+    # @active_players = []
+    # @game.reservations.where(active: true).each do |reservation|
+    #   @active_players << reservation.user
+    # end
     @last_better = @game.hands.last.better
     if @in_hand_players.find_index(@last_better) < @in_hand_players.count - 1
       next_better_index = @in_hand_players.find_index(@last_better) + 1

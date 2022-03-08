@@ -13,8 +13,14 @@ class UserHandsController < ApplicationController
     else
       next_better_index = 0
     end
-    @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
     @userhand.update_attribute(:active, false)
+
+    if UserHand.where(hand: @game.hands.last, active: true).count == 1
+      next_better_index = 500000
+      HandWinner.create(hand: @game.hands.last, winner: UserHand.where(hand: @game.hands.last, active: true)[0].user)
+    end
+    @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
+
     redirect_to game_path(@game)
   end
 end
