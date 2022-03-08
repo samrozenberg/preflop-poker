@@ -44,10 +44,11 @@
     </div>
   </div>
 
+
   <% player_position = 1 %>
   <div class="poker-table mb-5">
     <% @active_players.each do |user| %>
-      <% if @active_players.include?(@user)  %>
+      <% if @active_players.include?(@user) %>
         <% player_position = @active_players.find_index(user) - @active_players.find_index(@user) %>
         <% if player_position < 0 %>
           <% player_position = @active_players.count - @active_players.find_index(@user) + @active_players.find_index(user) %>
