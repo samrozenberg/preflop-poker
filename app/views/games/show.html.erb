@@ -12,7 +12,12 @@
             <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
             <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
             <% if @game.reservations.where(user_id: current_user.id)[0].active %>
-              <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+              <% if @current_hand.river_cards.count == 1 %>
+                <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
+              <% else %>
+                <div class="btn btn-progress">Hand in progress...</div>
+              <% end %>
+
             <% else %>
               <%= link_to "Re-join the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-flat" %>
             <% end %>
