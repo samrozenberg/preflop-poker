@@ -2,7 +2,7 @@ class HandsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
     @active_players = []
-    @game.reservations.where(active: true).each do |reservation|
+    @game.reservations.where(active: true).order(:created_at).each do |reservation|
       @active_players << reservation.user
     end
 

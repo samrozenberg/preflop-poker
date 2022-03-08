@@ -89,7 +89,7 @@
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
                 <% if @current_hand.user_cards.where(user: user).count >= 3 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4 } #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: @user).count == 5}" %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4 } #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <% end %>
                 <% if @current_hand.user_cards.where(user: user).count >= 4 %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[3].deck_card.url}", class: "user-cards-4" %>
@@ -103,7 +103,7 @@
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
                <% if @current_hand.user_cards.where(user: user).count >= 3 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: @user).count == 5}" %>
+                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <% end %>
                 <% if @current_hand.user_cards.where(user: user).count >= 4 %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[3].deck_card.url}", class: "user-cards-4" %>
