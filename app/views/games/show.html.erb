@@ -23,6 +23,10 @@
             <% end %>
           <% end %>
         </div>
+
+      <span type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scoreModal">
+        See Results
+      </span>
       <% end %>
     </div>
 
@@ -342,3 +346,36 @@
     </div>
   <% end %>
 </div>
+
+
+
+<div class="modal fade" id="scoreModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-betwee">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Anglo-American_card_suits.svg/926px-Anglo-American_card_suits.svg.png" class="modal-image" />
+            <div class="d-flex align-items-center ms-2">
+              <h5 class="modal-title" id="exampleModalLabel"><%= @game.name %></h5>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <div class="row justify-content-center">
+                <div class="signup-form">
+                  <h2 class="mb-4">Scores</h2>
+                  <table class="table table-bordered">
+                    <% @game.reservations.order(score: :desc).each do |reservation| %>
+                      <tr>
+                        <th><%= reservation.user.pseudo %></th>
+                        <td class="<%= 'positive-score' if reservation.score > 0 %> <%= 'negative-score' if reservation.score < 0 %>"><%= reservation.score %>€</td>
+                      </tr>
+                    <% end %>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
