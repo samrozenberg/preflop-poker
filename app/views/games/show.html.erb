@@ -13,9 +13,9 @@
             <% reservation_idd = Reservation.all.where(user_id: current_user.id, game_id: @game.id).to_a[0].id %>
             <%# <%= link_to "Leave Game", game_reservation_path(@game, reservation_idd), method: :delete, class: "btn btn-danger" %>
             <% if @game.reservations.where(user_id: current_user.id)[0].active %>
-              <% if @current_hand.river_cards.count == 1 %>
+              <% if @current_hand && @current_hand.river_cards.count == 1 %>
                 <%= link_to "Leave the Game", game_reservation_path(@game, reservation_idd), method: :put, class: "btn btn-leave" %>
-              <% else %>
+              <% elsif @current_hand %>
                 <div class="btn btn-progress">Hand in progress...</div>
               <% end %>
 
@@ -324,7 +324,7 @@
         <% end %>
       <% end %>
     </div>
-  <% elsif @current_hand.river_cards.count == 1 %>
+  <% elsif @current_hand && @current_hand.river_cards.count == 1 %>
     <div class="betting-wrapper d-flex" >
     <span type="button" class="results-button" data-bs-toggle="modal" data-bs-target="#scoreModal">
       See Results

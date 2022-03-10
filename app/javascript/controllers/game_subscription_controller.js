@@ -8,7 +8,7 @@ export default class extends Controller {
   connect() {
     this.channel = consumer.subscriptions.create(
       { channel: "GameChannel", id: this.gameIdValue },
-      { received: data => console.log(data) }
+      { received: data => location.reload() }
     )
     console.log(`Subscribed to the game with the id ${this.gameIdValue}.`)
   }
