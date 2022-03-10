@@ -24,9 +24,6 @@
           <% end %>
         </div>
 
-      <span type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#scoreModal">
-        See Results
-      </span>
       <% end %>
     </div>
 
@@ -325,6 +322,12 @@
           </div>
         <% end %>
       <% end %>
+    </div>
+  <% elsif @current_hand.river_cards.count == 1 %>
+    <div class="betting-wrapper d-flex" >
+    <span type="button" class="results-button" data-bs-toggle="modal" data-bs-target="#scoreModal">
+      See Results
+    </span>
     </div>
   <% end %>
 
