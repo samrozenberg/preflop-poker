@@ -17,7 +17,7 @@ class GamesController < ApplicationController
     @reservation = Reservation.new
     @reservations = Reservation.all
     @active_players = []
-    @game.reservations.where(active: true).each do |reservation|
+    @game.reservations.where(active: true).order(:created_at).each do |reservation|
       @active_players << reservation.user
     end
     @current_hand = @game.hands.last

@@ -1,5 +1,6 @@
 .game-infos {
   margin-bottom: 60px;
+  width: 170px;
   color: white;
   border: 1px solid black;
   width: fit-content;
@@ -50,4 +51,24 @@
 .btn-flat:hover {
   background: #008001;
   color: white;
+}
+
+.btn-progress {
+  color: white;
+  padding: 4px 12px;
+  border-radius: 4px;
+  background: #00ad5f;
+  font-size: smaller;
+}
+
+.btn-progress:hover {
+  color: white;
+}
+
+.positive-score {
+  color: #00ad5f;
+}
+
+.negative-score {
+  color: red;
 }

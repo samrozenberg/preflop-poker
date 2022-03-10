@@ -13,8 +13,42 @@ class UserHandsController < ApplicationController
     else
       next_better_index = 0
     end
-    @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
     @userhand.update_attribute(:active, false)
+    @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
+
+    if UserHand.where(hand: @game.hands.last, active: true).count == 1
+      next_better_index = 500000
+      HandWinner.create(hand: @game.hands.last, winner: UserHand.where(hand: @game.hands.last, active: true)[0].user)
+      @game.hands.last.update_attribute(:better, @in_hand_players[next_better_index])
+
+      total_pot = 0
+      @game.hands.last.users.each do |user|
+        if user.bets.where(hand: @game.hands.last).last
+          total_pot += user.bets.where(hand: @game.hands.last).last.amount
+        end
+      end
+
+      if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
+        total_pot += @game.hands[@game.hands.count - 2].remainder
+      end
+
+      winners = []
+
+      winners << HandWinner.where(hand: @game.hands.last, winner: UserHand.where(hand: @game.hands.last, active: true)[0].user)[0].winner
+
+      @game.reservations.where(active: true).each do |reservation|
+        resa = @game.reservations.where(user: reservation.user)[0]
+        if winners.include?(reservation.user)
+          resa.score += total_pot
+        else
+          resa.score += 1
+          resa.save
+          resa.score -= 1
+        end
+        resa.save
+      end
+    end
+
     redirect_to game_path(@game)
   end
 end

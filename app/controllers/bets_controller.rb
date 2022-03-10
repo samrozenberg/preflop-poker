@@ -13,10 +13,10 @@ class BetsController < ApplicationController
     UserHand.where(hand: @game.hands.last, active: true).each do |userhand|
       @in_hand_players << userhand.user
     end
-    @active_players = []
-    @game.reservations.where(active: true).each do |reservation|
-      @active_players << reservation.user
-    end
+    # @active_players = []
+    # @game.reservations.where(active: true).each do |reservation|
+    #   @active_players << reservation.user
+    # end
     @last_better = @game.hands.last.better
     if @in_hand_players.find_index(@last_better) < @in_hand_players.count - 1
       next_better_index = @in_hand_players.find_index(@last_better) + 1
@@ -24,7 +24,7 @@ class BetsController < ApplicationController
       next_better_index = 0
     end
     if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last
-      if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @game.max_bet_amount || @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @bet.hand.bets.last.amount
+      if @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @game.max_bet_amount || (@in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount == @bet.hand.bets.last.amount && @in_hand_players[next_better_index].bets.where(hand: @bet.hand).last.amount != @game.bb_amount)
         next_better_index = 500_000
       end
     end

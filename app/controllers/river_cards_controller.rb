@@ -146,7 +146,7 @@ class RiverCardsController < ApplicationController
       end
     end
 
-    if @game.hands[@game.hands.count - 2].remainder
+    if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
       total_pot += @game.hands[@game.hands.count - 2].remainder
     end
 
