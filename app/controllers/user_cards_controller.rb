@@ -167,6 +167,10 @@ class UserCardsController < ApplicationController
       end
     end
 
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
     redirect_to game_path(@game)
   end
 end
