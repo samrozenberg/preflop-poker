@@ -179,6 +179,12 @@ class RiverCardsController < ApplicationController
         UserHand.where(hand: @hand, user: player)[0].update_attribute(:odds, "0%")
       end
     end
+
+    GameChannel.broadcast_to(
+      @game,
+      @hand.river_cards
+    )
+
     redirect_to game_path(@game)
   end
 end

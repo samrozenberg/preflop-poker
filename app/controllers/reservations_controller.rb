@@ -9,6 +9,10 @@ class ReservationsController < ApplicationController
     @reservation.score = 0
     @reservation.active = true
     if @reservation.save!
+      GameChannel.broadcast_to(
+        @game,
+        @hand
+      )
       redirect_to game_path(@game)
     else
       render :new
@@ -19,6 +23,10 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.find(params[:id])
     @reservation.destroy
     @game = Game.find(params[:game_id])
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
     redirect_to game_path(@game)
   end
 
@@ -30,6 +38,10 @@ class ReservationsController < ApplicationController
       @reservation.update_attribute(:active, true)
     end
     @game = Game.find(params[:game_id])
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
     redirect_to game_path(@game)
   end
 

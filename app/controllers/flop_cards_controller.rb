@@ -220,6 +220,11 @@ class FlopCardsController < ApplicationController
       end
     end
 
+    GameChannel.broadcast_to(
+      @game,
+      @hand.flop_cards
+    )
+
     redirect_to game_path(@game)
   end
 end

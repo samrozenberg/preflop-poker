@@ -123,6 +123,10 @@ class HandsController < ApplicationController
       end
     end
 
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
 
     # (hand_params)
     redirect_to game_path(@game)
@@ -141,10 +145,16 @@ class HandsController < ApplicationController
     else
       next_better_index = 0
     end
-    if @in_hand_players[next_better_index].bets.where(hand: @hand).last.amount == @hand.bets.last.amount && @in_hand_players[next_better_index] == @hand.button
+    if @in_hand_players[next_better_index].bets.where(hand: @hand).last.amount == @hand.bets.last.amount && @in_hand_players[next_better_index] != @hand.big_blind
       next_better_index = 500_000
     end
     @hand.update_attribute(:better, @in_hand_players[next_better_index])
+
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
+
     redirect_to game_path(@game)
   end
 

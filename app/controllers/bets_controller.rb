@@ -39,6 +39,12 @@ class BetsController < ApplicationController
     end
     @current_hand.save
     @user_reservation.save
+
+    GameChannel.broadcast_to(
+      @game,
+      @hand
+    )
+
     redirect_to game_path(@game)
   end
 
