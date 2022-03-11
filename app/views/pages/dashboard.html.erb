@@ -1,3 +1,29 @@
-<h1 class="text-center">Dashboard</h1>
-
-<%= cl_image_tag current_user.photo.key, height: 300, width: 400, crop: :fill %>
+<div class="container">
+  <div class = "d-flex justify-content-between three_dashboard_cards">
+    <div class="dashboard_card" id="information_card">
+      <h2>My Information</h2>
+       <% if @user.photo.attached? %>
+        <%= cl_image_tag @user.photo.key, width: "200px", height: "200px", class: "user-image-dashboard" %>
+      <% else %>
+        <%= image_tag "sam_photo.png", width: "200px", height: "200px", class: "user-image-dashboard" %>
+      <% end %>
+      <table class="table" id="information_table">
+        <tr>
+          <th><i class="fas fa-user"></i></th>
+          <td><%= @user.name %></td>
+        </tr>
+        <tr>
+          <th><i class="fas fa-envelope-open-text"></i></th>
+          <td><%= @user.email %></td>
+        </tr>
+        <tr>
+          <th><i class="fas fa-laptop-house"></th>
+          <td><%= @user.pseudo %></td>
+        </tr>
+      </table>
+      <div class="text-center">
+        <button class="dashboard_button"><%= link_to "Update Profile", edit_user_registration_path%></button>
+      </div>
+    </div>
+  </div>
+</div>
