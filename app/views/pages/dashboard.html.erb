@@ -25,5 +25,33 @@
         <button class="dashboard_button"><%= link_to "Update Profile", edit_user_registration_path%></button>
       </div>
     </div>
+    <div>
+    <div class="dashboard_card" id="general_info_card">
+      <h2>General Statistics</h2>
+      <% if Hand.count > 0 %>
+        <div class="d-flex justify-content-between">
+          <div class="general-stats-left">
+            <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
+            <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
+            <p>Your total revenue is <span class="<%= 'positive-score' if @user_revenue > 0 %> <%= 'negative-score' if @user_revenue < 0 %>"><%= @user_revenue %>€</span> !</p>
+          </div>
+          <div>
+            <p>Players have played a total of <%= @total_money_played %>€.</p>
+            <% if @biggest_winner == @user %>
+              <p>The biggest winner is <strong>you</strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
+            <% else %>
+              <p>The biggest winner is <strong><%= @biggest_winner.pseudo %></strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
+            <% end %>
+            <% if @biggest_loser == @user %>
+              <p>The biggest loser is <strong>you</strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
+            <% else %>
+              <p>The biggest loser is <strong><%= @biggest_loser.pseudo %></strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
+            <% end %>
+          </div>
+        </div>
+      <% else %>
+        <p>Not enough data available.</p>
+      <% end %>
+    </div>
   </div>
 </div>
