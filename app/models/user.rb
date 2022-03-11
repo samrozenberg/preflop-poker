@@ -15,4 +15,6 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :photo, presence: true
   validates :pseudo, presence: true, uniqueness: true
+  belongs_to :best_hand, class_name: "Hand"
+  belongs_to :worst_hand, class_name: "Hand"
 end

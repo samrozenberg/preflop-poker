@@ -186,20 +186,38 @@ class RiverCardsController < ApplicationController
     end
 
     @active_players.each do |player|
-      if winners.include?(player)
-        if hand.pot - hand.bets.where(user: @user).last.amount > @best_hand_win
-          @best_hand_win = hand.pot - hand.bets.where(user: @user).last.amount
-          @best_hand = hand
+      if player.best_hand == nil
+        player.best_hand = @hand
+        player.worst_hand = @hand
+        if winners.include?(player)
+          # player.biggest_win = win_amount - @hand.bets.where(user: player).last.amount
+          # player.biggest_loss = 0
+          player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
+          player.update_attribute(:biggest_loss, 0)
+        else
+          # player.biggest_loss = @hand.bets.where(user: player).last.amount
+          # player.biggest_win = 0
+          player.update_attribute(:biggest_win, 0)
+          player.update_attribute(:biggest_loss, @hand.bets.where(user: player).last.amount)
         end
       else
-        if hand.bets.where(user: @user).last && hand.bets.where(user: @user).last.amount > @worst_hand_loss
-          @worst_hand_loss = hand.bets.where(user: @user).last.amount
-          @worst_hand = hand
+        if winners.include?(player)
+          if @hand.pot - @hand.bets.where(user: player).last.amount > player.biggest_win
+            # player.biggest_win = @hand.pot - @hand.bets.where(user: player).last.amount
+            # player.best_hand = @hand
+            player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
+            player.update_attribute(:best_hand, @hand)
+          end
+        else
+          if @hand.bets.where(user: player).last && @hand.bets.where(user: player).last.amount > player.biggest_loss
+            # player.biggest_loss = @hand.bets.where(user: player).last.amount
+            # player.worst_hand = @hand
+            player.update_attribute(:biggest_loss, @hand.bets.where(user: player).last.amount)
+            player.update_attribute(:worst_hand, @hand)
+          end
         end
       end
     end
-
-
 
     GameChannel.broadcast_to(
       @game,
