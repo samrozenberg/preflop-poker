@@ -180,6 +180,27 @@ class RiverCardsController < ApplicationController
       end
     end
 
+    @active_players = []
+    @game.reservations.where(active: true).order(:created_at).each do |reservation|
+      @active_players << reservation.user
+    end
+
+    @active_players.each do |player|
+      if winners.include?(player)
+        if hand.pot - hand.bets.where(user: @user).last.amount > @best_hand_win
+          @best_hand_win = hand.pot - hand.bets.where(user: @user).last.amount
+          @best_hand = hand
+        end
+      else
+        if hand.bets.where(user: @user).last && hand.bets.where(user: @user).last.amount > @worst_hand_loss
+          @worst_hand_loss = hand.bets.where(user: @user).last.amount
+          @worst_hand = hand
+        end
+      end
+    end
+
+
+
     GameChannel.broadcast_to(
       @game,
       @hand.river_cards
