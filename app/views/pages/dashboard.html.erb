@@ -70,33 +70,14 @@
 
             <tr>
               <td>Best Hand</td>
-              <td><%= Activity.find_by_id(booking.activity_id).name %></td>
-              <td><%= Activity.find_by_id(booking.activity_id).place %></td>
-              <td><%= booking.activity.start_date.strftime("%e %^b %Y %R") %></td>
-              <td><%= booking.activity.end_date.strftime("%e %^b %Y %R") %></td>
-              <td class="booking_status"><%= booking.status %></td>
+              <td><%= @user.best_hand.game.name %></td>
+              <td><%= @user.best_hand.name %></td>
+              <td><%= UserCard.where(user: @user, hand: @user.best_hand)[0].deck_card.name %></td>
 
-              <td>
-                <%= link_to activity_path(Activity.find_by_id(booking.activity_id)) do %>
-                  <i class="far fa-eye"></i>
-                <% end %>
-              </td>
-              <td>
-                <% if Activity.find_by_id(booking.activity_id).chatroom.messages.length == 0 %>
-                  <%= link_to activity_chatroom_path(Activity.find_by_id(booking.activity_id), Activity.find_by_id(booking.activity_id).chatroom) do %>
-                <%# activity_chatroom_path(@chatroom.activity, @chatroom, anchor: "message-#{@message.id}") %>
-                  <i class="far fa-comment-dots"></i>
-                  <% end %>
-                <% else %>
-                  <%= link_to activity_chatroom_path(Activity.find_by_id(booking.activity_id), Activity.find_by_id(booking.activity_id).chatroom, anchor: "message-#{Activity.find_by_id(booking.activity_id).chatroom.messages.last.id}" ) do %>
-                <%# activity_chatroom_path(@chatroom.activity, @chatroom, anchor: "message-#{@message.id}") %>
-                  <i class="far fa-comment-dots"></i>
-                  <% end %>
-                <% end %>
-              </td>
+
+
             </tr>
           </table>
-          <div class="book_btn"><button class="dashboard_button"><%= link_to "Book another activity !", activities_path %></button></div>
         <% else %>
           <p>Not enough data available.</p>
           <button class="dashboard_button"><%= link_to "Look for activities", activities_path %></button>

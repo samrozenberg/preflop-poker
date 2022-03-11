@@ -45,24 +45,5 @@ class PagesController < ApplicationController
         @biggest_loser = user
       end
     end
-
-    @best_hand = nil
-    @worst_hand = nil
-    @best_hand_win = 0
-    @worst_hand_loss = 0
-
-    Hand.all.each do |hand|
-      if hand.hand_winners.include?(@user)
-        if hand.pot - hand.bets.where(user: @user).last.amount > @best_hand_win
-          @best_hand_win = hand.pot - hand.bets.where(user: @user).last.amount
-          @best_hand = hand
-        end
-      else
-        if hand.bets.where(user: @user).last && hand.bets.where(user: @user).last.amount > @worst_hand_loss
-          @worst_hand_loss = hand.bets.where(user: @user).last.amount
-          @worst_hand = hand
-        end
-      end
-    end
   end
 end
