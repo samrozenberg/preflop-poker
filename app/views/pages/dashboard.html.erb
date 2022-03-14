@@ -70,9 +70,15 @@
 
             <tr>
               <td>Best Hand</td>
-              <td><%= @user.best_hand.game.name %></td>
+              <td style="display:flex;justify-content:center;align-items:center;"><%= @user.best_hand.game.name %></td>
               <td><%= @user.best_hand.name %></td>
-              <td><%= UserCard.where(user: @user, hand: @user.best_hand)[0].deck_card.name %></td>
+              <td class="d-flex justify-content-between">
+                <% UserCard.where(user: @user, hand: @user.best_hand).each do |usercard| %>
+                  <div class="dashboard-usercard">
+                    <%= usercard.deck_card.name %>
+                  </div>
+                <% end %>
+              </td>
 
 
 

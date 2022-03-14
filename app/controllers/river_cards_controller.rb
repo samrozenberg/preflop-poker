@@ -200,7 +200,7 @@ class RiverCardsController < ApplicationController
           player.update_attribute(:biggest_win, 0)
           player.update_attribute(:biggest_loss, @hand.bets.where(user: player).last.amount)
         end
-      else
+      elsif @hand.bets.where(user: player).last
         if winners.include?(player)
           if @hand.pot - @hand.bets.where(user: player).last.amount > player.biggest_win
             # player.biggest_win = @hand.pot - @hand.bets.where(user: player).last.amount
