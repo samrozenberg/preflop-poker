@@ -171,15 +171,23 @@
                   <% end %>
                 </div>
               </td>
-              <td><div class="hand-td"><%= @user.hands.last.pot %>€</div></td>
+              <% if @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>
+                <td><div class="hand-td"><%= @user.hands.last.pot + @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>€</div></td>
+              <% else %>
+                <td><div class="hand-td"><%= @user.hands.last.pot %>€</div></td>
+              <% end %>
               <% if @last_hand_win_amount %>
                 <td><div class="hand-td positive-score">+<%= @last_hand_win_amount %>€</div></td>
-              <% end %>
-              <% if @last_hand_loss_amount %>
+              <% elsif @last_hand_loss_amount %>
                 <td><div class="hand-td negative-score">-<%= @last_hand_loss_amount %>€</div></td>
+              <% else %>
+                <td><div class="hand-td">0€</div></td>
               <% end %>
             </tr>
           </table>
+          <div class="text-center">
+            <button class="dashboard_button"><%= link_to "See 50 Last Hands", all_hands_path%></button>
+          </div>
         <% else %>
           <p>Not enough data available.</p>
           <button class="dashboard_button"><%= link_to "Look for activities", activities_path %></button>

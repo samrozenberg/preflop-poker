@@ -1,0 +1,28 @@
+.pages-all_hands {
+  background-image: linear-gradient(180deg, black, rgb(1, 76, 1));
+}
+
+.all-cards {
+  padding: 28px;
+  background-color: rgb(214, 214, 214);
+  color: white;
+  border-radius: 8px;
+  box-shadow: 1px 1px 10px rgba(255, 255, 255, 0.4);
+  height: fit-content;
+  .book_btn{
+    text-align: center;
+  }
+  h2 {
+    color: rgb(253, 76, 76);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+}
+
+.all-hands-usercard {
+  border: 1px solid grey;
+  padding: 8px 2px;
+  font-size: 10px;
+  margin: 4px;
+}
