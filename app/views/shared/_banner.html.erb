@@ -4,7 +4,9 @@
       <h1>PREFLOP</h1>
       <div class="poker-quote">
         <p>“A pair of balls beats everything!”<br>-Phil Ivey</p>
-        <a class="play-button" href="/games">Play now</a>
+        <% if user_signed_in? %>
+          <a class="play-button" href="/games">Play now</a>
+        <% end %>
       </div>
     </div>
   </div>
