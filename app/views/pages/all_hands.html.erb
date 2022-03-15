@@ -8,13 +8,14 @@
       <th>Cards</th>
       <th>Board</th>
       <th>Pot</th>
+      <th>Winner</th>
       <th>Win/Loss</th>
     </tr>
 
     <% index = 0 %>
     <% @user.hands.last(50).reverse.each do |hand| %>
       <tr>
-        <td><div class="hand-td"><%= @user.hands.count - index %></div></td>
+        <td><div class="hand-td"><%= hand.id %></div></td>
         <td><div class="hand-td"><%= hand.game.name %></td>
         <td><div class="hand-td"><%= hand.name %></div></td>
         <td>
@@ -51,13 +52,30 @@
             hand.hand_winners.each do |handwinner|
               @hand_winners << handwinner.winner
             end
-            if @hand_winners.include?(@user) && hand.bets.where(user: @user).last
-              @hand_win_amount = (hand.pot - hand.bets.where(user: @user).last.amount) / @hand_winners.count
+            if @hand_winners.include?(@user)
+              if hand.game.hands[(hand.game.hands.find_index(hand) - 1)].remainder
+                @hand_win_amount = (hand.pot + hand.game.hands[(hand.game.hands.find_index(hand) - 1)].remainder) / @hand_winners.count
+              else
+                @hand_win_amount = hand.pot / @hand_winners.count
+              end
             elsif hand.bets.where(user: @user).last
               @hand_loss_amount = hand.bets.where(user: @user).last.amount
             end %>
-        <td><div class="hand-td"><%= hand.pot %>€</div></td>
-        <% if @hand_win_amount %>
+        <% if hand.game.hands[(hand.game.hands.find_index(hand) - 1)].remainder %>
+          <td><div class="hand-td"><%= hand.pot + hand.game.hands[(hand.game.hands.find_index(hand) - 1)].remainder %>€</div></td>
+        <% else %>
+          <td><div class="hand-td"><%= hand.pot %>€</div></td>
+        <% end %>
+        <% if @hand_winners.count > 1 %>
+          <td><div class="hand-td"><%= @hand_winners.count %> winners</div></td>
+        <% elsif @hand_winners.count == 1 %>
+          <td><div class="hand-td"><%= @hand_winners[0].pseudo %></div></td>
+        <% elsif @hand_winners.count == 0 %>
+          <td><div class="hand-td">No Winner</div></td>
+        <% end %>
+        <% if @hand_win_amount && hand.bets.where(user: @user).last %>
+          <td><div class="hand-td positive-score">+<%= @hand_win_amount - hand.bets.where(user: @user).last.amount %>€</div></td>
+        <% elsif @hand_win_amount %>
           <td><div class="hand-td positive-score">+<%= @hand_win_amount %>€</div></td>
         <% elsif @hand_loss_amount %>
           <td><div class="hand-td negative-score">-<%= @hand_loss_amount %>€</div></td>
