@@ -209,7 +209,7 @@
       <% end %>
       <% if @game.users.include?(current_user) %>
         <div class="buttons d-flex justify-content-center">
-          <% if @game.hand_limit - 1 > @game.hands.count %>
+          <% if @game.hand_limit - 1 > @game.hands.count && @next_button == current_user && @current_hand.river_cards.count == 1 %>
             <%= simple_form_for [@game, @hand] do |f| %>
               <%= f.hidden_field :name, :value => "Texas" %>
               <%= f.submit "Texas", class: "dealing-button" %>
@@ -230,6 +230,8 @@
               <%= f.hidden_field :name, :value => "Omaha 5" %>
               <%= f.submit "Omaha 5", class: "dealing-button" %>
             <% end %>
+          <% else %>
+            <div class="mb-5"></div>
           <% end %>
           <% if @current_hand && @current_hand.button == current_user && @current_hand.better == nil %>
             <% if @current_hand.flop_cards.count == 0 %>
