@@ -1,5 +1,5 @@
 <div class="container">
-  <div class = "d-flex justify-content-between three_dashboard_cards">
+  <div class = "d-flex justify-content-center three_dashboard_cards">
     <div class="dashboard_card" id="information_card">
       <h2>My Information</h2>
        <% if @user.photo.attached? %>
@@ -63,17 +63,16 @@
               <th>Type</th>
               <th>Cards</th>
               <th>Board</th>
-              <th>Hand Winner</th>
               <th>Pot</th>
               <th>Win/Loss</th>
             </tr>
 
             <tr>
-              <td><div class="hand-td">Best Hand</div></td>
+              <td><div class="hand-td td-title">Best Hand</div></td>
               <td><div class="hand-td"><%= @user.best_hand.game.name %></td>
               <td><div class="hand-td"><%= @user.best_hand.name %></div></td>
               <td>
-                <div class="d-flex justify-content-between align-items-center td-cards">
+                <div class="d-flex justify-content-center align-items-center td-cards">
                   <% UserCard.where(user: @user, hand: @user.best_hand).each do |usercard| %>
                     <div class="dashboard-usercard">
                       <%= usercard.deck_card.name %>
@@ -81,9 +80,104 @@
                   <% end %>
                 </div>
               </td>
+              <td>
+                <div class="d-flex justify-content-between align-items-center td-cards">
+                  <% FlopCard.where(hand: @user.best_hand).each do |flopcard| %>
+                    <div class="dashboard-usercard">
+                      <%= flopcard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% TurnCard.where(hand: @user.best_hand).each do |turncard| %>
+                    <div class="dashboard-usercard">
+                      <%= turncard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% RiverCard.where(hand: @user.best_hand).each do |rivercard| %>
+                    <div class="dashboard-usercard">
+                      <%= rivercard.deck_card.name %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td><div class="hand-td"><%= @user.best_hand.pot %>€</div></td>
+              <td><div class="hand-td positive-score">+<%= @user.biggest_win %>€</div></td>
+            </tr>
 
+            <tr>
+              <td><div class="hand-td td-title">Worst Hand</div></td>
+              <td><div class="hand-td"><%= @user.worst_hand.game.name %></td>
+              <td><div class="hand-td"><%= @user.worst_hand.name %></div></td>
+              <td>
+                <div class="d-flex justify-content-center align-items-center td-cards">
+                  <% UserCard.where(user: @user, hand: @user.worst_hand).each do |usercard| %>
+                    <div class="dashboard-usercard">
+                      <%= usercard.deck_card.name %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-between align-items-center td-cards">
+                  <% FlopCard.where(hand: @user.worst_hand).each do |flopcard| %>
+                    <div class="dashboard-usercard">
+                      <%= flopcard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% TurnCard.where(hand: @user.worst_hand).each do |turncard| %>
+                    <div class="dashboard-usercard">
+                      <%= turncard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% RiverCard.where(hand: @user.worst_hand).each do |rivercard| %>
+                    <div class="dashboard-usercard">
+                      <%= rivercard.deck_card.name %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td><div class="hand-td"><%= @user.worst_hand.pot %>€</div></td>
+              <td><div class="hand-td negative-score">-<%= @user.biggest_loss %>€</div></td>
+            </tr>
 
-
+            <tr>
+              <td><div class="hand-td td-title">Last Hand</div></td>
+              <td><div class="hand-td"><%= @user.hands.last.game.name %></td>
+              <td><div class="hand-td"><%= @user.hands.last.name %></div></td>
+              <td>
+                <div class="d-flex justify-content-center align-items-center td-cards">
+                  <% UserCard.where(user: @user, hand: @user.hands.last).each do |usercard| %>
+                    <div class="dashboard-usercard">
+                      <%= usercard.deck_card.name %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td>
+                <div class="d-flex justify-content-between align-items-center td-cards">
+                  <% FlopCard.where(hand: @user.hands.last).each do |flopcard| %>
+                    <div class="dashboard-usercard">
+                      <%= flopcard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% TurnCard.where(hand: @user.hands.last).each do |turncard| %>
+                    <div class="dashboard-usercard">
+                      <%= turncard.deck_card.name %>
+                    </div>
+                  <% end %>
+                  <% RiverCard.where(hand: @user.hands.last).each do |rivercard| %>
+                    <div class="dashboard-usercard">
+                      <%= rivercard.deck_card.name %>
+                    </div>
+                  <% end %>
+                </div>
+              </td>
+              <td><div class="hand-td"><%= @user.hands.last.pot %>€</div></td>
+              <% if @last_hand_win_amount %>
+                <td><div class="hand-td positive-score">+<%= @last_hand_win_amount %>€</div></td>
+              <% end %>
+              <% if @last_hand_loss_amount %>
+                <td><div class="hand-td negative-score">-<%= @last_hand_loss_amount %>€</div></td>
+              <% end %>
             </tr>
           </table>
         <% else %>

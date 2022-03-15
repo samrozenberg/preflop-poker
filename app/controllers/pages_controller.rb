@@ -45,5 +45,17 @@ class PagesController < ApplicationController
         @biggest_loser = user
       end
     end
+
+    @last_hand_winners = []
+
+    @user.hands.last.hand_winners.each do |handwinner|
+      @last_hand_winners << handwinner.winner
+    end
+
+    if @last_hand_winners.include?(@user)
+      @last_hand_win_amount = (@user.hands.last.pot - @user.hands.last.bets.where(user: @user).last.amount) / @last_hand_winners.count
+    else
+      @last_hand_loss_amount = @user.hands.last.bets.where(user: @user).last.amount
+    end
   end
 end
