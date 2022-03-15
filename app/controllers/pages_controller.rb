@@ -2,6 +2,10 @@ class PagesController < ApplicationController
   def home
   end
 
+  def all_hands
+    @user = current_user
+  end
+
   def dashboard
     @user = current_user
     @user_revenue = 0
@@ -52,9 +56,9 @@ class PagesController < ApplicationController
       @last_hand_winners << handwinner.winner
     end
 
-    if @last_hand_winners.include?(@user)
+    if @last_hand_winners.include?(@user) && @user.hands.last.bets.where(user: @user).last
       @last_hand_win_amount = (@user.hands.last.pot - @user.hands.last.bets.where(user: @user).last.amount) / @last_hand_winners.count
-    else
+    elsif @user.hands.last.bets.where(user: @user).last
       @last_hand_loss_amount = @user.hands.last.bets.where(user: @user).last.amount
     end
   end
