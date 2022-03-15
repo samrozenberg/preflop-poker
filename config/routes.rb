@@ -17,5 +17,6 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get "/dashboard", to: "pages#dashboard"
+  get "/hands", to: "pages#hands"
   delete 'games/:id', to: 'games#destroy', as: :destroy
 end
