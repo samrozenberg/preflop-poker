@@ -231,16 +231,16 @@
               <%= f.submit "Omaha 5", class: "dealing-button" %>
             <% end %>
           <% end %>
-          <% if @current_hand && @game.users.include?(current_user) %>
+          <% if @current_hand && @current_hand.button == current_user && @current_hand.better == nil %>
             <% if @current_hand.flop_cards.count == 0 %>
               <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
                 <%= f.submit "Deal flop", class: "dealing-button" %>
               <% end %>
-            <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0  %>
+            <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count ))  %>
               <%= simple_form_for [@game, @current_hand, @turn_card] do |f| %>
                 <%= f.submit "Deal turn", class: "dealing-button" %>
               <% end %>
-            <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 %>
+            <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || @current_hand.name == "Pineapple" || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count * 2 )) %>
               <%= simple_form_for [@game, @current_hand, @river_card] do |f| %>
                 <%= f.submit "Deal river", class: "dealing-button" %>
               <% end %>
