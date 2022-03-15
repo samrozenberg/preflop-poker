@@ -33,12 +33,12 @@
         <% if @game.hands.count == 0 || @game.hands.count == 1 %>
           <p><%= @game.hands.count %> hand played</p>
         <% else %>
-          <p><%= @game.hands.count %> hands played</p>
+          <div class="mb-2"><%= @game.hands.count %> hands played</div>
         <% end %>
       </div>
-      <% if @game.hand_limit == 100000 || @game.hand_limit == nil  %>
+      <% if (@game.hand_limit == 100000 || @game.hand_limit == nil) && @current_hand.river_cards.count == 1  %>
         <%= link_to "Last 10 hands", game_path(@game), method: :put, class: "btn btn-leave", :data => {:confirm => 'Are you sure that you want to stop the game in 10 hands ?'} %>
-      <% else %>
+      <% elsif @game.hand_limit != 100000 %>
         <% if @game.hand_limit - @game.hands.count > 1 %>
           <span>🚨 <%= @game.hand_limit - @game.hands.count %> hands left 🚨</span>
         <% elsif @game.hand_limit - @game.hands.count == 1 && @game.hands.where(game: @game).last.river_cards.count == 0 %>
@@ -61,17 +61,17 @@
         <% end %>
       <% end %>
       <% if @active_players.count == 2 && player_position == 1 %>
-        <% player_position == 3 %>
+        <% player_position = 3 %>
       <% elsif @active_players.count == 3 && player_position == 1  %>
-        <% player_position == 2 %>
+        <% player_position = 2 %>
       <% elsif @active_players.count == 3 && player_position == 2  %>
-        <% player_position == 4 %>
+        <% player_position = 4 %>
       <% elsif @active_players.count == 4 && player_position == 1  %>
-        <% player_position == 2 %>
+        <% player_position = 2 %>
       <% elsif @active_players.count == 4 && player_position == 2  %>
-        <% player_position == 3 %>
+        <% player_position = 3 %>
       <% elsif @active_players.count == 4 && player_position == 3  %>
-        <% player_position == 4 %>
+        <% player_position = 4 %>
       <% end %>
       <div class="player-infos position-<%=player_position%>">
         <div class="player-cards-wrapper">
@@ -90,7 +90,7 @@
               <% end %>
             </div>
           <% elsif @in_hand_players.include?(user) %>
-            <% if @current_hand.better == nil && (@in_hand_players_card_count == @in_hand_players.count * 2 || @in_hand_players_card_count == @in_hand_players.count * 4 ) %>
+            <% if @current_hand.better == nil && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2 && @current_hand.turn_cards.count == 1)) %>
               <div class="text-center d-flex justify-content-center">
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
@@ -106,16 +106,16 @@
               </div>
             <% else %>
               <div class="text-center d-flex justify-content-center">
-                <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
-                <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
+                <%= image_tag "card_back.png", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
+                <%= image_tag "card_back.png", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
                <% if @current_hand.user_cards.where(user: user).count >= 3 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[2].deck_card.url}", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
+                  <%= image_tag "card_back.png", class: "user-cards-3 #{'card-3-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-3-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                 <% end %>
                 <% if @current_hand.user_cards.where(user: user).count >= 4 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[3].deck_card.url}", class: "user-cards-4" %>
+                  <%= image_tag "card_back.png", class: "user-cards-4" %>
                 <% end %>
                 <% if @current_hand.user_cards.where(user: user).count >= 5 %>
-                  <%= image_tag "#{@current_hand.user_cards.where(user: user)[4].deck_card.url}", class: "user-cards-5" %>
+                  <%= image_tag "card_back.png", class: "user-cards-5" %>
                 <% end %>
               </div>
             <% end %>
@@ -209,7 +209,7 @@
       <% end %>
       <% if @game.users.include?(current_user) %>
         <div class="buttons d-flex justify-content-center">
-          <% if @game.hand_limit - 1 > @game.hands.count %>
+          <% if @game.hand_limit - 1 > @game.hands.count && @next_button == current_user && @current_hand.river_cards.count == 1 %>
             <%= simple_form_for [@game, @hand] do |f| %>
               <%= f.hidden_field :name, :value => "Texas" %>
               <%= f.submit "Texas", class: "dealing-button" %>
@@ -230,17 +230,19 @@
               <%= f.hidden_field :name, :value => "Omaha 5" %>
               <%= f.submit "Omaha 5", class: "dealing-button" %>
             <% end %>
+          <% else %>
+            <div class="mb-5"></div>
           <% end %>
-          <% if @current_hand && @game.users.include?(current_user) %>
+          <% if @current_hand && @current_hand.button == current_user && @current_hand.better == nil %>
             <% if @current_hand.flop_cards.count == 0 %>
               <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
                 <%= f.submit "Deal flop", class: "dealing-button" %>
               <% end %>
-            <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0  %>
+            <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count ))  %>
               <%= simple_form_for [@game, @current_hand, @turn_card] do |f| %>
                 <%= f.submit "Deal turn", class: "dealing-button" %>
               <% end %>
-            <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 %>
+            <% elsif @current_hand.turn_cards.count == 1 && @current_hand.river_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || @current_hand.name == "Pineapple" || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count * 2 )) %>
               <%= simple_form_for [@game, @current_hand, @river_card] do |f| %>
                 <%= f.submit "Deal river", class: "dealing-button" %>
               <% end %>
