@@ -3,7 +3,7 @@
   <div class="game-infos-wrapper d-flex justify-content-between">
     <div class="game-infos">
       <h3><%= @game.name %></h3>
-      <% if @game.reservations.where(active: true).count < 6 %>
+      <% if @game.reservations.where(active: true).count < 6 || @active_players.include?(@user) %>
         <div class="d-flex justify-content-end align-items-end">
           <% if !@game.users.include?(current_user) %>
             <%= simple_form_for [@game, @reservation] do |f|%>
@@ -60,8 +60,10 @@
           <% player_position = @active_players.count - @active_players.find_index(@user) + @active_players.find_index(user) %>
         <% end %>
       <% end %>
-      <% if @active_players.count == 2 && player_position == 1 %>
+      <% if @active_players.count == 2 && player_position == 1 && @active_players.include?(@user) %>
         <% player_position = 3 %>
+      <% elsif @active_players.count == 2 && player_position == 1 && !@active_players.include?(user) %>
+        <% player_position = 1 %>
       <% elsif @active_players.count == 3 && player_position == 1  %>
         <% player_position = 2 %>
       <% elsif @active_players.count == 3 && player_position == 2  %>
