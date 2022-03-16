@@ -1,198 +1,203 @@
-<div class="container">
-  <div class = "d-flex justify-content-center three_dashboard_cards">
-    <div class="dashboard_card" id="information_card">
-      <h2>My Information</h2>
-       <% if @user.photo.attached? %>
-        <%= cl_image_tag @user.photo.key, width: "200px", height: "200px", class: "user-image-dashboard" %>
-      <% else %>
-        <%= image_tag "sam_photo.png", width: "200px", height: "200px", class: "user-image-dashboard" %>
-      <% end %>
-      <table class="table" id="information_table">
-        <tr>
-          <th><i class="fas fa-user"></i></th>
-          <td><%= @user.name %></td>
-        </tr>
-        <tr>
-          <th><i class="fas fa-envelope-open-text"></i></th>
-          <td><%= @user.email %></td>
-        </tr>
-        <tr>
-          <th><i class="fas fa-laptop-house"></th>
-          <td><%= @user.pseudo %></td>
-        </tr>
-      </table>
-      <div class="text-center">
-        <button class="dashboard_button"><%= link_to "Update Profile", edit_user_registration_path%></button>
-      </div>
-    </div>
-    <div>
-      <div class="dashboard_card" id="general_info_card">
-        <h2>General Statistics</h2>
-        <% if Hand.count > 0 %>
-          <div class="d-flex justify-content-between">
-            <div class="general-stats-left">
-              <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
-              <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
-              <p>Your total revenue is <span class="<%= 'positive-score' if @user_revenue > 0 %> <%= 'negative-score' if @user_revenue < 0 %>"><%= @user_revenue %>€</span> !</p>
-            </div>
-            <div>
-              <p>Players have played a total of <%= @total_money_played %>€.</p>
-              <% if @biggest_winner == @user %>
-                <p>The biggest winner is <strong>you</strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
-              <% else %>
-                <p>The biggest winner is <strong><%= @biggest_winner.pseudo %></strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
-              <% end %>
-              <% if @biggest_loser == @user %>
-                <p>The biggest loser is <strong>you</strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
-              <% else %>
-                <p>The biggest loser is <strong><%= @biggest_loser.pseudo %></strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
-              <% end %>
-            </div>
-          </div>
+<% if user_signed_in? %>
+  <div class="container">
+    <div class = "d-flex justify-content-center three_dashboard_cards">
+      <div class="dashboard_card" id="information_card">
+        <h2>My Information</h2>
+        <% if @user.photo.attached? %>
+          <%= cl_image_tag @user.photo.key, width: "200px", height: "200px", class: "user-image-dashboard" %>
         <% else %>
-          <p>Not enough data available.</p>
+          <%= image_tag "sam_photo.png", width: "200px", height: "200px", class: "user-image-dashboard" %>
         <% end %>
+        <table class="table" id="information_table">
+          <tr>
+            <th><i class="fas fa-user"></i></th>
+            <td><%= @user.name %></td>
+          </tr>
+          <tr>
+            <th><i class="fas fa-envelope-open-text"></i></th>
+            <td><%= @user.email %></td>
+          </tr>
+          <tr>
+            <th><i class="fas fa-laptop-house"></th>
+            <td><%= @user.pseudo %></td>
+          </tr>
+        </table>
+        <div class="text-center">
+          <button class="dashboard_button"><%= link_to "Update Profile", edit_user_registration_path%></button>
+        </div>
       </div>
-      <div class="dashboard_card" id="hand_history_card">
-        <h2>Hand History</h2>
-        <% if @user.hands.count > 5 %>
-          <table class="table icons-bold">
-            <tr>
-              <th></th>
-              <th>Game</th>
-              <th>Type</th>
-              <th>Cards</th>
-              <th>Board</th>
-              <th>Pot</th>
-              <th>Win/Loss</th>
-            </tr>
+      <div>
+        <div class="dashboard_card" id="general_info_card">
+          <h2>General Statistics</h2>
+          <% if Hand.count > 0 %>
+            <div class="d-flex justify-content-between">
+              <div class="general-stats-left">
+                <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
+                <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
+                <p>Your total revenue is <span class="<%= 'positive-score' if @user_revenue > 0 %> <%= 'negative-score' if @user_revenue < 0 %>"><%= @user_revenue %>€</span> !</p>
+              </div>
+              <div>
+                <p>Players have played a total of <%= @total_money_played %>€.</p>
+                <% if @biggest_winner == @user %>
+                  <p>The biggest winner is <strong>you</strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
+                <% else %>
+                  <p>The biggest winner is <strong><%= @biggest_winner.pseudo %></strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
+                <% end %>
+                <% if @biggest_loser == @user %>
+                  <p>The biggest loser is <strong>you</strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
+                <% else %>
+                  <p>The biggest loser is <strong><%= @biggest_loser.pseudo %></strong> <span class="negative-score">(<%= @lowest_score %>€)</span>.</p>
+                <% end %>
+              </div>
+            </div>
+          <% else %>
+            <p>Not enough data available.</p>
+          <% end %>
+        </div>
+        <div class="dashboard_card" id="hand_history_card">
+          <h2>Hand History</h2>
+          <% if @user.hands.count > 5 && @user.best_hand %>
+            <table class="table icons-bold">
+              <tr>
+                <th></th>
+                <th>Game</th>
+                <th>Type</th>
+                <th>Cards</th>
+                <th>Board</th>
+                <th>Pot</th>
+                <th>Win/Loss</th>
+              </tr>
 
-            <tr>
-              <td><div class="hand-td td-title">Best Hand</div></td>
-              <td><div class="hand-td"><%= @user.best_hand.game.name %></td>
-              <td><div class="hand-td"><%= @user.best_hand.name %></div></td>
-              <td>
-                <div class="d-flex justify-content-center align-items-center td-cards">
-                  <% UserCard.where(user: @user, hand: @user.best_hand).each do |usercard| %>
-                    <div class="dashboard-usercard">
-                      <%= usercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <td>
-                <div class="d-flex justify-content-between align-items-center td-cards">
-                  <% FlopCard.where(hand: @user.best_hand).each do |flopcard| %>
-                    <div class="dashboard-usercard">
-                      <%= flopcard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% TurnCard.where(hand: @user.best_hand).each do |turncard| %>
-                    <div class="dashboard-usercard">
-                      <%= turncard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% RiverCard.where(hand: @user.best_hand).each do |rivercard| %>
-                    <div class="dashboard-usercard">
-                      <%= rivercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <td><div class="hand-td"><%= @user.best_hand.pot %>€</div></td>
-              <td><div class="hand-td positive-score">+<%= @user.biggest_win %>€</div></td>
-            </tr>
+              <tr>
+                <td><div class="hand-td td-title">Best Hand</div></td>
+                <td><div class="hand-td"><%= @user.best_hand.game.name %></td>
+                <td><div class="hand-td"><%= @user.best_hand.name %></div></td>
+                <td>
+                  <div class="d-flex justify-content-center align-items-center td-cards">
+                    <% UserCard.where(user: @user, hand: @user.best_hand).each do |usercard| %>
+                      <div class="dashboard-usercard">
+                        <%= usercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-between align-items-center td-cards">
+                    <% FlopCard.where(hand: @user.best_hand).each do |flopcard| %>
+                      <div class="dashboard-usercard">
+                        <%= flopcard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% TurnCard.where(hand: @user.best_hand).each do |turncard| %>
+                      <div class="dashboard-usercard">
+                        <%= turncard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% RiverCard.where(hand: @user.best_hand).each do |rivercard| %>
+                      <div class="dashboard-usercard">
+                        <%= rivercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <td><div class="hand-td"><%= @user.best_hand.pot %>€</div></td>
+                <td><div class="hand-td positive-score">+<%= @user.biggest_win %>€</div></td>
+              </tr>
 
-            <tr>
-              <td><div class="hand-td td-title">Worst Hand</div></td>
-              <td><div class="hand-td"><%= @user.worst_hand.game.name %></td>
-              <td><div class="hand-td"><%= @user.worst_hand.name %></div></td>
-              <td>
-                <div class="d-flex justify-content-center align-items-center td-cards">
-                  <% UserCard.where(user: @user, hand: @user.worst_hand).each do |usercard| %>
-                    <div class="dashboard-usercard">
-                      <%= usercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <td>
-                <div class="d-flex justify-content-between align-items-center td-cards">
-                  <% FlopCard.where(hand: @user.worst_hand).each do |flopcard| %>
-                    <div class="dashboard-usercard">
-                      <%= flopcard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% TurnCard.where(hand: @user.worst_hand).each do |turncard| %>
-                    <div class="dashboard-usercard">
-                      <%= turncard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% RiverCard.where(hand: @user.worst_hand).each do |rivercard| %>
-                    <div class="dashboard-usercard">
-                      <%= rivercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <td><div class="hand-td"><%= @user.worst_hand.pot %>€</div></td>
-              <td><div class="hand-td negative-score">-<%= @user.biggest_loss %>€</div></td>
-            </tr>
+              <tr>
+                <td><div class="hand-td td-title">Worst Hand</div></td>
+                <td><div class="hand-td"><%= @user.worst_hand.game.name %></td>
+                <td><div class="hand-td"><%= @user.worst_hand.name %></div></td>
+                <td>
+                  <div class="d-flex justify-content-center align-items-center td-cards">
+                    <% UserCard.where(user: @user, hand: @user.worst_hand).each do |usercard| %>
+                      <div class="dashboard-usercard">
+                        <%= usercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-between align-items-center td-cards">
+                    <% FlopCard.where(hand: @user.worst_hand).each do |flopcard| %>
+                      <div class="dashboard-usercard">
+                        <%= flopcard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% TurnCard.where(hand: @user.worst_hand).each do |turncard| %>
+                      <div class="dashboard-usercard">
+                        <%= turncard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% RiverCard.where(hand: @user.worst_hand).each do |rivercard| %>
+                      <div class="dashboard-usercard">
+                        <%= rivercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <td><div class="hand-td"><%= @user.worst_hand.pot %>€</div></td>
+                <td><div class="hand-td negative-score">-<%= @user.biggest_loss %>€</div></td>
+              </tr>
 
-            <tr>
-              <td><div class="hand-td td-title">Last Hand</div></td>
-              <td><div class="hand-td"><%= @user.hands.last.game.name %></td>
-              <td><div class="hand-td"><%= @user.hands.last.name %></div></td>
-              <td>
-                <div class="d-flex justify-content-center align-items-center td-cards">
-                  <% UserCard.where(user: @user, hand: @user.hands.last).each do |usercard| %>
-                    <div class="dashboard-usercard">
-                      <%= usercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <td>
-                <div class="d-flex justify-content-between align-items-center td-cards">
-                  <% FlopCard.where(hand: @user.hands.last).each do |flopcard| %>
-                    <div class="dashboard-usercard">
-                      <%= flopcard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% TurnCard.where(hand: @user.hands.last).each do |turncard| %>
-                    <div class="dashboard-usercard">
-                      <%= turncard.deck_card.name %>
-                    </div>
-                  <% end %>
-                  <% RiverCard.where(hand: @user.hands.last).each do |rivercard| %>
-                    <div class="dashboard-usercard">
-                      <%= rivercard.deck_card.name %>
-                    </div>
-                  <% end %>
-                </div>
-              </td>
-              <% if @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>
-                <td><div class="hand-td"><%= @user.hands.last.pot + @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>€</div></td>
-              <% else %>
-                <td><div class="hand-td"><%= @user.hands.last.pot %>€</div></td>
-              <% end %>
-              <% if @last_hand_win_amount %>
-                <td><div class="hand-td positive-score">+<%= @last_hand_win_amount %>€</div></td>
-              <% elsif @last_hand_loss_amount %>
-                <td><div class="hand-td negative-score">-<%= @last_hand_loss_amount %>€</div></td>
-              <% else %>
-                <td><div class="hand-td">0€</div></td>
-              <% end %>
-            </tr>
-          </table>
-          <div class="text-center">
-            <button class="dashboard_button"><%= link_to "See 50 Last Hands", all_hands_path%></button>
-          </div>
-        <% else %>
-          <p>Not enough data available.</p>
-          <button class="dashboard_button"><%= link_to "Look for activities", activities_path %></button>
-        <% end %>
+              <tr>
+                <td><div class="hand-td td-title">Last Hand</div></td>
+                <td><div class="hand-td"><%= @user.hands.last.game.name %></td>
+                <td><div class="hand-td"><%= @user.hands.last.name %></div></td>
+                <td>
+                  <div class="d-flex justify-content-center align-items-center td-cards">
+                    <% UserCard.where(user: @user, hand: @user.hands.last).each do |usercard| %>
+                      <div class="dashboard-usercard">
+                        <%= usercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex justify-content-between align-items-center td-cards">
+                    <% FlopCard.where(hand: @user.hands.last).each do |flopcard| %>
+                      <div class="dashboard-usercard">
+                        <%= flopcard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% TurnCard.where(hand: @user.hands.last).each do |turncard| %>
+                      <div class="dashboard-usercard">
+                        <%= turncard.deck_card.name %>
+                      </div>
+                    <% end %>
+                    <% RiverCard.where(hand: @user.hands.last).each do |rivercard| %>
+                      <div class="dashboard-usercard">
+                        <%= rivercard.deck_card.name %>
+                      </div>
+                    <% end %>
+                  </div>
+                </td>
+                <% if @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>
+                  <td><div class="hand-td"><%= @user.hands.last.pot + @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder %>€</div></td>
+                <% else %>
+                  <td><div class="hand-td"><%= @user.hands.last.pot %>€</div></td>
+                <% end %>
+                <% if @last_hand_win_amount %>
+                  <td><div class="hand-td positive-score">+<%= @last_hand_win_amount %>€</div></td>
+                <% elsif @last_hand_loss_amount %>
+                  <td><div class="hand-td negative-score">-<%= @last_hand_loss_amount %>€</div></td>
+                <% else %>
+                  <td><div class="hand-td">0€</div></td>
+                <% end %>
+              </tr>
+            </table>
+            <div class="text-center">
+              <%= link_to "See 50 Last Hands", all_hands_path, class:"dashboard_button"%>
+            </div>
+          <% else %>
+            <p style="color:black;">Not enough data available.</p>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
-</div>
+<% else %>
+  <div class="user-not-signed-in-text-wrapper">
+    <div class="user-not-signed-in-text">You need to be signed in to view the dashboard !</div>
+  </div>
+<% end %>
