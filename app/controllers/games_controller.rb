@@ -6,86 +6,91 @@ class GamesController < ApplicationController
   end
 
   def show
-    @game = Game.find(params[:id])
-    @bet = Bet.new
-    @hand = Hand.new
-    @flop_card = FlopCard.new
-    @turn_card = TurnCard.new
-    @river_card = RiverCard.new
-    @user = current_user
-    @cards = DeckCard.all
-    @reservation = Reservation.new
-    @reservations = Reservation.all
-    @active_players = []
-    @game.reservations.where(active: true).order(:created_at).each do |reservation|
-      @active_players << reservation.user
-    end
-    @current_hand = @game.hands.last
-    @current_hand_winners = []
-    HandWinner.where(hand: @current_hand).each do |hand_winner|
-      @current_hand_winners << hand_winner.winner.pseudo
-    end
-    @in_hand_players = []
-    UserHand.where(hand: @current_hand, active: true).each do |userhand|
-      @in_hand_players << userhand.user
-    end
-    @in_hand_players_card_count = 0
-    @in_hand_players.each do |player|
-      @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
-    end
-    if @game.hands[@game.hands.count - 2]
-      @last_hand_remainder = @game.hands[@game.hands.count - 2].remainder
-    end
-
-    @button_index = @active_players.find_index(@current_hand.button) if @current_hand
-
-    if (@active_players.count - 1 - @active_players.find_index(@current_hand.button)) > 0
-      @next_button = @active_players[@active_players.find_index(@current_hand.button) + 1]
-    else
-      @next_button = @active_players[0]
-    end
-
-
-    @pot = 0
-    if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
-      @pot += @game.hands[@game.hands.count - 2].remainder
-    end
-    if @current_hand
-      @current_hand.users.each do |user|
-        if user.bets.where(hand: @current_hand).last
-          @pot += user.bets.where(hand: @current_hand).last.amount
-        end
+    if user_signed_in?
+      @game = Game.find(params[:id])
+      @bet = Bet.new
+      @hand = Hand.new
+      @flop_card = FlopCard.new
+      @turn_card = TurnCard.new
+      @river_card = RiverCard.new
+      @user = current_user
+      @cards = DeckCard.all
+      @reservation = Reservation.new
+      @reservations = Reservation.all
+      @active_players = []
+      @game.reservations.where(active: true).order(:created_at).each do |reservation|
+        @active_players << reservation.user
       end
-      @hand_last_bet = @current_hand.bets.last
-      @user_last_bet = @user.bets.where(hand: @current_hand).last
-      @current_player_user_hand = UserHand.where(hand: @current_hand, user: @user)
-      if @hand_last_bet
-        if @hand_last_bet.amount * 2 <= @game.max_bet_amount
-          @min_raise = @hand_last_bet.amount * 2
-        else
-          @min_raise = @game.max_bet_amount
-        end
+      @current_hand = @game.hands.last
+      @current_hand_winners = []
+      HandWinner.where(hand: @current_hand).each do |hand_winner|
+        @current_hand_winners << hand_winner.winner.pseudo
       end
-    end
-    if @current_hand && @current_hand.flop_cards.count == 3
-      @current_winners = []
-      @biggest_odd = 0
+      @in_hand_players = []
+      UserHand.where(hand: @current_hand, active: true).each do |userhand|
+        @in_hand_players << userhand.user
+      end
+      @in_hand_players_card_count = 0
       @in_hand_players.each do |player|
-        if UserHand.where(user: player, hand: @current_hand)[0].odds.to_f > @biggest_odd
-          @biggest_odd = UserHand.where(user: player, hand: @current_hand)[0].odds.to_f
-          @current_winners.clear
-          @current_winners << player
-        elsif UserHand.where(user: player, hand: @current_hand)[0].odds.to_f == @biggest_odd
-          @current_winners << player
+        @in_hand_players_card_count += UserCard.where(hand: @current_hand, user: player).count
+      end
+      if @game.hands[@game.hands.count - 2]
+        @last_hand_remainder = @game.hands[@game.hands.count - 2].remainder
+      end
+
+      @button_index = @active_players.find_index(@current_hand.button) if @current_hand
+
+      if @active_players.count > 1
+        if @current_hand
+          if (@active_players.count - 1 - @active_players.find_index(@current_hand.button)) > 0
+            @next_button = @active_players[@active_players.find_index(@current_hand.button) + 1]
+          else
+            @next_button = @active_players[0]
+          end
         end
       end
-    end
-    if @current_hand && @current_hand.flop_cards.count == 3 && (@current_hand.name == "Pineapple" || @current_hand.name == "Sutra")
-      @current_user_card_1 = UserCard.where(hand: @current_hand, user: @user)[0]
-      @current_user_card_2 = UserCard.where(hand: @current_hand, user: @user)[1]
-      @current_user_card_3 = UserCard.where(hand: @current_hand, user: @user)[2]
-    end
 
+
+      @pot = 0
+      if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
+        @pot += @game.hands[@game.hands.count - 2].remainder
+      end
+      if @current_hand
+        @current_hand.users.each do |user|
+          if user.bets.where(hand: @current_hand).last
+            @pot += user.bets.where(hand: @current_hand).last.amount
+          end
+        end
+        @hand_last_bet = @current_hand.bets.last
+        @user_last_bet = @user.bets.where(hand: @current_hand).last
+        @current_player_user_hand = UserHand.where(hand: @current_hand, user: @user)
+        if @hand_last_bet
+          if @hand_last_bet.amount * 2 <= @game.max_bet_amount
+            @min_raise = @hand_last_bet.amount * 2
+          else
+            @min_raise = @game.max_bet_amount
+          end
+        end
+      end
+      if @current_hand && @current_hand.flop_cards.count == 3
+        @current_winners = []
+        @biggest_odd = 0
+        @in_hand_players.each do |player|
+          if UserHand.where(user: player, hand: @current_hand)[0].odds.to_f > @biggest_odd
+            @biggest_odd = UserHand.where(user: player, hand: @current_hand)[0].odds.to_f
+            @current_winners.clear
+            @current_winners << player
+          elsif UserHand.where(user: player, hand: @current_hand)[0].odds.to_f == @biggest_odd
+            @current_winners << player
+          end
+        end
+      end
+      if @current_hand && @current_hand.flop_cards.count == 3 && (@current_hand.name == "Pineapple" || @current_hand.name == "Sutra")
+        @current_user_card_1 = UserCard.where(hand: @current_hand, user: @user)[0]
+        @current_user_card_2 = UserCard.where(hand: @current_hand, user: @user)[1]
+        @current_user_card_3 = UserCard.where(hand: @current_hand, user: @user)[2]
+      end
+    end
   end
 
   def new

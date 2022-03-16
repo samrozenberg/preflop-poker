@@ -55,6 +55,7 @@
 
 .dashboard_button:hover {
   margin-top: 20px;
+  color: white;
   background-color: #e53434;
   border: none;
   border-radius: 8px;
@@ -71,6 +72,7 @@
 
 .pages-dashboard {
   background-image: linear-gradient(180deg, black, rgb(1, 76, 1));
+  height: 120vh;
 }
 
 #general_info_card {
