@@ -46,7 +46,11 @@
       <td><%= average_pot %>€</td>
 
       <td><%= Reservation.where(game: game, active: true).count %></td>
-      <td>Active</td>
+      <% if game.hand_limit && game.hands.count == game.hand_limit - 1 %>
+        <td>Finished</td>
+      <% else %>
+        <td>Active</td>
+      <% end %>
       <td class="arrow-td">
         <%= link_to game_path(game), target: :_blank, class:"arrow-join" do %>
           <i class="fas fa-arrow-alt-circle-right"></i>

@@ -53,17 +53,20 @@ class PagesController < ApplicationController
 
       @last_hand_winners = []
 
-      @user.hands.last.hand_winners.each do |handwinner|
-        @last_hand_winners << handwinner.winner
-      end
 
-      if @last_hand_winners.include?(@user) && @user.hands.last.bets.where(user: @user).last
-        @last_hand_win_amount = (@user.hands.last.pot - @user.hands.last.bets.where(user: @user).last.amount) / @last_hand_winners.count
-        if @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder
-          @last_hand_win_amount += @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder
+      if @user.hands.last
+        @user.hands.last.hand_winners.each do |handwinner|
+          @last_hand_winners << handwinner.winner
         end
-      elsif @user.hands.last.bets.where(user: @user).last
-        @last_hand_loss_amount = @user.hands.last.bets.where(user: @user).last.amount
+
+        if @last_hand_winners.include?(@user) && @user.hands.last.bets.where(user: @user).last
+          @last_hand_win_amount = (@user.hands.last.pot - @user.hands.last.bets.where(user: @user).last.amount) / @last_hand_winners.count
+          if @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder
+            @last_hand_win_amount += @user.hands.last.game.hands[(@user.hands.last.game.hands.find_index(@user.hands.last) - 1)].remainder
+          end
+        elsif @user.hands.last.bets.where(user: @user).last
+          @last_hand_loss_amount = @user.hands.last.bets.where(user: @user).last.amount
+        end
       end
     end
   end

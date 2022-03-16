@@ -40,11 +40,13 @@ class GamesController < ApplicationController
 
       @button_index = @active_players.find_index(@current_hand.button) if @current_hand
 
-      if @current_hand
-        if (@active_players.count - 1 - @active_players.find_index(@current_hand.button)) > 0
-          @next_button = @active_players[@active_players.find_index(@current_hand.button) + 1]
-        else
-          @next_button = @active_players[0]
+      if @active_players.count > 1
+        if @current_hand
+          if (@active_players.count - 1 - @active_players.find_index(@current_hand.button)) > 0
+            @next_button = @active_players[@active_players.find_index(@current_hand.button) + 1]
+          else
+            @next_button = @active_players[0]
+          end
         end
       end
 

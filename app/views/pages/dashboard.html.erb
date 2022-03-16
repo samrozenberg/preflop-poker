@@ -32,8 +32,16 @@
           <% if Hand.count > 0 %>
             <div class="d-flex justify-content-between">
               <div class="general-stats-left">
-                <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
-                <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: User.find_by_id(1)).count/UserHand.where(user: User.find_by_id(1), active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
+                <% if @user.hands.count <= 1 %>
+                  <p>You played <strong><%= @user.hands.count %> hand</strong>.</p>
+                <% else %>
+                  <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
+                <% end %>
+                <% if @user.hands.count > 10 %>
+                  <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
+                <% else %>
+                  <p><strong>Play more !</strong> Your stats are for now limited...</p>
+                <% end %>
                 <p>Your total revenue is <span class="<%= 'positive-score' if @user_revenue > 0 %> <%= 'negative-score' if @user_revenue < 0 %>"><%= @user_revenue %>€</span> !</p>
               </div>
               <div>
