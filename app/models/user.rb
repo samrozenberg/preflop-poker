@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :bets
   has_many :user_cards
   has_many :deck_cards, through: :user_cards
-  has_many :hands, through: :user_hands
+  has_many :hands, through: :user_hands, dependent: :destroy
   has_many :games, through: :reservations
   has_many :hand_winners
   has_one_attached :photo

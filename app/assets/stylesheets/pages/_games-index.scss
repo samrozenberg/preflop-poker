@@ -103,6 +103,10 @@ th {
 .games-index {
   // background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://www.ilgiocatoreonline.it/wp-content/uploads/2020/04/Origine-dei-nomi-nel-Poker.jpg);
   background-image: linear-gradient(180deg, black, rgb(1, 76, 1));
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .index-table {
