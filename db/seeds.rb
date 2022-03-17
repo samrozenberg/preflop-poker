@@ -11,9 +11,6 @@ puts "Cleaning database... lets gooooooo 🗑🕺"
 UserCard.destroy_all
 puts "UserCards destroyed ✅"
 
-User.destroy_all
-puts "User destroyed ✅"
-
 FlopCard.destroy_all
 puts "FlopCards destroyed ✅"
 
