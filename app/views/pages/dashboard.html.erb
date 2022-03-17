@@ -45,7 +45,7 @@
                 <p>Your total revenue is <span class="<%= 'positive-score' if @user_revenue > 0 %> <%= 'negative-score' if @user_revenue < 0 %>"><%= @user_revenue %>€</span> !</p>
               </div>
               <div>
-                <p>Players have played a total of <%= @total_money_played %>€.</p>
+                <p>Players have played a total of <%= @total_money_played - 20 %>€.</p>
                 <% if @biggest_winner == @user %>
                   <p>The biggest winner is <strong>you</strong> <span class="positive-score">(<%= @biggest_score %>€)</span>.</p>
                 <% else %>
