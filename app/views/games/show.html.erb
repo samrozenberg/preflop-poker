@@ -98,7 +98,7 @@
                 <% end %>
               </div>
             <% elsif @in_hand_players.include?(user) %>
-              <% if @current_hand.better == nil && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2 && @current_hand.turn_cards.count == 1)) && (@in_hand_players.count > 1) %>
+              <% if @current_hand.better == nil && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && @in_hand_players_card_count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && @in_hand_players_card_count == @in_hand_players.count * 2 && @current_hand.turn_cards.count == 1)) && (@in_hand_players.count > 1) %>
                 <div class="text-center d-flex justify-content-center">
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[1].deck_card.url}", class: "user-cards-2 #{'card-2-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4}" %>
@@ -246,7 +246,7 @@
                 <%= simple_form_for [@game, @current_hand, @flop_card] do |f| %>
                   <%= f.submit "Deal flop", class: "dealing-button" %>
                 <% end %>
-              <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && UserCard.where(hand: @current_hand).count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count ))  %>
+              <% elsif @current_hand.flop_cards.count == 3 && @current_hand.turn_cards.count == 0 && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && @in_hand_players_card_count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && DeletedCard.where(hand: @current_hand).count == @in_hand_players.count ))  %>
                 <%= simple_form_for [@game, @current_hand, @turn_card] do |f| %>
                   <%= f.submit "Deal turn", class: "dealing-button" %>
                 <% end %>
@@ -263,7 +263,7 @@
       </div>
     </div>
 
-    <% if @current_hand %>
+    <% if @current_hand && @in_hand_players.include?(@user) %>
       <% if @current_hand.flop_cards.count == 3 && @current_hand.user_cards.where(user: @user).count == 3 && (@current_hand.deleted_cards.count != @in_hand_players.count) %>
         <div class="delete-cards-wrapper d-flex">
           <%= link_to "Delete #{@current_user_card_1.deck_card.name}",
