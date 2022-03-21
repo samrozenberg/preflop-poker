@@ -159,7 +159,7 @@
             <% end %>
             <div class="picture-wrapper">
               <% if user.photo.attached? %>
-                <%= cl_image_tag user.photo.key, crop: :thumb, format: :png, class: "in-game-picture" %>
+                <%= cl_image_tag user.photo.key, crop: :thumb, format: :jpg, class: "in-game-picture" %>
               <% else %>
                 <%= image_tag "sam_photo.png", class: "in-game-picture" %>
               <% end %>

@@ -4,7 +4,7 @@
       <div class="dashboard_card" id="information_card">
         <h2>My Information</h2>
         <% if @user.photo.attached? %>
-          <%= cl_image_tag @user.photo.key, format: :png, width: "200px", height: "200px", class: "user-image-dashboard" %>
+          <%= cl_image_tag @user.photo.key, format: :jpg, width: "200px", height: "200px", class: "user-image-dashboard" %>
         <% else %>
           <%= image_tag "sam_photo.png", width: "200px", height: "200px", class: "user-image-dashboard" %>
         <% end %>
