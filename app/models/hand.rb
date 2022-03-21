@@ -4,13 +4,13 @@ class Hand < ApplicationRecord
   belongs_to :small_blind, class_name: "User", dependent: :destroy
   belongs_to :big_blind, class_name: "User", dependent: :destroy
   belongs_to :better, class_name: "User", dependent: :destroy
-  has_many :bets
-  has_many :user_hands
-  has_many :user_cards
-  has_many :deleted_cards
-  has_many :flop_cards
-  has_many :turn_cards
-  has_many :river_cards
-  has_many :hand_winners
+  has_many :bets, dependent: :destroy
+  has_many :user_hands, dependent: :destroy
+  has_many :user_cards, dependent: :destroy
+  has_many :deleted_cards, dependent: :destroy
+  has_many :flop_cards, dependent: :destroy
+  has_many :turn_cards, dependent: :destroy
+  has_many :river_cards, dependent: :destroy
+  has_many :hand_winners, dependent: :destroy
   has_many :users, through: :user_hands, dependent: :destroy
 end
