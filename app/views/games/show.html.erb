@@ -58,7 +58,7 @@
 
 
     <% player_position = 1 %>
-    <div class="poker-table <%= 'poker-table-deviation' if @current_hand.river_cards.count == 0 %> mb-5">
+    <div class="poker-table <%= 'poker-table-deviation' if @current_hand && @current_hand.river_cards.count == 0 %> mb-5">
       <% @active_players.each do |user| %>
         <% if @active_players.include?(@user) %>
           <% player_position = @active_players.find_index(user) - @active_players.find_index(@user) %>
