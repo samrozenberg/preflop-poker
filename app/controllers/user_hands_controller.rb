@@ -49,6 +49,9 @@ class UserHandsController < ApplicationController
         end
         resa.save
       end
+    elsif @current_hand.bets.last.amount == @current_hand.bets.where(user: @in_hand_players[next_better_index]).last.amount && UserHand.where(hand: @current_hand, active: true).count > 1
+      next_better_index = 500000
+      @current_hand.update_attribute(:better, @in_hand_players[next_better_index])
     end
 
     GameChannel.broadcast_to(

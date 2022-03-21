@@ -1,5 +1,6 @@
 .poker-table {
   position: relative;
+  margin-top: 24px;
   border: 2px solid #323232;
   border-radius: 50%;
   width: 100%;
@@ -11,6 +12,9 @@
   box-shadow: 0px 1px 5px black;
 }
 
+.poker-table-deviation {
+  margin-top: 30px;
+}
 .position-0 {
   position: absolute;
 	top: 80%;
