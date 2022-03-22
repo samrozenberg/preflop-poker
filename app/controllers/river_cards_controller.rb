@@ -7,16 +7,16 @@ class RiverCardsController < ApplicationController
       @in_hand_players << userhand.user
     end
     @used_cards = []
-    @game.hands.last.user_cards.each do |user_card|
+    @hand.user_cards.each do |user_card|
       @used_cards << user_card.deck_card
     end
     DeletedCard.where(hand: @hand).each do |card|
       @used_cards << card.deck_card
     end
-    @game.hands.last.flop_cards.each do |flop_card|
+    @hand.flop_cards.each do |flop_card|
       @used_cards << flop_card.deck_card
     end
-    @game.hands.last.turn_cards.each do |turn_card|
+    @hand.turn_cards.each do |turn_card|
       @used_cards << turn_card.deck_card
     end
     @available_cards = DeckCard.all - @used_cards
@@ -40,7 +40,8 @@ class RiverCardsController < ApplicationController
         RiverCard.where(hand: @hand).each do |card|
           card_combination << card.deck_card.code
         end
-        pokerhand = PokerHand.new(card_combination)
+        ph = PokerHand.new(card_combination)
+        pokerhand = PokerHand.new(ph.sort_using_rank[0, 14])
         user_hand.update_attribute(:rank, pokerhand.rank)
 
         if pokerhand > winning_poker_hand
@@ -140,20 +141,20 @@ class RiverCardsController < ApplicationController
 
 
     total_pot = 0
-    @game.hands.last.users.each do |user|
-      if user.bets.where(hand: @game.hands.last).last
-        total_pot += user.bets.where(hand: @game.hands.last).last.amount
+    @hand.users.each do |user|
+      if user.bets.where(hand: @hand).last
+        total_pot += user.bets.where(hand: @hand).last.amount
       end
     end
 
-    if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
-      total_pot += @game.hands[@game.hands.count - 2].remainder
+    if @game.hands.order(:created_at)[@game.hands.count - 2] && @game.hands.order(:created_at)[@game.hands.count - 2].remainder
+      total_pot += @game.hands.order(:created_at)[@game.hands.count - 2].remainder
     end
 
     win_amount = total_pot/(winners.count)
 
     if total_pot.remainder(winners.count) != 0
-      @game.hands.last.update_attribute(:remainder, total_pot.remainder(winners.count))
+      @hand.update_attribute(:remainder, total_pot.remainder(winners.count))
     end
 
     winners.each do |winner|
