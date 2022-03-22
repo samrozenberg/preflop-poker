@@ -29,8 +29,8 @@ class UserHandsController < ApplicationController
         end
       end
 
-      if @game.hands[@game.hands.count - 2] && @game.hands[@game.hands.count - 2].remainder
-        total_pot += @game.hands[@game.hands.count - 2].remainder
+      if @game.hands.order(:created_at)[@game.hands.count - 2] && @game.hands.order(:created_at)[@game.hands.count - 2].remainder
+        total_pot += @game.hands.order(:created_at)[@game.hands.count - 2].remainder
       end
 
 
@@ -49,7 +49,7 @@ class UserHandsController < ApplicationController
         end
         resa.save
       end
-    elsif @current_hand.bets.last.amount == @current_hand.bets.where(user: @in_hand_players[next_better_index]).last.amount && UserHand.where(hand: @current_hand, active: true).count > 1
+    elsif @current_hand.bets.where(user: @in_hand_players[next_better_index]).last && @current_hand.bets.last.amount == @current_hand.bets.where(user: @in_hand_players[next_better_index]).last.amount && UserHand.where(hand: @current_hand, active: true).count > 1 && @in_hand_players[next_better_index].bets.where(hand: @current_hand).last.amount != @game.bb_amount
       next_better_index = 500000
       @current_hand.update_attribute(:better, @in_hand_players[next_better_index])
     end
