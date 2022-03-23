@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_11_142038) do
+ActiveRecord::Schema.define(version: 2022_03_23_012838) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,6 +80,8 @@ ActiveRecord::Schema.define(version: 2022_03_11_142038) do
     t.integer "bb_amount"
     t.integer "max_bet_amount"
     t.integer "hand_limit"
+    t.integer "amount_played"
+    t.integer "hand_count"
   end
 
   create_table "hand_winners", force: :cascade do |t|
@@ -176,6 +178,8 @@ ActiveRecord::Schema.define(version: 2022_03_11_142038) do
     t.bigint "worst_hand_id"
     t.integer "biggest_win"
     t.integer "biggest_loss"
+    t.integer "hand_played"
+    t.integer "hand_won"
     t.index ["best_hand_id"], name: "index_users_on_best_hand_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
