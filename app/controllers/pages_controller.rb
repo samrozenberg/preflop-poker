@@ -19,13 +19,7 @@ class PagesController < ApplicationController
       @total_money_played = 0
 
       Game.all.each do |game|
-        game_total_amount_played = 0
-        game.hands.each do |hand|
-          if hand.pot != nil
-            game_total_amount_played += hand.pot
-          end
-        end
-        @total_money_played += game_total_amount_played
+        @total_money_played += game.amount_played
       end
 
       @biggest_score = -20000

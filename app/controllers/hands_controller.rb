@@ -125,7 +125,12 @@ class HandsController < ApplicationController
       end
     end
 
-    @hand.users.each do |user|
+    @active_players.each do |user|
+      if user.hand_played == nil
+        user.update_attribute(:hand_played, 0)
+        user.update_attribute(:hand_won, 0)
+        user.update_attribute(:hand_not_folded, 0)
+      end
       user.hand_played += 1
       user.save
     end

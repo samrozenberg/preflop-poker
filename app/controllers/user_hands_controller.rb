@@ -25,6 +25,8 @@ class UserHandsController < ApplicationController
       @hw = UserHand.where(hand: @current_hand, active: true)[0].user
       @hw.hand_won += 1
       @hw.save
+      @hw.hand_not_folded += 1
+      @hw.save
 
       total_pot = 0
       @current_hand.users.each do |user|

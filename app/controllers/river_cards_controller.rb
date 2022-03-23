@@ -182,6 +182,8 @@ class RiverCardsController < ApplicationController
       else
         UserHand.where(hand: @hand, user: player)[0].update_attribute(:odds, "0%")
       end
+      player.hand_not_folded += 1
+      player.save
     end
 
     @active_players = []
