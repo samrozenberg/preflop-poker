@@ -1,6 +1,8 @@
 class HandsController < ApplicationController
   def create
     @game = Game.find(params[:game_id])
+    @game.hand_count += 1
+    @game.save
     @active_players = []
     @game.reservations.where(active: true).order(:created_at).each do |reservation|
       @active_players << reservation.user
@@ -121,6 +123,16 @@ class HandsController < ApplicationController
         index4 += 5
         index5 += 5
       end
+    end
+
+    @active_players.each do |user|
+      if user.hand_played == nil
+        user.update_attribute(:hand_played, 0)
+        user.update_attribute(:hand_won, 0)
+        user.update_attribute(:hand_not_folded, 0)
+      end
+      user.hand_played += 1
+      user.save
     end
 
     GameChannel.broadcast_to(

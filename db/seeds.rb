@@ -18,22 +18,78 @@ User.all.each do |user|
   if !@hands_not_to_update.include?(user.worst_hand)
     @hands_not_to_update << user.worst_hand
   end
+  user.hands.last(30).each do |hand|
+    if !@hands_not_to_update.include?(hand)
+      @hands_not_to_update << hand
+    end
+  end
 end
 
-(Hand.all - Hand.last(50) - @hands_not_to_update).each do |hand|
-  hand.flop_cards.each do |flop_card|
-    flop_card.destroy
-  end
-  hand.turn_cards.each do |turn_card|
-    turn_card.destroy
-  end
-  hand.river_cards.each do |river_card|
-    river_card.destroy
-  end
-  hand.user_cards.each do |user_card|
-    user_card.destroy
-  end
+@hands_to_delete = Hand.all - Hand.last(50) - @hands_not_to_update
+
+
+User.all.each do |user|
+  user.update_attribute(:hand_played, 0)
+  user.update_attribute(:hand_won, 0)
+  user.update_attribute(:hand_not_folded, 0)
 end
+
+
+Game.all.each do |game|
+  game_total_amount_played = 0
+  game_hand_count = 0
+  game.hands.each do |hand|
+    winners = []
+    if hand.hand_winners.count > 0
+      hand.hand_winners.each do |hand_winner|
+        winners << hand_winner.winner
+      end
+    end
+    if hand.pot != nil
+      game_total_amount_played += hand.pot
+    end
+    game_hand_count += 1
+    hand.users.each do |user|
+      user.hand_played += 1
+      user.save
+      if user.user_hands.where(hand: hand)[0].active
+        user.hand_not_folded += 1
+        user.save
+      end
+      if winners.include?(user)
+        user.hand_won += 1
+        user.save
+      end
+    end
+    puts "Hand #{hand.id} data uploaded ✅"
+    if @hands_to_delete.include?(hand)
+      hand.destroy
+      puts "Hand #{hand.id} destroyed ❌"
+    end
+  end
+  game.update_attribute(:amount_played, game_total_amount_played)
+  game.update_attribute(:hand_count, game_hand_count)
+  puts "Game #{game.id} iteration completed 🚀"
+end
+
+puts "Seeding completed ✅🚀🎊"
+
+
+
+# (Hand.all - Hand.last(50) - @hands_not_to_update).each do |hand|
+#   hand.flop_cards.each do |flop_card|
+#     flop_card.destroy
+#   end
+#   hand.turn_cards.each do |turn_card|
+#     turn_card.destroy
+#   end
+#   hand.river_cards.each do |river_card|
+#     river_card.destroy
+#   end
+#   hand.user_cards.each do |user_card|
+#     user_card.destroy
+#   end
+# end
 
 # UserCard.destroy_all
 # puts "UserCards destroyed ✅"

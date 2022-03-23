@@ -102,6 +102,10 @@ class GamesController < ApplicationController
     @game = Game.new(game_params)
     @game.hand_limit = 100000
     @game.save
+    @game.amount_played = 0
+    @game.save
+    @game.hand_count = 0
+    @game.save
     redirect_to games_path
   end
 
@@ -111,7 +115,7 @@ class GamesController < ApplicationController
 
   def update
     @game = Game.find(params[:id])
-    max_hand_number = @game.hands.count + 10
+    max_hand_number = @game.hand_count + 10
     @game.update_attribute(:hand_limit, max_hand_number)
     GameChannel.broadcast_to(
       @game,

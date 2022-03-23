@@ -151,6 +151,9 @@ class RiverCardsController < ApplicationController
       total_pot += @game.hands.order(:created_at)[@game.hands.count - 2].remainder
     end
 
+    @game.amount_played += total_pot
+    @game.save
+
     win_amount = total_pot/(winners.count)
 
     if total_pot.remainder(winners.count) != 0
@@ -179,6 +182,8 @@ class RiverCardsController < ApplicationController
       else
         UserHand.where(hand: @hand, user: player)[0].update_attribute(:odds, "0%")
       end
+      player.hand_not_folded += 1
+      player.save
     end
 
     @active_players = []
@@ -191,6 +196,8 @@ class RiverCardsController < ApplicationController
         player.update_attribute(:best_hand, @hand)
         player.update_attribute(:worst_hand, @hand)
         if winners.include?(player)
+          player.hand_won += 1
+          player.save
           player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
           player.update_attribute(:biggest_loss, 0)
         else
@@ -199,6 +206,8 @@ class RiverCardsController < ApplicationController
         end
       elsif @hand.bets.where(user: player).last
         if winners.include?(player)
+          player.hand_won += 1
+          player.save
           if @hand.pot - @hand.bets.where(user: player).last.amount > player.biggest_win
             player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
             player.update_attribute(:best_hand, @hand)

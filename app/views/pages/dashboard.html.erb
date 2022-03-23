@@ -33,12 +33,12 @@
             <div class="d-flex justify-content-between">
               <div class="general-stats-left">
                 <% if @user.hands.count <= 1 %>
-                  <p>You played <strong><%= @user.hands.count %> hand</strong>.</p>
+                  <p>You played <strong><%= @user.hand_played %> hand</strong>.</p>
                 <% else %>
-                  <p>You played <strong><%= @user.hands.count %> hands</strong>.</p>
+                  <p>You played <strong><%= @user.hand_played %> hands</strong>.</p>
                 <% end %>
                 <% if @user.hands.count > 10 %>
-                  <p>You won <span class="positive-score"><%= ((HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1)) % 1 == 0 ? (HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1).to_i : (HandWinner.where(winner: @user).count/UserHand.where(user: @user, active: true).count.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
+                  <p>You won <span class="positive-score"><%= ((@user.hand_won/@user.hand_not_folded.to_f*100).round(1)) % 1 == 0 ? (@user.hand_won/@user.hand_not_folded.to_f*100).round(1).to_i : (@user.hand_won/@user.hand_not_folded.to_f*100).round(1) %>%</span> of the hands you did not fold.</p>
                 <% else %>
                   <p><strong>Play more !</strong> Your stats are for now limited...</p>
                 <% end %>

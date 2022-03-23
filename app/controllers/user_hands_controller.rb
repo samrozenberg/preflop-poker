@@ -22,6 +22,12 @@ class UserHandsController < ApplicationController
       HandWinner.create(hand: @current_hand, winner: UserHand.where(hand: @current_hand, active: true)[0].user)
       @current_hand.update_attribute(:better, @in_hand_players[next_better_index])
 
+      @hw = UserHand.where(hand: @current_hand, active: true)[0].user
+      @hw.hand_won += 1
+      @hw.save
+      @hw.hand_not_folded += 1
+      @hw.save
+
       total_pot = 0
       @current_hand.users.each do |user|
         if user.bets.where(hand: @current_hand).last
@@ -33,6 +39,8 @@ class UserHandsController < ApplicationController
         total_pot += @game.hands.order(:created_at)[@game.hands.count - 2].remainder
       end
 
+      @game.amount_played += total_pot
+      @game.save
 
       winners = []
 
