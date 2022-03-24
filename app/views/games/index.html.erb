@@ -30,7 +30,7 @@
         <td>30€</td>
       <% end %>
 
-      <% if @game.hand_count != 0 %>
+      <% if game.hand_count != 0 %>
         <% average_pot = ((game.amount_played / game.hand_count.to_f).round(1) % 1 == 0 ? ((game.amount_played / game.hand_count.to_f).round(1).to_i) : ((game.amount_played / game.hand_count.to_f).round(1)))  %>
       <% else %>
         <% average_pot = 0 %>

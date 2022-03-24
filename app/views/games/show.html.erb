@@ -311,7 +311,7 @@
               <% end %>
             </div>
           <% end %>
-        <% elsif @hand_last_bet.amount > @current_hand.bets.first.amount || @current_hand.bets.count == 2 %>
+        <% elsif @hand_last_bet.amount > @current_hand.bets.first.amount || @current_hand.bets.count == 2 || @user_last_bet == nil %>
           <div class="call <%= 'mt-3' if @hand_last_bet.amount == @game.max_bet_amount %>">
             <%= simple_form_for [@game, @current_hand, @bet] do |f| %>
               <%= f.input_field :amount, label: false, value: @hand_last_bet.amount, :as => :hidden %>
