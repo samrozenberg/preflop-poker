@@ -192,7 +192,7 @@ class RiverCardsController < ApplicationController
     end
 
     @active_players.each do |player|
-      if player.best_hand == nil
+      if player.best_hand == nil && player.biggest_loss == nil
         player.update_attribute(:best_hand, @hand)
         player.update_attribute(:worst_hand, @hand)
         if winners.include?(player)
@@ -200,7 +200,7 @@ class RiverCardsController < ApplicationController
           player.save
           player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
           player.update_attribute(:biggest_loss, 0)
-        else
+        elsif @hand.bets.where(user: player).last
           player.update_attribute(:biggest_win, 0)
           player.update_attribute(:biggest_loss, @hand.bets.where(user: player).last.amount)
         end
@@ -212,7 +212,7 @@ class RiverCardsController < ApplicationController
             player.update_attribute(:biggest_win, win_amount - @hand.bets.where(user: player).last.amount)
             player.update_attribute(:best_hand, @hand)
           end
-        else
+        elsif player.biggest_loss
           if @hand.bets.where(user: player).last && @hand.bets.where(user: player).last.amount > player.biggest_loss
             player.update_attribute(:biggest_loss, @hand.bets.where(user: player).last.amount)
             player.update_attribute(:worst_hand, @hand)
