@@ -161,7 +161,13 @@
               <% if user.photo.attached? %>
                 <%= cl_image_tag user.photo.key, crop: :thumb, format: :jpg, class: "in-game-picture" %>
               <% else %>
-                <%= image_tag "sam_photo.png", class: "in-game-picture" %>
+                <% if user.pseudo == "raphbg97" %>
+                  <%= image_tag "raph_photo.png", class: "in-game-picture" %>
+                <% elsif user.pseudo == "jer" %>
+                  <%= image_tag "jer_photo.png", class: "in-game-picture" %>
+                <% else %>
+                  <%= image_tag "sam_photo.png", class: "in-game-picture" %>
+                <% end %>
               <% end %>
             </div>
           </div>
