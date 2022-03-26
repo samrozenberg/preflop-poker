@@ -80,6 +80,8 @@
           <% player_position = 3 %>
         <% elsif @active_players.count == 4 && player_position == 3  %>
           <% player_position = 4 %>
+        <% elsif @active_players.count == 4 && player_position == 6  %>
+          <% player_position = 1 %>
         <% end %>
         <div class="player-infos position-<%=player_position%>">
           <div class="player-cards-wrapper">
@@ -97,7 +99,7 @@
                   <%= image_tag "#{@current_hand.user_cards.where(user: @user)[4].deck_card.url}", class: "user-cards-5" %>
                 <% end %>
               </div>
-            <% elsif @in_hand_players.include?(user) && @current_hand.user_cards.where(user: @user).count > 0 %>
+            <% elsif @in_hand_players.include?(user) && @current_hand.user_cards.where(user: user).count > 0 %>
               <% if @current_hand.better == nil && (@current_hand.name == "Texas" || @current_hand.name == "Omaha 4" || @current_hand.name == "Omaha 5" || (@current_hand.name == "Pineapple" && @in_hand_players_card_count == @in_hand_players.count * 2) || (@current_hand.name == "Sutra" && @in_hand_players_card_count == @in_hand_players.count * 2 && @current_hand.turn_cards.count == 1)) && (@in_hand_players.count > 1) %>
                 <div class="text-center d-flex justify-content-center">
                   <%= image_tag "#{@current_hand.user_cards.where(user: user)[0].deck_card.url}", class: "user-cards-1 #{'card-1-deviation' if @current_hand.user_cards.where(user: user).count == 3} #{'card-1-deviation-o4' if @current_hand.user_cards.where(user: user).count == 4} #{'card-1-deviation-o5' if @current_hand.user_cards.where(user: user).count == 5}" %>
@@ -161,7 +163,13 @@
               <% if user.photo.attached? %>
                 <%= cl_image_tag user.photo.key, crop: :thumb, format: :jpg, class: "in-game-picture" %>
               <% else %>
-                <%= image_tag "sam_photo.png", class: "in-game-picture" %>
+                <% if user.pseudo == "raphbg97" %>
+                  <%= image_tag "raph_photo.png", class: "in-game-picture" %>
+                <% elsif user.pseudo == "jer" %>
+                  <%= image_tag "jer_photo.png", class: "in-game-picture" %>
+                <% else %>
+                  <%= image_tag "sam_photo.png", class: "in-game-picture" %>
+                <% end %>
               <% end %>
             </div>
           </div>
